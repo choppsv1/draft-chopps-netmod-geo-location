@@ -21,7 +21,7 @@ The geo location object is intended to be used for specifying a
 location on or in reference to the Earth or any other astronomical
 object.</t></abstract>  </front>  <middle>
 
-<section title="Introduction" anchor="orge5cca60">
+<section title="Introduction" anchor="org339509a">
 <t>In many applications we would like to specify the location of
 something geographically. Some examples of locations in networking
 might be the location of data center, a rack in an internet exchange
@@ -42,7 +42,7 @@ all of the above data to be captured.</t>
 <t>The YANG data model described in this document conforms to the
 Network Management Datastore Architecture defined in <xref target="RFC8342"/>.</t>
 
-<section title="Terminology" anchor="org14fa29b">
+<section title="Terminology" anchor="orga650a6b">
 <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
 "OPTIONAL" in this document are to be interpreted as described in
@@ -53,8 +53,8 @@ as shown here.</t>
 
 </section>
 
-<section title="The Geo Location Object" anchor="org79d0ad2">
-<section title="Frame of Reference" anchor="org6948473">
+<section title="The Geo Location Object" anchor="orge772347">
+<section title="Frame of Reference" anchor="orga1e97cc">
 <t>The frame of reference (<tt>reference-frame</tt>) defines what the
 location values refer to and their meaning. The referred to
 object can be any astronomical body. It could be a planet such as
@@ -83,17 +83,19 @@ outside the scope of this document.</t>
 
 </section>
 
-<section title="Location" anchor="org4ef1b1a">
-<t>This is the location relative to the astronomical object. It is
-specified using the familiar Longitude, Latitude and Height
-coordinates. The Longitude and Latitude are given in fractions of
-degrees of 360. The Height value is in fractional meters from a 0
-reference point defined by the <tt>geodetic-datum</tt> value in the
-<xref target="org6948473"></xref>.</t>
+<section title="Location" anchor="orgf809258">
+<t>This is the location on or relative to the astronomical object.
+It is specified using three coordinates: Latitude, Longitude, and
+Height. The Latitude and Longitude are specified as fractions of
+degrees of 360 and their meaning is defined by the
+<tt>geodetic-datum</tt> value in the <xref target="orga1e97cc"></xref>. The Height
+value is in fractional meters above or below a "0" reference
+point. This "0" refrence point is also defined by the
+<tt>geodetic-datum</tt> value.</t>
 
 </section>
 
-<section title="Motion" anchor="org9a3a603">
+<section title="Motion" anchor="orga0abcdc">
 <t>Limited support is added for objects in motion. For objects in
 motion there are an additional 2 values to describe the an
 objects velocity, <tt>heading</tt> and <tt>speed</tt>. The <tt>heading</tt> value is
@@ -102,7 +104,7 @@ the astronomical body.</t>
 
 </section>
 
-<section title="Tree" anchor="orgb90938b">
+<section title="Tree" anchor="org0d405f1">
 <t>The following is the YANG tree diagram <xref target="RFC8340"/> for the
 geo-location grouping.</t>
 
@@ -127,7 +129,7 @@ module: geo-location
 </section>
 
 
-<section title="YANG Module" anchor="org86412b3">
+<section title="YANG Module" anchor="orga68e901">
 <figure><name>geo-location-module</name><sourcecode><![CDATA[
 // -*- fill-column: 69 -*-
 module geo-location {
@@ -305,8 +307,8 @@ module geo-location {
 
 </section>
 
-<section title="IANA Considerations" anchor="org305191c">
-<section title="Geodetic System Value Registry" anchor="orga7662f7">
+<section title="IANA Considerations" anchor="orge9c2839">
+<section title="Geodetic System Value Registry" anchor="orgd419b2d">
 <t>This registry allocates names for standard geodetic systems. Often
 these values are referred to using multiple names (e.g., full names or
 multiple acronyms values). The intent of this registry is to provide a
@@ -398,7 +400,7 @@ converted to lower case, and spaces MUST be changed to dashes "-".</t>
 </reference>
 </references>
 
-<section title="Examples" anchor="orgf18a06d">
+<section title="Examples" anchor="org17ff18b">
 <t>Below is a fictitious module that uses the geo-location grouping.</t>
 
 <artwork><![CDATA[
@@ -491,13 +493,13 @@ uses the geo-location grouping.</t>
 
 </section>
 
-<section title="Acknowledgements" anchor="org27e0ee4">
+<section title="Acknowledgements" anchor="org7281413">
 <t>We would like to thank Acee Lindem and Qin Wu for their work on
 a geographic location object that led to this documents creation.</t>
 
 </section>
 
-<section title="Contributors" anchor="org8f83cf7">
+<section title="Contributors" anchor="orgdfa6019">
 <artwork><![CDATA[
 Peter Lothberg
 STUPI.AB

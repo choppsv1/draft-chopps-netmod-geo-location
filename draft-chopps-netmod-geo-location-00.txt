@@ -130,12 +130,13 @@ Table of Contents
 
 2.2.  Location
 
-   This is the location relative to the astronomical object.  It is
-   specified using the familiar Longitude, Latitude and Height
-   coordinates.  The Longitude and Latitude are given in fractions of
-   degrees of 360.  The Height value is in fractional meters from a 0
-   reference point defined by the "geodetic-datum" value in the
-   Section 2.1.
+   This is the location on or relative to the astronomical object.  It
+   is specified using three coordinates: Latitude, Longitude, and
+   Height.  The Latitude and Longitude are specified as fractions of
+   degrees of 360 and their meaning is defined by the "geodetic-datum"
+   value in the Section 2.1.  The Height value is in fractional meters
+   above or below a "0" reference point.  This "0" refrence point is
+   also defined by the "geodetic-datum" value.
 
 2.3.  Motion
 
