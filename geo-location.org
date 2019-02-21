@@ -108,15 +108,12 @@ Network Management Datastore Architecture defined in [[RFC8342]].
    The following is the YANG tree diagram [[RFC8340]] for the
    geo-location grouping.
 
-# We assign the output of geo-location-module block to a variable get
-# it to execute to create the file.
-#+name: geo-location-tree
-#+header: :var module=geo-location-module
-#+begin_src yang :cmdline "-ftree --tree-print-groupings geo-location.yang" :results output verbatim replace :wrap example :exports results
+#+NAME: Geo location YANG tree diagram.
+#+begin_src bash  :var file=geo-location-module :results output verbatim replace :wrap example :exports results
+pyang --tree-print-groupings -f tree ${file}
 #+end_src
 
-#+NAME: Geo location YANG tree diagram.
-#+RESULTS: geo-location-tree
+#+RESULTS: Geo location YANG tree diagram.
 #+begin_example
 module: geo-location
 
@@ -140,7 +137,7 @@ module: geo-location
 
 #+name: geo-location-module
 #+header: :cmdline "-fyang --yang-canonical"
-#+header: :file geo-location.yang :results output code silent
+#+header: :file /tmp/geo-location.yang :results output code silent
 #+begin_src yang :exports code
   // -*- fill-column: 69 -*-
   module geo-location {
@@ -352,10 +349,11 @@ Below is a fictitious module that uses the geo-location grouping.
 
 # We assign the output of geo-location-module block to a variable get
 # it to execute to create the file.
-#+name: geo-location-use
-#+header: :cmdline "-fyang --yang-canonical"
-#+header: :results value code silent
-#+begin_src yang :exports none
+
+#+CAPTION: Example YANG module using geo location.
+#+name: uses-geo-location
+#+header: :file /tmp/uses-geo-location.yang
+#+begin_src yang :results output code silent :exports code
   module uses-geo-location {
     namespace "urn:ietf:uses-geo-location";
     prefix use-geo;
@@ -376,60 +374,12 @@ Below is a fictitious module that uses the geo-location grouping.
   }
 #+end_src
 
-#+NAME: Example YANG module using geo location.
-#+header: :var imports=geo-location-module
-#+header: :cmdline "-fyang --yang-canonical"
-#+begin_src yang :var module=geo-location-use  :results output verbatim replace :wrap example :exports results
-$module
-#+end_src
-
-#+RESULTS: Example YANG module using geo location.
-#+begin_example
-module uses-geo-location {
-  namespace "urn:ietf:uses-geo-location";
-  prefix use-geo;
-
-  import geo-location {
-    prefix geo;
-  }
-
-  organization
-    "Empty Org";
-  contact
-    "Example Author <eauthor@example.com>";
-  description
-    "Example use of geo-location";
-
-  revision 2019-02-02 {
-    reference
-      "None";
-  }
-
-  list locatable-items {
-    key "name";
-    description
-      "leaf list of locatable items";
-    leaf name {
-      type string;
-      description
-        "name of locatable item";
-    }
-    container locatable-item {
-      description
-        "A locatable item";
-      uses geo:geo-location;
-    }
-  }
-}
-#+end_example
-
 Below is a the YANG tree for the fictitious module that uses the
 geo-location grouping.
 
 #+NAME: Example YANG tree diagram of geo location use.
-#+header: :var imports=geo-location-module module=geo-location-use
-#+begin_src yang :cmdline "-ftree" :results output verbatim replace :wrap example :exports results
-$module
+#+begin_src bash  :var file=uses-geo-location :results output verbatim replace :wrap example :exports results
+pyang -f tree ${file}
 #+end_src
 
 #+RESULTS: Example YANG tree diagram of geo location use.
@@ -455,14 +405,12 @@ module: uses-geo-location
 Below is some example YANG XML data for the fictitious module that
 uses the geo-location grouping.
 
-#+NAME: sample-output
-#+header: :var imports=geo-location-module module=geo-location-use
-#+begin_src yang :cmdline "-f sample-xml-skeleton" :results output verbatim replace :wrap example :exports results
-$module
+#+NAME: Example XML data of geo location use.
+#+begin_src bash  :var file=uses-geo-location :results output verbatim replace :wrap example :exports results
+pyang -f sample-xml-skeleton ${file}
 #+end_src
 
-#+NAME: Example XML data of geo location use.
-#+RESULTS: sample-output
+#+RESULTS: Example XML data of geo location use.
 #+begin_example
 <?xml version='1.0' encoding='UTF-8'?>
 <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">

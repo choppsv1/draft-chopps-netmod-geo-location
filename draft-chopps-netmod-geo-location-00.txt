@@ -4,8 +4,8 @@
 
 Network Working Group                                           C. Hopps
 Internet-Draft                                          DevHopps, L.L.C.
-Intended status: Standards Track                        18 February 2019
-Expires: 22 August 2019
+Intended status: Standards Track                        21 February 2019
+Expires: 25 August 2019
 
 
                            YANG Geo Location
@@ -33,7 +33,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 August 2019.
+   This Internet-Draft will expire on 25 August 2019.
 
 Copyright Notice
 
@@ -84,7 +84,7 @@ Table of Contents
    Finally, one can imagine defining locations using a different frames
    of reference or even alternate systems (e.g., a virtual reality).
 
-   This document defines a "geo-location" YANG grouping that allows for
+   This document defines a "geo-location"YANG grouping that allows for
    all of the above data to be captured.
 
    The YANG data model described in this document conforms to the
@@ -95,33 +95,32 @@ Table of Contents
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
    "OPTIONAL" in this document are to be interpreted as described in
-   [RFC2119] [RFC8174] when, and only when, they appear in all capitals,
+   [RFC2119] [RFC8174]when, and only when, they appear in all capitals,
    as shown here.
 
 2.  The Geo Location Object
 
 2.1.  Frame of Reference
 
-   The frame of reference ("reference-frame") defines what the location
+   The frame of reference ( "reference-frame") defines what the location
    values refer to and their meaning.  The referred to object can be any
    astronomical body.  It could be a planet such as The Earth or Mars, a
    moon such as Enceladus, an asteroid such as Ceres, or even a comet
-   such as 1P/Halley.  This value is specified in "astronomical-body"
-   and is defined by the International Astronomical Union
-   (http://www.iau.org), The default "astronomical-body" value is
-   "earth".
+   such as 1P/Halley.  This value is specified in "astronomical-body"and
+   is defined by the International Astronomical Union (
+   http://www.iau.org), The default "astronomical-body"value is "earth".
 
    In addition to identifying the astronomical body we also need to
    define the meaning of latitude and longitude and how the reference 0
-   height is determined.  This is done with a "geodetic-datum" value.
-   The default value for "geodetic-datum" is "wgs-84" (i.e., the World
+   height is determined.  This is done with a "geodetic-datum"value.
+   The default value for "geodetic-datum"is "wgs-84"(i.e., the World
    Geodetic System, WGS-84), which is used by the Global Positioning
    System (GPS).  We define an IANA registry for specifying standard
    values for the "geodetic-datum".
 
    Finally, we define an optional feature which allows for changing the
    system for which the above values are defined.  This optional feature
-   adds an "alternate-system" value to the reference frame.  This value
+   adds an "alternate-system"value to the reference frame.  This value
    is normally not present which implies the natural universe is the
    system.  The use of this value is intended to allow for creating
    virtual realities or perhaps alternate coordinate systems.  The
@@ -133,22 +132,24 @@ Table of Contents
    This is the location on or relative to the astronomical object.  It
    is specified using three coordinates: Latitude, Longitude, and
    Height.  The Latitude and Longitude are specified as fractions of
-   degrees of 360 and their meaning is defined by the "geodetic-datum"
-   value in the Section 2.1.  The Height value is in fractional meters
-   above or below a "0" reference point.  This "0" refrence point is
-   also defined by the "geodetic-datum" value.
+   degrees of 360 and their meaning is defined by the "geodetic-
+   datum"value in the Section 2.1.  The Height value is in fractional
+   meters above or below a "0" reference point.  This "0" refrence point
+   is also defined by the "geodetic-datum"value.
 
 2.3.  Motion
 
    Limited support is added for objects in motion.  For objects in
    motion there are an additional 2 values to describe the an objects
-   velocity, "heading" and "speed".  The "heading" value is relative to
-   true-north as defined by the "reference-frame" for the astronomical
-   body.
+   velocity, "heading"and "speed".  The "heading"value is relative to
+   true-north as defined by the "reference-frame"for the astronomical
+   body.  For some applications that demand high accuracy, and where the
+   data is infrequently updated this value might also track very slow
+   movement such as continental drift.
 
 2.4.  Tree
 
-   The following is the YANG tree diagram [RFC8340] for the geo-location
+   The following is the YANG tree diagram [RFC8340]for the geo-location
    grouping.
 
    module: geo-location
@@ -166,8 +167,6 @@ Table of Contents
           +-- longitude          degrees
           +-- height?            decimal64
           +-- timestamp?         types:date-and-time
-
-                 Figure 1: Geo location YANG tree diagram.
 
 2.5.  YANG Module
 
@@ -299,7 +298,7 @@ Table of Contents
               }
               leaf speed {
                 type decimal64 {
-                  fraction-digits 9;
+                  fraction-digits 12;
                 }
                 units "meters per second";
                 description
@@ -326,7 +325,7 @@ Table of Contents
             }
             leaf height {
               type decimal64 {
-                fraction-digits 3;
+                fraction-digits 6;
               }
               units "meters";
               description
@@ -342,7 +341,8 @@ Table of Contents
         }
       }
 
-                       Figure 2: geo-location-module
+
+                       Figure 1: geo-location-module
 
 3.  IANA Considerations
 
@@ -401,42 +401,27 @@ Appendix A.  Examples
 
    Below is a fictitious module that uses the geo-location grouping.
 
-   module uses-geo-location {
-     namespace "urn:ietf:uses-geo-location";
-     prefix use-geo;
+      module uses-geo-location {
+        namespace "urn:ietf:uses-geo-location";
+        prefix use-geo;
+        import geo-location { prefix geo; }
+        organization "Empty Org";
+        contact "Example Author <eauthor@example.com>";
+        description "Example use of geo-location";
+        revision 2019-02-02 { reference "None"; }
+        list locatable-items {
+          key name;
+          description "leaf list of locatable items";
+          leaf name { type string; description "name of locatable item"; }
+          container locatable-item {
+            description "A locatable item";
+            uses geo:geo-location;
+          }
+        }
+      }
 
-     import geo-location {
-       prefix geo;
-     }
 
-     organization
-       "Empty Org";
-     contact
-       "Example Author <eauthor@example.com>";
-     description
-       "Example use of geo-location";
-
-     revision 2019-02-02 {
-       reference
-         "None";
-     }
-
-     list locatable-items {
-       key "name";
-       description
-         "leaf list of locatable items";
-       leaf name {
-         type string;
-         description
-           "name of locatable item";
-       }
-       container locatable-item {
-         description
-           "A locatable item";
-         uses geo:geo-location;
-       }
-     }
-   }
+                        Figure 2: uses-geo-location
 
    Below is a the YANG tree for the fictitious module that uses the geo-
    location grouping.
@@ -457,6 +442,7 @@ Appendix A.  Examples
               +--rw longitude          degrees
               +--rw height?            decimal64
               +--rw timestamp?         types:date-and-time
+
 
    Below is some example YANG XML data for the fictitious module that
    uses the geo-location grouping.
@@ -482,8 +468,6 @@ Appendix A.  Examples
        </locatable-item>
      </locatable-items>
    </data>
-
-              Figure 3: Example XML data of geo location use.
 
 Appendix B.  Acknowledgements
 
