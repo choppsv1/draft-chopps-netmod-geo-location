@@ -99,7 +99,9 @@ Network Management Datastore Architecture defined in [[RFC8342]].
     motion there are an additional 2 values to describe the an
     objects velocity, ~heading~ and ~speed~. The ~heading~ value is
     relative to true-north as defined by the ~reference-frame~ for
-    the astronomical body.
+    the astronomical body. For some applications that demand high
+    accuracy, and where the data is infrequently updated this value
+    might also track very slow movement such as continental drift.
 
 ** Tree
 
@@ -268,7 +270,7 @@ module: geo-location
           }
           leaf speed {
             type decimal64 {
-              fraction-digits 9;
+              fraction-digits 12;
             }
             units "meters per second";
             description
@@ -295,7 +297,7 @@ module: geo-location
         }
         leaf height {
           type decimal64 {
-            fraction-digits 3;
+            fraction-digits 6;
           }
           units "meters";
           description
