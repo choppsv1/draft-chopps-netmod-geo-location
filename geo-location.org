@@ -313,7 +313,8 @@ module: geo-location
           description
             "The latitude value on the astronomical body. The precsion
              of this measurement is indicated by the reference-frame
-             geodetic-datum value";
+             geodetic-datum value. If Cartesian coordinates are in use
+             then this represents the Y value.";
         }
         leaf longitude {
           type degrees;
@@ -321,7 +322,8 @@ module: geo-location
           description
             "The longitude value on the astronomical body. The precsion
              of this measurement is indicated by the reference-frame
-             geodetic-datum value";
+             geodetic-datum value. If Cartesian coordinates are in use
+             then this represents the X value.";
         }
         leaf height {
           type decimal64 {
@@ -331,7 +333,9 @@ module: geo-location
           description
               "Height from a reference 0 value. The 0 value is defined
                by the reference-frame geodetic-datum for the specified
-               astronomical body";
+               astronomical body. If Cartesian coordinates are in use
+               then this represents the Z value.";
+  ";
         }
         leaf timestamp {
           type types:date-and-time;
