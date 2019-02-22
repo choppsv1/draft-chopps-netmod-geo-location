@@ -3,7 +3,7 @@
 
 
 Network Working Group                                           C. Hopps
-Internet-Draft                                          DevHopps, L.L.C.
+Internet-Draft                                   LabN Consulting, L.L.C.
 Intended status: Standards Track                        21 February 2019
 Expires: 25 August 2019
 
@@ -484,6 +484,6 @@ Appendix C.  Contributors
 Author's Address
 
    Christian Hopps
-   DevHopps, L.L.C.
+   LabN Consulting, L.L.C.
 
    Email: chopps@chopps.org

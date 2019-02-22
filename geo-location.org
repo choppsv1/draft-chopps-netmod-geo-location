@@ -7,7 +7,7 @@
 #
 #+RFC_NAME: draft-chopps-netmod-geo-location
 #+RFC_VERSION: 00
-#+RFC_AUTHORS: (("Christian Hopps" "chopps@chopps.org" "DevHopps, L.L.C."))
+#+RFC_AUTHORS: (("Christian Hopps" "chopps@chopps.org" "LabN Consulting, L.L.C."))
 #+RFC_XML_VERSION: 3
 #
 # Do: title, table-of-contents ::fixed-width-sections |tables
