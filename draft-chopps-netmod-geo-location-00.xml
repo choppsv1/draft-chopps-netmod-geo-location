@@ -37,7 +37,7 @@
       </section>
     </section>
     <section title="The Geo Location Object">
-      <section title="Frame of Reference" anchor="orgf87ab93">
+      <section title="Frame of Reference" anchor="org7acbe67">
         <t>The frame of reference (
         <tt>reference-frame</tt>) defines what the location values refer to and their meaning. The referred to object can be any astronomical body. It could be a planet such as The Earth or Mars, a moon such as Enceladus, an asteroid such as Ceres, or even a comet such as 1P/Halley. This value is specified in 
         <tt>astronomical-body</tt>and is defined by the International Astronomical Union (
@@ -55,7 +55,7 @@
       <section title="Location">
         <t>This is the location on or relative to the astronomical object. It is specified using three coordinates: Latitude, Longitude, and Height. The Latitude and Longitude are specified as fractions of degrees of 360 and their meaning is defined by the 
         <tt>geodetic-datum</tt>value in the 
-        <xref target="orgf87ab93"></xref>. The Height value is in fractional meters above or below a "0" reference point. This "0" refrence point is also defined by the 
+        <xref target="org7acbe67"></xref>. The Height value is in fractional meters above or below a "0" reference point. This "0" refrence point is also defined by the 
         <tt>geodetic-datum</tt>value.</t>
       </section>
       <section title="Motion">
@@ -458,7 +458,8 @@ module: uses-geo-location
       </artwork>
     </section>
     <section title="Acknowledgements">
-      <t>We would like to thank Acee Lindem and Qin Wu for their work on a geographic location object that led to this documents creation.</t>
+      <t>We would like to thank Peter Lothberg for the motivation as well as help in defining a more broadly useful geographic location object.</t>
+      <t>We would also like to thank Acee Lindem and Qin Wu for their work on a geographic location object that led to this documents creation.</t>
     </section>
     <section title="Contributors">
       <artwork>

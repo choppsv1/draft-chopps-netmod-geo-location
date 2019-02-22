@@ -437,7 +437,10 @@ pyang -f sample-xml-skeleton ${file}
 
 * Acknowledgements
 
-We would like to thank Acee Lindem and Qin Wu for their work on
+We would like to thank Peter Lothberg for the motivation as well as
+help in defining a more broadly useful geographic location object.
+
+We would also like to thank Acee Lindem and Qin Wu for their work on
 a geographic location object that led to this documents creation.
 
 * Contributors
