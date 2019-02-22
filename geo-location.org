@@ -73,6 +73,12 @@ Network Management Datastore Architecture defined in [[RFC8342]].
     by the Global Positioning System (GPS). We define an IANA
     registry for specifying standard values for the ~geodetic-datum~.
 
+    In addition to the ~geodetic-datum~ value we allow directly
+    specifying the coordinate and height accuracy using
+    ~coord-accuracy~ and ~height-accuracy~ respectively. When
+    specified these values override the defaults implied by the
+    ~geodetic-datum~ value.
+
     Finally, we define an optional feature which allows for changing
     the system for which the above values are defined. This optional
     feature adds an ~alternate-system~ value to the reference frame.
@@ -122,7 +128,10 @@ module: geo-location
        +-- reference-frame
        |  +-- alternate-system?    string {alternate-systems}?
        |  +-- astronomical-body?   string
-       |  +-- geodetic-datum?      string
+       |  +-- geodetic-system
+       |     +-- geodetic-datum?    string
+       |     +-- coord-accuracy?    decimal64
+       |     +-- height-accuracy?   decimal64
        +-- velocity
        |  +-- heading?   degrees
        |  +-- speed?     decimal64
@@ -137,7 +146,7 @@ module: geo-location
 
 #+name: geo-location-module
 #+header: :cmdline "-fyang --yang-canonical"
-#+header: :file /tmp/geo-location.yang :results output code silent
+#+header: :file geo-location.yang :results output code silent
 #+begin_src yang :exports code
   // -*- fill-column: 69 -*-
   module geo-location {
@@ -241,15 +250,37 @@ module: geo-location
                including control characters (i.e., values 32..64, and
                91..126)";
           }
-          leaf geodetic-datum {
-            type string {
-              pattern '[-0-9a-z#x22#x23#x5B#x5D!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
-            }
-            default "wgs-84";
+          container geodetic-system {
             description
-              "A geodetic-datum defining the meaning of latitude,
-               longitude and height. The default of 'wgs-84' is used by
-               the Global Positioning System (GPS)";
+              "The geodetic system of the location data.";
+            leaf geodetic-datum {
+              type string {
+                pattern '[-0-9a-z#x22#x23#x5B#x5D!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
+              }
+              default "wgs-84";
+              description
+                "A geodetic-datum defining the meaning of latitude,
+                 longitude and height. The default is 'wgs-84' which is
+                 used by the Global Positioning System (GPS)";
+            }
+            leaf coord-accuracy {
+              type decimal64 {
+                fraction-digits 6;
+              }
+              description
+                "The accuracy of the latitude longitute pair. When
+                 coord-accuracy is specified it overrides the
+                 geodetic-datam implied accuracy.";
+            }
+            leaf height-accuracy {
+              type decimal64 {
+                fraction-digits 6;
+              }
+              units "meters";
+              description
+                "The accuracy of height value. When specified it
+                 overrides the geodetic-datam implied default.";
+            }
           }
         }
         container velocity {
@@ -352,7 +383,7 @@ Below is a fictitious module that uses the geo-location grouping.
 
 #+CAPTION: Example YANG module using geo location.
 #+name: uses-geo-location
-#+header: :file /tmp/uses-geo-location.yang
+#+header: :file uses-geo-location.yang
 #+begin_src yang :results output code silent :exports code
   module uses-geo-location {
     namespace "urn:ietf:uses-geo-location";
@@ -379,7 +410,7 @@ geo-location grouping.
 
 #+NAME: Example YANG tree diagram of geo location use.
 #+begin_src bash  :var file=uses-geo-location :results output verbatim replace :wrap example :exports results
-pyang -f tree ${file}
+pyang -P /tmp -f tree ${file}
 #+end_src
 
 #+RESULTS: Example YANG tree diagram of geo location use.
@@ -392,7 +423,10 @@ module: uses-geo-location
            +--rw reference-frame
            |  +--rw alternate-system?    string {alternate-systems}?
            |  +--rw astronomical-body?   string
-           |  +--rw geodetic-datum?      string
+           |  +--rw geodetic-system
+           |     +--rw geodetic-datum?    string
+           |     +--rw coord-accuracy?    decimal64
+           |     +--rw height-accuracy?   decimal64
            +--rw velocity
            |  +--rw heading?   degrees
            |  +--rw speed?     decimal64
@@ -420,6 +454,10 @@ pyang -f sample-xml-skeleton ${file}
       <geo-location>
         <reference-frame>
           <alternate-system/>
+          <geodetic-system>
+            <coord-accuracy/>
+            <height-accuracy/>
+          </geodetic-system>
         </reference-frame>
         <velocity>
           <heading/>

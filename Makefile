@@ -25,3 +25,11 @@ $(OUTPUT_BASE).xml: $(ORG) ox-rfc.el
 
 %.pdf: %.xml
 	xml2rfc --pdf -o $@ $<
+
+NRL-NMF
+google maps api
+http://www.orekit.org/ - orekit
+https://w3c.github.io/geolocation-api/
+
+[WGS84]
+National Imagery and Mapping Agency Technical Report 8350.2, Third Edition. National Imagery and Mapping Agency. 3 January 2000. URL: http://earth-info.nga.mil/GandG/publications/tr8350.2/wgs84fin.pdf
