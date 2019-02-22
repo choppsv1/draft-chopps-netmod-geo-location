@@ -69,7 +69,7 @@ Network Management Datastore Architecture defined in [[RFC8342]].
     define the meaning of latitude and longitude and how the
     reference 0 height is determined. This is done with a
     ~geodetic-datum~ value. The default value for ~geodetic-datum~ is
-    =wgs-84= (i.e., the World Geodetic System, WGS-84), which is used
+    =wgs-84= (i.e., the World Geodetic System, [[WGS84]]), which is used
     by the Global Positioning System (GPS). We define an IANA
     registry for specifying standard values for the ~geodetic-datum~.
 
@@ -342,6 +342,61 @@ module: geo-location
   }
 #+end_src
 
+* Portability
+
+The geo-location object defined in this document and YANG module have
+been designed to be usable in a very broad set of applications.
+This includes the ability to locate things on astronomical bodies
+other than The Earth, and to utilize entirely different coordinate
+systems and realities.
+
+Many systems make use of geo-location data, and so it's important to
+be able describe this data using this geo-location object defined in
+this document.
+
+In order to verify portability while developing this module the
+following standard APIs and were considered.
+
+** W3C
+
+See https://w3c.github.io/geolocation-api/#dom-geolocationposition.
+
+W3C Defines a geo-location API in [[W3CGEO]]. We show a snippet of
+code below which defines the geo-location data for this API.
+
+#+CAPTION: Snippet Showing Geo-Location Defintion
+#+begin_src javascript
+  interface GeolocationPosition {
+    readonly attribute GeolocationCoordinates coords;
+    readonly attribute DOMTimeStamp timestamp;
+  };
+
+  interface GeolocationCoordinates {
+    readonly attribute double latitude;
+    readonly attribute double longitude;
+    readonly attribute double? altitude;
+    readonly attribute double accuracy;
+    readonly attribute double? altitudeAccuracy;
+    readonly attribute double? heading;
+    readonly attribute double? speed;
+  };
+#+end_src
+
+- accuracy (double) ::
+- altitude (double) ::
+- altitudeAccuracy (double) ::
+- heading (double) ::
+- latitude, longitude (double) ::
+- speed (double) ::
+- timestamp (DOMTimeStamp) :: Specifies milliseconds since EPOCH in
+            64 bit integer. Our model defines the timestamp with
+            arbitrarily large precision by using a string which
+            encompasses all representable values of this timestamp
+            value.
+
+** KLM2.2
+
+
 * IANA Considerations
 ** Geodetic System Value Registry
 
@@ -361,16 +416,22 @@ module: geo-location
    #+name: Intial Geodetic-Datum Values
    | Name       | Description                         |
    |------------+-------------------------------------|
-   | wgs-84     | World Geodetic System 1984          |
    | egm-2008   | Earth Gravitational Model 2008      |
    | me         | Mean Earth/Polar Axis (Moon)        |
    | mola-vik-1 | MOLA Height, IAU Viking-1 PM (Mars) |
+   | wgs-84     | World Geodetic System 1984 [[WGS84]]    |
 
 * References
 ** Normative References
 *** RFC2119
 *** RFC8174
 *** RFC8342
+*** WGS84
+    :PROPERTIES:
+    :REF_AUTHOR: National Imagery and Mapping Agency.
+    :REF_TITLE: National Imagery and Mapping Agency Technical Report 8350.2, Third Edition.
+    :REF_DATE: 2000-01-03
+    :REF_CONTENT: http://earth-info.nga.mil/GandG/publications/tr8350.2/wgs84fin.pdf
 ** Informative References
 *** RFC8340
 
