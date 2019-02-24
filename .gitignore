@@ -1,3 +1,4 @@
 *.pdf
 *~
+*.yang
 ox-rfc.el
