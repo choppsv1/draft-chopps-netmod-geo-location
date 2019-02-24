@@ -501,8 +501,10 @@ W3C API values can be mapped to the YANG grouping, with the caveat
 that some loss of precision (in the extremes) may occur due to the
 YANG grouping using decimal64 values rather than doubles.
 
-YANG values for The Earth, using the default =wgs-84= [[WGS84]] as the
-~geodetic-datum~ can be mapped to the W3C values.
+Conversely, only YANG values for The Earth using the default
+=wgs-84= [[WGS84]] as the ~geodetic-datum~, can be directly mapped to the
+W3C values, as W3C does not provide the extra features necessary to
+map the broader set of values supported by the YANG grouping.
 
 *** Geography Markup Language (GML)
 
