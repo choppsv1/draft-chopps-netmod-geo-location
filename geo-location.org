@@ -578,7 +578,7 @@ the YANG grouping using decimal64 values rather than strings.
    | egm-2008   | Earth Gravitational Model 2008            |
    | me         | Mean Earth/Polar Axis (Moon)              |
    | mola-vik-1 | MOLA Height, IAU Viking-1 PM (Mars)       |
-   | wgs-84     | World Geodetic System 1984 [[WGS84 (EGM-96)]] |
+   | wgs-84     | World Geodetic System 1984 [[WGS84]] (EGM-96) |
 
 * References
 ** Normative References

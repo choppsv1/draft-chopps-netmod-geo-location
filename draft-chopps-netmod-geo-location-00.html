@@ -6,10 +6,10 @@
 <title>YANG Geo Location</title>
 <meta name="author" content="Christian Hopps">
 <meta name="description" content="
-       This document defines a generic geographical location object in YANG. The geo location object is intended to be used for specifying a location on or in reference to the Earth or any other astronomical object. 
+       This document defines a generic geographical location object YANG grouping. The geographical location grouping is intended to be used in YANG models for specifying a location on or in reference to the Earth or any other astronomical object. 
     ">
 <meta name="generator" content="xml2rfc 2.19.1">
-<link rel="alternate" type="application/rfc+xml" href="draft-chopps-netmod-geo-location-00.xml">
+<link rel="alternate" type="application/rfc+xml" href="draft-chopps-netmod-geo-location.xml">
 <link rel="license" href="#copyright">
 <style type="text/css">/* fonts */
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans'); /* Sans-serif */
@@ -896,7 +896,7 @@ caption a[href] {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Hopps</td>
-<td class="center">Expires 25 August 2019</td>
+<td class="center">Expires 28 August 2019</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -904,12 +904,12 @@ caption a[href] {
 <dl id="identifiers">
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2019-02-21" class="published">21 February 2019</time>
+<time datetime="2019-02-24" class="published">24 February 2019</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2019-08-25">25 August 2019</time></dd>
+<dd class="expires"><time datetime="2019-08-28">28 August 2019</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -922,7 +922,7 @@ caption a[href] {
 <h1 id="title">YANG Geo Location</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document defines a generic geographical location object in YANG. The geo location object is intended to be used for specifying a location on or in reference to the Earth or any other astronomical object.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document defines a generic geographical location object YANG grouping. The geographical location grouping is intended to be used in YANG models for specifying a location on or in reference to the Earth or any other astronomical object.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -946,7 +946,7 @@ caption a[href] {
         material or to cite them other than as "work in progress."
         <a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 25 August 2019.
+        This Internet-Draft will expire on 28 August 2019.
         <a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1001,36 +1001,58 @@ caption a[href] {
               <li class="toc ulEmpty" id="section-boilerplate.3-1.2.2.4">
                 <p id="section-boilerplate.3-1.2.2.4.1"><a href="#section-2.4" class="xref">2.4</a>.  <a href="#name-tree" class="xref">Tree</a><a href="#section-boilerplate.3-1.2.2.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty" id="section-boilerplate.3-1.2.2.5">
-                <p id="section-boilerplate.3-1.2.2.5.1"><a href="#section-2.5" class="xref">2.5</a>.  <a href="#name-yang-module" class="xref">YANG Module</a><a href="#section-boilerplate.3-1.2.2.5.1" class="pilcrow">¶</a></p>
-</li>
             </ul>
 </li>
           <li class="toc ulEmpty" id="section-boilerplate.3-1.3">
-            <p id="section-boilerplate.3-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a><a href="#section-boilerplate.3-1.3.1" class="pilcrow">¶</a></p>
+            <p id="section-boilerplate.3-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-yang-module" class="xref">YANG Module</a><a href="#section-boilerplate.3-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="toc ulEmpty" id="section-boilerplate.3-1.4">
+            <p id="section-boilerplate.3-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-iso-67092008-conformance" class="xref">ISO 6709:2008 Conformance</a><a href="#section-boilerplate.3-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="toc ulEmpty" id="section-boilerplate.3-1.5">
+            <p id="section-boilerplate.3-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-usability" class="xref">Usability</a><a href="#section-boilerplate.3-1.5.1" class="pilcrow">¶</a></p>
 <ul class="toc ulEmpty">
-<li class="toc ulEmpty" id="section-boilerplate.3-1.3.2.1">
-                <p id="section-boilerplate.3-1.3.2.1.1"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-geodetic-system-value-regis" class="xref">Geodetic System Value Registry</a><a href="#section-boilerplate.3-1.3.2.1.1" class="pilcrow">¶</a></p>
+<li class="toc ulEmpty" id="section-boilerplate.3-1.5.2.1">
+                <p id="section-boilerplate.3-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-portability" class="xref">Portability</a><a href="#section-boilerplate.3-1.5.2.1.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-boilerplate.3-1.5.2.1.2.1">
+                    <p id="section-boilerplate.3-1.5.2.1.2.1.1"><a href="#section-5.1.1" class="xref">5.1.1</a>.  <a href="#name-w3c" class="xref">W3C</a><a href="#section-boilerplate.3-1.5.2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="toc ulEmpty" id="section-boilerplate.3-1.5.2.1.2.2">
+                    <p id="section-boilerplate.3-1.5.2.1.2.2.1"><a href="#section-5.1.2" class="xref">5.1.2</a>.  <a href="#name-geography-markup-language-g" class="xref">Geography Markup Language (GML)</a><a href="#section-boilerplate.3-1.5.2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="toc ulEmpty" id="section-boilerplate.3-1.5.2.1.2.3">
+                    <p id="section-boilerplate.3-1.5.2.1.2.3.1"><a href="#section-5.1.3" class="xref">5.1.3</a>.  <a href="#name-kml-23" class="xref">KML 2.3</a><a href="#section-boilerplate.3-1.5.2.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="toc ulEmpty" id="section-boilerplate.3-1.5.2.1.2.4">
+                    <p id="section-boilerplate.3-1.5.2.1.2.4.1"><a href="#section-5.1.4" class="xref">5.1.4</a>.  <a href="#name-ietf-uri-value" class="xref">IETF URI Value</a><a href="#section-boilerplate.3-1.5.2.1.2.4.1" class="pilcrow">¶</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty" id="section-boilerplate.3-1.4">
-            <p id="section-boilerplate.3-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-boilerplate.3-1.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="toc ulEmpty" id="section-boilerplate.3-1.5">
-            <p id="section-boilerplate.3-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-boilerplate.3-1.5.1" class="pilcrow">¶</a></p>
-</li>
           <li class="toc ulEmpty" id="section-boilerplate.3-1.6">
-            <p id="section-boilerplate.3-1.6.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-examples" class="xref">Examples</a><a href="#section-boilerplate.3-1.6.1" class="pilcrow">¶</a></p>
+            <p id="section-boilerplate.3-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a><a href="#section-boilerplate.3-1.6.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-boilerplate.3-1.6.2.1">
+                <p id="section-boilerplate.3-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-geodetic-system-value-regis" class="xref">Geodetic System Value Registry</a><a href="#section-boilerplate.3-1.6.2.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="toc ulEmpty" id="section-boilerplate.3-1.7">
-            <p id="section-boilerplate.3-1.7.1"><a href="#section-appendix.b" class="xref">Appendix B</a>.  <a href="#name-acknowledgements" class="xref">Acknowledgements</a><a href="#section-boilerplate.3-1.7.1" class="pilcrow">¶</a></p>
+            <p id="section-boilerplate.3-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-boilerplate.3-1.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="toc ulEmpty" id="section-boilerplate.3-1.8">
-            <p id="section-boilerplate.3-1.8.1"><a href="#section-appendix.c" class="xref">Appendix C</a>.  <a href="#name-contributors" class="xref">Contributors</a><a href="#section-boilerplate.3-1.8.1" class="pilcrow">¶</a></p>
+            <p id="section-boilerplate.3-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-boilerplate.3-1.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="toc ulEmpty" id="section-boilerplate.3-1.9">
-            <p id="section-boilerplate.3-1.9.1"><a href="#section-appendix.d" class="xref"></a>  <a href="#name-authors-address" class="xref">Author's Address</a><a href="#section-boilerplate.3-1.9.1" class="pilcrow">¶</a></p>
+            <p id="section-boilerplate.3-1.9.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-examples" class="xref">Examples</a><a href="#section-boilerplate.3-1.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="toc ulEmpty" id="section-boilerplate.3-1.10">
+            <p id="section-boilerplate.3-1.10.1"><a href="#section-appendix.b" class="xref">Appendix B</a>.  <a href="#name-acknowledgements" class="xref">Acknowledgements</a><a href="#section-boilerplate.3-1.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="toc ulEmpty" id="section-boilerplate.3-1.11">
+            <p id="section-boilerplate.3-1.11.1"><a href="#section-appendix.c" class="xref"></a>  <a href="#name-authors-address" class="xref">Author's Address</a><a href="#section-boilerplate.3-1.11.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </nav>
@@ -1042,11 +1064,13 @@ caption a[href] {
       </h2>
 <p id="section-1-1">In many applications we would like to specify the location of something geographically. Some examples of locations in networking might be the location of data center, a rack in an internet exchange point, a router, a firewall, a port on some device, or it could be the endpoints of a fiber, or perhaps the failure point along a fiber.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">Additionally, while this location is typically relative to The Earth, it does not need to be. Indeed it is easy to imagine a network or device located on The Moon, on Mars, on Enceladus (the moon of Saturn) or even a comet (e.g., 67p/churyumov-gerasimenko).<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">Finally, one can imagine defining locations using a different frames of reference or even alternate systems (e.g., a virtual reality).<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-3">Finally, one can imagine defining locations using a different frames of reference or even alternate systems (e.g., a simulations or virtual realities).<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">This document defines a 
       <code>geo-location</code>YANG grouping that allows for all of the above data to be captured.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">The YANG data model described in this document conforms to the Network Management Datastore Architecture defined in 
-      <span>[<a href="#RFC8342" class="xref">RFC8342</a>]</span>.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-5">This specification conforms to 
+      <span>[<a href="#ISO.6709.2008" class="xref">ISO.6709.2008</a>]</span>.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">The YANG data model described in this document conforms to the Network Management Datastore Architecture defined in 
+      <span>[<a href="#RFC8342" class="xref">RFC8342</a>]</span>.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <section id="section-1.1">
         <h3 id="name-terminology">
 <a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
@@ -1060,7 +1084,7 @@ caption a[href] {
       <h2 id="name-the-geo-location-object">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-the-geo-location-object" class="section-name selfRef">The Geo Location Object</a>
       </h2>
-<div id="org7acbe67">
+<div id="org50c1d01">
 <section id="section-2.1">
         <h3 id="name-frame-of-reference">
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-frame-of-reference" class="section-name selfRef">Frame of Reference</a>
@@ -1071,33 +1095,51 @@ caption a[href] {
         <span><a href="http://www.iau.org">http://www.iau.org</a></span>), The default 
         <code>astronomical-body</code>value is 
         <code>earth</code>.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.1-2">In addition to identifying the astronomical body we also need to define the meaning of latitude and longitude and how the reference 0 height is determined. This is done with a 
+<p id="section-2.1-2">In addition to identifying the astronomical body we also need to define the meaning of the coordinates (e.g., latitude and longitude) and the definition of 0-height. This is done with a 
         <code>geodetic-datum</code>value. The default value for 
         <code>geodetic-datum</code>is 
-        <code>wgs-84</code>(i.e., the World Geodetic System, WGS-84), which is used by the Global Positioning System (GPS). We define an IANA registry for specifying standard values for the 
+        <code>wgs-84</code>(i.e., the World Geodetic System, 
+        <span>[<a href="#WGS84" class="xref">WGS84</a>]</span>), which is used by the Global Positioning System (GPS) among many others. We define an IANA registry for specifying standard values for the 
         <code>geodetic-datum</code>.<a href="#section-2.1-2" class="pilcrow">¶</a></p>
-<p id="section-2.1-3">Finally, we define an optional feature which allows for changing the system for which the above values are defined. This optional feature adds an 
-        <code>alternate-system</code>value to the reference frame. This value is normally not present which implies the natural universe is the system. The use of this value is intended to allow for creating virtual realities or perhaps alternate coordinate systems. The definition of alternate systems is outside the scope of this document.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.1-3">In addition to the 
+        <code>geodetic-datum</code>value we allow refining the coordinate and height accuracy using 
+        <code>coord-accuracy</code>and 
+        <code>height-accuracy</code>respectively. When specified these values override the defaults implied by the 
+        <code>geodetic-datum</code>value.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.1-4">Finally, we define an optional feature which allows for changing the system for which the above values are defined. This optional feature adds an 
+        <code>alternate-system</code>value to the reference frame. This value is normally not present which implies the natural universe is the system. The use of this value is intended to allow for creating virtual realities or perhaps alternate coordinate systems. The definition of alternate systems is outside the scope of this document.<a href="#section-2.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-2.2">
         <h3 id="name-location">
 <a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-location" class="section-name selfRef">Location</a>
         </h3>
-<p id="section-2.2-1">This is the location on or relative to the astronomical object. It is specified using three coordinates: Latitude, Longitude, and Height. The Latitude and Longitude are specified as fractions of degrees of 360 and their meaning is defined by the 
+<p id="section-2.2-1">This is the location on or relative to the astronomical object. It is specified using 2 or 3 coordinates values. These values are given either as 
+        <code>latitude</code>, 
+        <code>longitude</code>, and an optional 
+        <code>height</code>, or as Cartesian coordinates of 
+        <code>x</code>, 
+        <code>y</code>and an optional 
+        <code>z</code>. For the standard location choice 
+        <code>latitude</code>and 
+        <code>longitude</code>are specified as fractions of decimal degrees, and the 
+        <code>height</code>value is in fractions of meters. For the Cartesian choice 
+        <code>x</code>, 
+        <code>y</code>and 
+        <code>z</code>are in fractions of meters. In both choices the exact meanings of all of the values are defined by the 
         <code>geodetic-datum</code>value in the 
-        <a href="#org7acbe67" class="xref">Section 2.1</a>. The Height value is in fractional meters above or below a "0" reference point. This "0" refrence point is also defined by the 
-        <code>geodetic-datum</code>value.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+        <a href="#org50c1d01" class="xref">Section 2.1</a>.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-2.3">
         <h3 id="name-motion">
 <a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-motion" class="section-name selfRef">Motion</a>
         </h3>
-<p id="section-2.3-1">Limited support is added for objects in motion. For objects in motion there are an additional 2 values to describe the an objects velocity, 
+<p id="section-2.3-1">Limited support is added for objects in motion. For objects in motion there are an additional 2 values to describe a velocity; these are 
         <code>heading</code>and 
         <code>speed</code>. The 
         <code>heading</code>value is relative to true-north as defined by the 
-        <code>reference-frame</code>for the astronomical body. For some applications that demand high accuracy, and where the data is infrequently updated this value might also track very slow movement such as continental drift.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+        <code>reference-frame</code>for the astronomical body. The 
+        <code>speed</code>value is in fractional meters per second. For some applications that demand high accuracy, and where the data is infrequently updated this value might also track very slow movement such as continental drift.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-2.4">
         <h3 id="name-tree">
@@ -1114,25 +1156,35 @@ module: geo-location
        +-- reference-frame
        |  +-- alternate-system?    string {alternate-systems}?
        |  +-- astronomical-body?   string
-       |  +-- geodetic-datum?      string
+       |  +-- geodetic-system
+       |     +-- geodetic-datum?    string
+       |     +-- coord-accuracy?    decimal64
+       |     +-- height-accuracy?   decimal64
+       +-- (location)
+       |  +--:(latlong)
+       |  |  +-- latitude     degrees
+       |  |  +-- longitude    degrees
+       |  |  +-- height?      decimal64
+       |  +--:(cartesian)
+       |     +-- x            decimal64
+       |     +-- y            decimal64
+       |     +-- z?           decimal64
        +-- velocity
        |  +-- heading?   degrees
        |  +-- speed?     decimal64
-       +-- latitude           degrees
-       +-- longitude          degrees
-       +-- height?            decimal64
        +-- timestamp?         types:date-and-time
 
         </pre>
 <a href="#section-2.4-2" class="pilcrow">¶</a>
 </div>
 </section>
-<section id="section-2.5">
-        <h3 id="name-yang-module">
-<a href="#section-2.5" class="section-number selfRef">2.5. </a><a href="#name-yang-module" class="section-name selfRef">YANG Module</a>
-        </h3>
+</section>
+<section id="section-3">
+      <h2 id="name-yang-module">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-yang-module" class="section-name selfRef">YANG Module</a>
+      </h2>
 <span id="name-geo-location-module"></span><figure id="figure-1">
-          <div id="section-2.5-1.1">
+        <div id="section-3-1.1">
 <pre class="sourcecode">
 // -*- fill-column: 69 -*-
 module geo-location {
@@ -1236,15 +1288,100 @@ module geo-location {
              including control characters (i.e., values 32..64, and
              91..126)";
         }
-        leaf geodetic-datum {
-          type string {
-            pattern '[-0-9a-z#x22#x23#x5B#x5D!$%&amp;()*+,\./:;&lt;=&gt;?@\\^_`{|}~]+';
-          }
-          default "wgs-84";
+        container geodetic-system {
           description
-            "A geodetic-datum defining the meaning of latitude,
-             longitude and height. The default of 'wgs-84' is used by
-             the Global Positioning System (GPS)";
+            "The geodetic system of the location data.";
+          leaf geodetic-datum {
+            type string {
+              pattern '[-0-9a-z#x22#x23#x5B#x5D!$%&amp;()*+,\./:;&lt;=&gt;?@\\^_`{|}~]+';
+            }
+            default "wgs-84";
+            description
+              "A geodetic-datum defining the meaning of latitude,
+               longitude and height. The default is 'wgs-84' which is
+               used by the Global Positioning System (GPS)";
+          }
+          leaf coord-accuracy {
+            type decimal64 {
+              fraction-digits 6;
+            }
+            description
+              "The accuracy of the latitude longitute pair. When
+               coord-accuracy is specified it overrides the
+               geodetic-datam implied accuracy. If Cartesian
+               coordinates are in use this accuracy corresponds to
+               the X and Y components";
+          }
+          leaf height-accuracy {
+            type decimal64 {
+              fraction-digits 6;
+            }
+            units "meters";
+            description
+              "The accuracy of height value. When specified it
+               overrides the geodetic-datum implied default. If
+               Cartesian coordinates ar in use this accuracy
+               corresponds to the Z component.";
+          }
+        }
+      }
+      choice location {
+        description
+          "The location data either in lat/long or cartesian values";
+
+        mandatory true;
+        case latlong {
+          leaf latitude {
+            type degrees;
+            mandatory true;
+            description
+              "The latitude value on the astronomical body. The
+               definition and precision of this measurement is
+               indicated by the reference-frame value.";
+          }
+          leaf longitude {
+            type degrees;
+            mandatory true;
+            description
+              "The longitude value on the astronomical body. The
+               definition and precision of this measurement is
+               indicated by the reference-frame.";
+          }
+          leaf height {
+            type decimal64 {
+              fraction-digits 6;
+            }
+            units "meters";
+            description
+              "Height from a reference 0 value. The precision and '0'
+               value is defined by the reference-frame.";
+          }
+        }
+        case cartesian {
+          leaf x {
+            type decimal64 {
+              fraction-digits 6;
+            }
+            mandatory true;
+            description
+              "The X value as defined by the reference-frame.";
+          }
+          leaf y {
+            type decimal64 {
+              fraction-digits 6;
+            }
+            mandatory true;
+            description
+              "The Y value as defined by the reference-frame.";
+          }
+          leaf z {
+            type decimal64 {
+              fraction-digits 6;
+            }
+            units "meters";
+            description
+              "The Z value as defined by the reference-frame.";
+          }
         }
       }
       container velocity {
@@ -1271,32 +1408,6 @@ module geo-location {
              traveling along it's heading.";
         }
       }
-      leaf latitude {
-        type degrees;
-        mandatory true;
-        description
-          "The latitude value on the astronomical body. The precsion
-           of this measurement is indicated by the reference-frame
-           geodetic-datum value";
-      }
-      leaf longitude {
-        type degrees;
-        mandatory true;
-        description
-          "The longitude value on the astronomical body. The precsion
-           of this measurement is indicated by the reference-frame
-           geodetic-datum value";
-      }
-      leaf height {
-        type decimal64 {
-          fraction-digits 6;
-        }
-        units "meters";
-        description
-            "Height from a reference 0 value. The 0 value is defined
-             by the reference-frame geodetic-datum for the specified
-             astronomical body";
-      }
       leaf timestamp {
         type types:date-and-time;
         description "Reference time when location was recorded.";
@@ -1305,28 +1416,269 @@ module geo-location {
   }
 }
 
-          </pre>
-<a href="#section-2.5-1.1" class="pilcrow">¶</a>
+        </pre>
+<a href="#section-3-1.1" class="pilcrow">¶</a>
 </div>
 <figcaption><a href="#figure-1">Figure 1</a>:
 <a href="#name-geo-location-module" class="selfRef">geo-location-module</a>
-          </figcaption></figure>
+        </figcaption></figure>
 </section>
-</section>
-<section id="section-3">
-      <h2 id="name-iana-considerations">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<section id="section-4">
+      <h2 id="name-iso-67092008-conformance">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-iso-67092008-conformance" class="section-name selfRef">ISO 6709:2008 Conformance</a>
       </h2>
-<section id="section-3.1">
-        <h3 id="name-geodetic-system-value-regis">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-geodetic-system-value-regis" class="section-name selfRef">Geodetic System Value Registry</a>
+<p id="section-4-1"><span>[<a href="#ISO.6709.2008" class="xref">ISO.6709.2008</a>]</span>provides an appendix with a set of tests for conformance to the standard. The tests and results are given in the following table along with an explanation of non-applicable tests.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<span id="name-conformance-test-results"></span><table class="center" id="table-1">
+        <caption>
+<a href="#table-1">Table 1</a>:
+<a href="#name-conformance-test-results" class="selfRef">Conformance Test Results</a>
+        </caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Test</th>
+            <th class="text-left" rowspan="1" colspan="1">Description</th>
+            <th class="text-left" rowspan="1" colspan="1">Pass Explanation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">A.1.2.1</td>
+            <td class="text-left" rowspan="1" colspan="1">elements reqd. for a geo. point location</td>
+            <td class="text-left" rowspan="1" colspan="1">CRS is always indicated</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">A.1.2.2</td>
+            <td class="text-left" rowspan="1" colspan="1">Description of a CRS from a register</td>
+            <td class="text-left" rowspan="1" colspan="1">CRS register is defined</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">A.1.2.3</td>
+            <td class="text-left" rowspan="1" colspan="1">definition of CRS</td>
+            <td class="text-left" rowspan="1" colspan="1">N/A - Don't define CRS</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">A.1.2.4</td>
+            <td class="text-left" rowspan="1" colspan="1">representation of horizontal position</td>
+            <td class="text-left" rowspan="1" colspan="1">lat/long values conform</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">A.1.2.5</td>
+            <td class="text-left" rowspan="1" colspan="1">representation of vertical position</td>
+            <td class="text-left" rowspan="1" colspan="1">height value conforms</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">A.1.2.6</td>
+            <td class="text-left" rowspan="1" colspan="1">text string representation</td>
+            <td class="text-left" rowspan="1" colspan="1">N/A - No string format</td>
+          </tr>
+        </tbody>
+      </table>
+<p id="section-4-3">For test 
+      <code>A.1.2.1</code>the YANG geo location object either includes a CRS (
+      <code>reference-frame</code>) or has a default defined (
+      <span>[<a href="#WGS84" class="xref">WGS84</a>]</span>).<a href="#section-4-3" class="pilcrow">¶</a></p>
+<p id="section-4-4">For 
+      <code>A.1.2.3</code>we do not define our own CRS, and doing so is not required for conformance.<a href="#section-4-4" class="pilcrow">¶</a></p>
+<p id="section-4-5">For 
+      <code>A.1.2.6</code>we do not define a text string representation, which is also not required for conformance.<a href="#section-4-5" class="pilcrow">¶</a></p>
+</section>
+<section id="section-5">
+      <h2 id="name-usability">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-usability" class="section-name selfRef">Usability</a>
+      </h2>
+<p id="section-5-1">The geo-location object defined in this document and YANG module have been designed to be usable in a very broad set of applications. This includes the ability to locate things on astronomical bodies other than The Earth, and to utilize entirely different coordinate systems and realities.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">Many systems make use of geo-location data, and so it's important to be able describe this data using this geo-location object defined in this document.<a href="#section-5-2" class="pilcrow">¶</a></p>
+<section id="section-5.1">
+        <h3 id="name-portability">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-portability" class="section-name selfRef">Portability</a>
         </h3>
-<p id="section-3.1-1">This registry allocates names for standard geodetic systems. Often these values are referred to using multiple names (e.g., full names or multiple acronyms values). The intent of this registry is to provide a single standard value for any given geodetic system.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.1-2">The values SHOULD use an acronym when available, they MUST be converted to lower case, and spaces MUST be changed to dashes "-".<a href="#section-3.1-2" class="pilcrow">¶</a></p>
-<p id="section-3.1-3">The allocation policy for this registry is First Come First Served, [RFC5226] as the intent is simply to avoid duplicate values.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
-<p id="section-3.1-4">The initial values for this registry are as follows.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
-<table class="center" id="table-1">
-          <caption><a href="#table-1">Table 1</a></caption>
+<p id="section-5.1-1">In order to verify portability while developing this module the following standards and standard APIs and were considered.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<section id="section-5.1.1">
+          <h4 id="name-w3c">
+<a href="#section-5.1.1" class="section-number selfRef">5.1.1. </a><a href="#name-w3c" class="section-name selfRef">W3C</a>
+          </h4>
+<p id="section-5.1.1-1">See 
+          <span><a href="https://w3c.github.io/geolocation-api/#dom-geolocationposition">https://w3c.github.io/geolocation-api/#dom-geolocationposition</a></span>.<a href="#section-5.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1.1-2">W3C Defines a geo-location API in 
+          <span>[<a href="#W3CGEO" class="xref">W3CGEO</a>]</span>. We show a snippet of code below which defines the geo-location data for this API. This is used by many application (e.g., Google Maps API).<a href="#section-5.1.1-2" class="pilcrow">¶</a></p>
+<div id="section-5.1.1-3">
+<pre class="sourcecode">
+interface GeolocationPosition {
+  readonly attribute GeolocationCoordinates coords;
+  readonly attribute DOMTimeStamp timestamp;
+};
+
+interface GeolocationCoordinates {
+  readonly attribute double latitude;
+  readonly attribute double longitude;
+  readonly attribute double? altitude;
+  readonly attribute double accuracy;
+  readonly attribute double? altitudeAccuracy;
+  readonly attribute double? heading;
+  readonly attribute double? speed;
+};
+
+          </pre>
+<a href="#section-5.1.1-3" class="pilcrow">¶</a>
+</div>
+<section id="section-5.1.1.1">
+            <h5 id="name-compare-with-yang-model">
+<a href="#section-5.1.1.1" class="section-number selfRef">5.1.1.1. </a><a href="#name-compare-with-yang-model" class="section-name selfRef">Compare with YANG Model</a>
+            </h5>
+<table class="center" id="table-2">
+              <caption><a href="#table-2">Table 2</a></caption>
+<thead>
+                <tr>
+                  <th class="text-left" rowspan="1" colspan="1">Field</th>
+                  <th class="text-left" rowspan="1" colspan="1">Type</th>
+                  <th class="text-left" rowspan="1" colspan="1">YANG</th>
+                  <th class="text-left" rowspan="1" colspan="1">Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">accuracy</td>
+                  <td class="text-left" rowspan="1" colspan="1">double</td>
+                  <td class="text-left" rowspan="1" colspan="1">coord-accuracy</td>
+                  <td class="text-left" rowspan="1" colspan="1">dec64 fr 6</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">altitude</td>
+                  <td class="text-left" rowspan="1" colspan="1">double</td>
+                  <td class="text-left" rowspan="1" colspan="1">height</td>
+                  <td class="text-left" rowspan="1" colspan="1">dec64 fr 6</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">altitudeAccuracy</td>
+                  <td class="text-left" rowspan="1" colspan="1">double</td>
+                  <td class="text-left" rowspan="1" colspan="1">height-accuracy</td>
+                  <td class="text-left" rowspan="1" colspan="1">dec64 fr 6</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">heading</td>
+                  <td class="text-left" rowspan="1" colspan="1">double</td>
+                  <td class="text-left" rowspan="1" colspan="1">heading</td>
+                  <td class="text-left" rowspan="1" colspan="1">dec64 fr 16</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">latitude</td>
+                  <td class="text-left" rowspan="1" colspan="1">double</td>
+                  <td class="text-left" rowspan="1" colspan="1">latitude</td>
+                  <td class="text-left" rowspan="1" colspan="1">dec64 fr 16</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">longitude</td>
+                  <td class="text-left" rowspan="1" colspan="1">double</td>
+                  <td class="text-left" rowspan="1" colspan="1">longitude</td>
+                  <td class="text-left" rowspan="1" colspan="1">dec64 fr 16</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">speed</td>
+                  <td class="text-left" rowspan="1" colspan="1">double</td>
+                  <td class="text-left" rowspan="1" colspan="1">speed</td>
+                  <td class="text-left" rowspan="1" colspan="1">dec64 fr 12</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">timestamp</td>
+                  <td class="text-left" rowspan="1" colspan="1">DOMTimeStamp</td>
+                  <td class="text-left" rowspan="1" colspan="1">timestamp</td>
+                  <td class="text-left" rowspan="1" colspan="1">string</td>
+                </tr>
+              </tbody>
+            </table>
+<dl class="dlParallel" id="section-5.1.1.1-2">
+              <dt id="section-5.1.1.1-2.1">accuracy (double)</dt>
+              <dd id="section-5.1.1.1-2.2">
+                <p id="section-5.1.1.1-2.2.1">Accuracy of 
+                <code>latitude</code>and 
+                <code>longitude</code>values in meters.<a href="#section-5.1.1.1-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+              <dt id="section-5.1.1.1-2.3">altitude (double)</dt>
+              <dd id="section-5.1.1.1-2.4">
+                <p id="section-5.1.1.1-2.4.1">Optional height in meters above the 
+                <span>[<a href="#WGS84" class="xref">WGS84</a>]</span>ellipsoid.<a href="#section-5.1.1.1-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+              <dt id="section-5.1.1.1-2.5">altitudeAccuracy (double)</dt>
+              <dd id="section-5.1.1.1-2.6">
+                <p id="section-5.1.1.1-2.6.1">Optional accuracy of 
+                <code>altitude</code>value in meters.<a href="#section-5.1.1.1-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+              <dt id="section-5.1.1.1-2.7">heading (double)</dt>
+              <dd id="section-5.1.1.1-2.8">
+                <p id="section-5.1.1.1-2.8.1">Optional Direction in decimal deg from true north increasing clock-wise.<a href="#section-5.1.1.1-2.8.1" class="pilcrow">¶</a></p>
+</dd>
+              <dt id="section-5.1.1.1-2.9">latitude, longitude (double)</dt>
+              <dd id="section-5.1.1.1-2.10">
+                <p id="section-5.1.1.1-2.10.1">Standard lat/long values in decimal degrees.<a href="#section-5.1.1.1-2.10.1" class="pilcrow">¶</a></p>
+</dd>
+              <dt id="section-5.1.1.1-2.11">speed (double)</dt>
+              <dd id="section-5.1.1.1-2.12">
+                <p id="section-5.1.1.1-2.12.1">Speed along heading in meters per second.<a href="#section-5.1.1.1-2.12.1" class="pilcrow">¶</a></p>
+</dd>
+              <dt id="section-5.1.1.1-2.13">timestamp (DOMTimeStamp)</dt>
+              <dd id="section-5.1.1.1-2.14">
+                <p id="section-5.1.1.1-2.14.1">Specifies milliseconds since the Unix EPOCH in 64 bit unsigned integer. The YANG model defines the timestamp with arbitrarily large precision by using a string which encompasses all representable values of this timestamp value.<a href="#section-5.1.1.1-2.14.1" class="pilcrow">¶</a></p>
+</dd>
+            </dl>
+<p id="section-5.1.1.1-3">W3C API values can be mapped to the YANG grouping, with the caveat that some loss of precision (in the extremes) may occur due to the YANG grouping using decimal64 values rather than doubles.<a href="#section-5.1.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1.1.1-4">Conversely, only YANG values for The Earth using the default 
+            <code>wgs-84</code>
+              <span>[<a href="#WGS84" class="xref">WGS84</a>]</span>as the 
+            <code>geodetic-datum</code>, can be directly mapped to the W3C values, as W3C does not provide the extra features necessary to map the broader set of values supported by the YANG grouping.<a href="#section-5.1.1.1-4" class="pilcrow">¶</a></p>
+</section>
+</section>
+<section id="section-5.1.2">
+          <h4 id="name-geography-markup-language-g">
+<a href="#section-5.1.2" class="section-number selfRef">5.1.2. </a><a href="#name-geography-markup-language-g" class="section-name selfRef">Geography Markup Language (GML)</a>
+          </h4>
+<p id="section-5.1.2-1">ISO has defined Geography Markup Language (GML) 
+          <span>[<a href="#ISO.19136.2007" class="xref">ISO.19136.2007</a>]</span>.<a href="#section-5.1.2-1" class="pilcrow">¶</a></p>
+</section>
+<section id="section-5.1.3">
+          <h4 id="name-kml-23">
+<a href="#section-5.1.3" class="section-number selfRef">5.1.3. </a><a href="#name-kml-23" class="section-name selfRef">KML 2.3</a>
+          </h4>
+<p id="section-5.1.3-1">KML2.2 
+          <span>[<a href="#KML22" class="xref">KML22</a>]</span>(formerly Keyhole Markup Language) was submitted by Google to Open Geospatial Consortium (OGC) 
+          <span><a href="https://www.opengeospatial.org/">https://www.opengeospatial.org/</a></span>and was adopted. The latest version as of this writing is 
+          <span>[<a href="#KML23" class="xref">KML23</a>]</span>. This schema includes geographic location data in some of it's objects (e.g., the &lt;camera&gt; object). This data is provided in string format and corresponds to the 
+          <span>[<a href="#W3CGEO" class="xref">W3CGEO</a>]</span>values. The timestamp value is also specified as a string as in our YANG grouping.<a href="#section-5.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.1.3-2">The KML location values use a geodetic datum defined in Annex A by the GML Coordinate Reference System (CRS) with identifier LonLat84_5773. The altitude value is measured from the vertical datum specified by 
+          <span>[<a href="#WGS84" class="xref">WGS84</a>]</span>.<a href="#section-5.1.3-2" class="pilcrow">¶</a></p>
+</section>
+<section id="section-5.1.4">
+          <h4 id="name-ietf-uri-value">
+<a href="#section-5.1.4" class="section-number selfRef">5.1.4. </a><a href="#name-ietf-uri-value" class="section-name selfRef">IETF URI Value</a>
+          </h4>
+<p id="section-5.1.4-1"><span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span>defines a standard URI value for geographic location data. It includes the ability to specify the 
+          <code>geodetic-value</code>(it calls this 
+          <code>crs</code>) with the default being 
+          <code>wgs-84</code><span>[<a href="#WGS84" class="xref">WGS84</a>]</span>. For the location data it allows 2 to 3 coordinates defined by the 
+          <code>crs</code>value. For accuracy it has a single 
+          <code>u</code>parameter for specifying uncertainty. The 
+          <code>u</code>value is in fractions of meters and applies to all the location values. As the URI is a string, all values are specifies as strings and so are capable of as much precision as required.<a href="#section-5.1.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.1.4-2">URI values can be mapped to and from the YANG grouping, with the caveat that some loss of precision (in the extremes) may occur due to the YANG grouping using decimal64 values rather than strings.<a href="#section-5.1.4-2" class="pilcrow">¶</a></p>
+</section>
+</section>
+</section>
+<section id="section-6">
+      <h2 id="name-iana-considerations">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<section id="section-6.1">
+        <h3 id="name-geodetic-system-value-regis">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-geodetic-system-value-regis" class="section-name selfRef">Geodetic System Value Registry</a>
+        </h3>
+<p id="section-6.1-1">This registry allocates names for standard geodetic systems. Often these values are referred to using multiple names (e.g., full names or multiple acronyms values). The intent of this registry is to provide a single standard value for any given geodetic system.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">The values SHOULD use an acronym when available, they MUST be converted to lower case, and spaces MUST be changed to dashes "-".<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">It should be noted that 
+        <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span>also has a registry for Geodetic Systems (it calls CRS); however, this registry has a very strict policy which is believed by the author to be too strict for easily using.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.1-4">An open question is whether we should create a new registry or attempt to modify the existing one. It's worth noting that we include the ability to specify any geodetic system including ones designed for astronomical bodies other than the earth, as well as ones based on alternate systems. These requirements may be too broad for adpating the existing 
+        <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span>registry.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+<p id="section-6.1-5">The allocation policy for this registry is First Come First Served, [RFC5226] as the intent is simply to avoid duplicate values.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
+<p id="section-6.1-6">The initial values for this registry are as follows.<a href="#section-6.1-6" class="pilcrow">¶</a></p>
+<table class="center" id="table-3">
+          <caption><a href="#table-3">Table 3</a></caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Name</th>
@@ -1334,10 +1686,6 @@ module geo-location {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">wgs-84</td>
-              <td class="text-left" rowspan="1" colspan="1">World Geodetic System 1984</td>
-            </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">egm-2008</td>
               <td class="text-left" rowspan="1" colspan="1">Earth Gravitational Model 2008</td>
@@ -1350,15 +1698,24 @@ module geo-location {
               <td class="text-left" rowspan="1" colspan="1">mola-vik-1</td>
               <td class="text-left" rowspan="1" colspan="1">MOLA Height, IAU Viking-1 PM (Mars)</td>
             </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">wgs-84</td>
+              <td class="text-left" rowspan="1" colspan="1">World Geodetic System 1984 
+              <span>[<a href="#WGS84" class="xref">WGS84</a>]</span>(EGM-96)</td>
+            </tr>
           </tbody>
         </table>
 </section>
 </section>
-<section id="section-4">
+<section id="section-7">
       <h2 id="name-normative-references">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
       </h2>
 <dl class="references">
+<dt id="ISO.6709.2008">[ISO.6709.2008]</dt>
+      <dd>
+<span class="refAuthor">Standardization, I. O. F.</span>, <span class="refTitle">"ISO 6709:2008 Standard representation of geographic point location by coordinates."</span>, <span class="refContent"></span>, <time datetime="2008">2008</time>. <span class="annotation"></span>
+      </dd>
 <dt id="RFC2119">[RFC2119]</dt>
       <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03">March 1997</time>
@@ -1368,20 +1725,44 @@ module geo-location {
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05">May 2017</time>
           <span>, &lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
 <dt id="RFC8342">[RFC8342]</dt>
-    <dd>
+      <dd>
 <span class="refAuthor">Bjorklund, M.</span><span class="refAuthor">, Schoenwaelder, J.</span><span class="refAuthor">, Shafer, P.</span><span class="refAuthor">, Watsen, K.</span><span class="refAuthor">, and R. Wilton</span>, <span class="refTitle">"Network Management Datastore Architecture (NMDA)"</span>, <span class="seriesInfo">RFC 8342</span>, <span class="seriesInfo">DOI 10.17487/RFC8342</span>, <time datetime="2018-03">March 2018</time>
           <span>, &lt;<a href="https://www.rfc-editor.org/info/rfc8342">https://www.rfc-editor.org/info/rfc8342</a>&gt;</span>. </dd>
+<dt id="WGS84">[WGS84]</dt>
+    <dd>
+<span class="refAuthor">Agency., N. I. A. M.</span>, <span class="refTitle">"National Imagery and Mapping Agency Technical Report 8350.2, Third Edition."</span>, <span class="refContent">http://earth-info.nga.mil/GandG/publications/tr8350.2/wgs84fin.pdf</span>, <time datetime="2000-01-03">3 January 2000</time>. <span class="annotation"></span>
+      </dd>
 </dl>
 </section>
-<section id="section-5">
+<section id="section-8">
       <h2 id="name-informative-references">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
       </h2>
 <dl class="references">
+<dt id="ISO.19136.2007">[ISO.19136.2007]</dt>
+      <dd>
+<span class="refAuthor">Standardization, I. O. F.</span>, <span class="refTitle">"ISO 19136:2007 Geographic information -- Geography Markup Language (GML)"</span>, <span class="refContent"></span>, <time datetime="2007">2007</time>. <span class="annotation"></span>
+      </dd>
+<dt id="KML22">[KML22]</dt>
+      <dd>
+<span class="refAuthor">(Ed), T. W.</span>, <span class="refTitle">"OGC KML 2.3"</span>, <span class="refContent">http://portal.opengeospatial.org/files/?artifact_id=27810</span>, <time datetime="2008-04-14">14 April 2008</time>. <span class="annotation"></span>
+      </dd>
+<dt id="KML23">[KML23]</dt>
+      <dd>
+<span class="refAuthor">(Ed), D. B.</span>, <span class="refTitle">"OGC KML 2.3"</span>, <span class="refContent">http://www.opengis.net/doc/IS/kml/2.3</span>, <time datetime="2015-08-04">4 August 2015</time>. <span class="annotation"></span>
+      </dd>
+<dt id="RFC5870">[RFC5870]</dt>
+      <dd>
+<span class="refAuthor">Mayrhofer, A.</span><span class="refAuthor"> and C. Spanring</span>, <span class="refTitle">"A Uniform Resource Identifier for Geographic Locations ('geo' URI)"</span>, <span class="seriesInfo">RFC 5870</span>, <span class="seriesInfo">DOI 10.17487/RFC5870</span>, <time datetime="2010-06">June 2010</time>
+          <span>, &lt;<a href="https://www.rfc-editor.org/info/rfc5870">https://www.rfc-editor.org/info/rfc5870</a>&gt;</span>. </dd>
 <dt id="RFC8340">[RFC8340]</dt>
-    <dd>
+      <dd>
 <span class="refAuthor">Bjorklund, M.</span><span class="refAuthor"> and L. Berger, Ed.</span>, <span class="refTitle">"YANG Tree Diagrams"</span>, <span class="seriesInfo">BCP 215</span>, <span class="seriesInfo">RFC 8340</span>, <span class="seriesInfo">DOI 10.17487/RFC8340</span>, <time datetime="2018-03">March 2018</time>
           <span>, &lt;<a href="https://www.rfc-editor.org/info/rfc8340">https://www.rfc-editor.org/info/rfc8340</a>&gt;</span>. </dd>
+<dt id="W3CGEO">[W3CGEO]</dt>
+    <dd>
+<span class="refAuthor">Popescu, A.</span>, <span class="refTitle">"Geolocation API Specification"</span>, <span class="refContent">https://www.w3.org/TR/2016/REC-geolocation-API-20161108/</span>, <time datetime="2016-11-08">8 November 2016</time>. <span class="annotation"></span>
+      </dd>
 </dl>
 </section>
 <section id="section-appendix.a">
@@ -1428,7 +1809,10 @@ module: uses-geo-location
            +--rw reference-frame
            |  +--rw alternate-system?    string {alternate-systems}?
            |  +--rw astronomical-body?   string
-           |  +--rw geodetic-datum?      string
+           |  +--rw geodetic-system
+           |     +--rw geodetic-datum?    string
+           |     +--rw coord-accuracy?    decimal64
+           |     +--rw height-accuracy?   decimal64
            +--rw velocity
            |  +--rw heading?   degrees
            |  +--rw speed?     decimal64
@@ -1451,14 +1835,21 @@ module: uses-geo-location
       &lt;geo-location&gt;
         &lt;reference-frame&gt;
           &lt;alternate-system/&gt;
+          &lt;geodetic-system&gt;
+            &lt;coord-accuracy/&gt;
+            &lt;height-accuracy/&gt;
+          &lt;/geodetic-system&gt;
         &lt;/reference-frame&gt;
+        &lt;latitude/&gt;
+        &lt;longitude/&gt;
+        &lt;height/&gt;
+        &lt;x/&gt;
+        &lt;y/&gt;
+        &lt;z/&gt;
         &lt;velocity&gt;
           &lt;heading/&gt;
           &lt;speed/&gt;
         &lt;/velocity&gt;
-        &lt;latitude/&gt;
-        &lt;longitude/&gt;
-        &lt;height/&gt;
         &lt;timestamp/&gt;
       &lt;/geo-location&gt;
     &lt;/locatable-item&gt;
@@ -1476,23 +1867,8 @@ module: uses-geo-location
 <p id="section-appendix.b-1">We would like to thank Peter Lothberg for the motivation as well as help in defining a more broadly useful geographic location object.<a href="#section-appendix.b-1" class="pilcrow">¶</a></p>
 <p id="section-appendix.b-2">We would also like to thank Acee Lindem and Qin Wu for their work on a geographic location object that led to this documents creation.<a href="#section-appendix.b-2" class="pilcrow">¶</a></p>
 </section>
-<section id="section-appendix.c">
-      <h2 id="name-contributors">
-<a href="#section-appendix.c" class="section-number selfRef">Appendix C. </a><a href="#name-contributors" class="section-name selfRef">Contributors</a>
-      </h2>
-<div class="artwork art-text alignLeft" id="section-appendix.c-1">
-<pre>
-Peter Lothberg
-STUPI.AB
-
-Email: roll@stupi.se
-
-      </pre>
-<a href="#section-appendix.c-1" class="pilcrow">¶</a>
-</div>
-</section>
 <div id="authors-addresses">
-<section id="section-appendix.d">
+<section id="section-appendix.c">
       <h2 id="name-authors-address">
 <a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
       </h2>

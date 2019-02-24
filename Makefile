@@ -13,6 +13,7 @@ ox-rfc.el:
 
 $(BASE).xml: $(ORG) ox-rfc.el
 	emacs -Q --batch --eval '(setq org-confirm-babel-evaluate nil)' -l ./ox-rfc.el $< -f ox-rfc-export-to-xml
+	mv $(VBASE).xml $(BASE).xml
 
 %-$(VERSION).txt: %.xml
 	xml2rfc --text -o $@ $<
