@@ -16,10 +16,10 @@
 #+OPTIONS: prop:nil title:t toc:t \n:nil ::t |:t ^:{} -:t *:t ':nil
 
 #+begin_abstract
-This document defines a generic geographical location object in YANG.
-The geo location object is intended to be used for specifying a
-location on or in reference to the Earth or any other astronomical
-object.
+This document defines a generic geographical location object YANG
+grouping. The geographical location grouping is intended to be used
+in YANG models for specifying a location on or in reference to the
+Earth or any other astronomical object.
 #+end_abstract
 
 * Introduction
@@ -36,13 +36,22 @@ device located on The Moon, on Mars, on Enceladus (the moon of
 Saturn) or even a comet (e.g., 67p/churyumov-gerasimenko).
 
 Finally, one can imagine defining locations using a different frames
-of reference or even alternate systems (e.g., a virtual reality).
+of reference or even alternate systems (e.g., a simulations or
+virtual realities).
 
 This document defines a ~geo-location~ YANG grouping that allows for
 all of the above data to be captured.
 
+This specification conforms to [[ISO.6709.2008]].
+
 The YANG data model described in this document conforms to the
 Network Management Datastore Architecture defined in [[RFC8342]].
+
+#+BEGIN_COMMENT
+,** Considered
+XXX cannot find this anywhere!
+OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
+#+END_COMMENT
 
 ** Terminology
 
@@ -53,7 +62,6 @@ Network Management Datastore Architecture defined in [[RFC8342]].
    as shown here.
 
 * The Geo Location Object
-
 *** Frame of Reference
 
     The frame of reference (~reference-frame~) defines what the
@@ -66,18 +74,18 @@ Network Management Datastore Architecture defined in [[RFC8342]].
     ~astronomical-body~ value is =earth=.
 
     In addition to identifying the astronomical body we also need to
-    define the meaning of latitude and longitude and how the
-    reference 0 height is determined. This is done with a
+    define the meaning of the coordinates (e.g., latitude and
+    longitude) and the definition of 0-height. This is done with a
     ~geodetic-datum~ value. The default value for ~geodetic-datum~ is
     =wgs-84= (i.e., the World Geodetic System, [[WGS84]]), which is used
-    by the Global Positioning System (GPS). We define an IANA
-    registry for specifying standard values for the ~geodetic-datum~.
+    by the Global Positioning System (GPS) among many others. We
+    define an IANA registry for specifying standard values for the
+    ~geodetic-datum~.
 
-    In addition to the ~geodetic-datum~ value we allow directly
-    specifying the coordinate and height accuracy using
-    ~coord-accuracy~ and ~height-accuracy~ respectively. When
-    specified these values override the defaults implied by the
-    ~geodetic-datum~ value.
+    In addition to the ~geodetic-datum~ value we allow refining the
+    coordinate and height accuracy using ~coord-accuracy~ and
+    ~height-accuracy~ respectively. When specified these values
+    override the defaults implied by the ~geodetic-datum~ value.
 
     Finally, we define an optional feature which allows for changing
     the system for which the above values are defined. This optional
@@ -91,23 +99,26 @@ Network Management Datastore Architecture defined in [[RFC8342]].
 *** Location
 
     This is the location on or relative to the astronomical object.
-    It is specified using three coordinates: Latitude, Longitude, and
-    Height. The Latitude and Longitude are specified as fractions of
-    degrees of 360 and their meaning is defined by the
-    ~geodetic-datum~ value in the [[Frame of Reference]]. The Height
-    value is in fractional meters above or below a "0" reference
-    point. This "0" refrence point is also defined by the
-    ~geodetic-datum~ value.
+    It is specified using 2 or 3 coordinates values. These values are
+    given either as ~latitude~, ~longitude~, and an optional
+    ~height~, or as Cartesian coordinates of ~x~, ~y~ and an optional
+    ~z~. For the standard location choice ~latitude~ and ~longitude~
+    are specified as fractions of decimal degrees, and the ~height~
+    value is in fractions of meters. For the Cartesian choice ~x~,
+    ~y~ and ~z~ are in fractions of meters. In both choices the exact
+    meanings of all of the values are defined by the ~geodetic-datum~
+    value in the [[Frame of Reference]].
 
 *** Motion
 
     Limited support is added for objects in motion. For objects in
-    motion there are an additional 2 values to describe the an
-    objects velocity, ~heading~ and ~speed~. The ~heading~ value is
-    relative to true-north as defined by the ~reference-frame~ for
-    the astronomical body. For some applications that demand high
-    accuracy, and where the data is infrequently updated this value
-    might also track very slow movement such as continental drift.
+    motion there are an additional 2 values to describe a velocity;
+    these are ~heading~ and ~speed~. The ~heading~ value is relative
+    to true-north as defined by the ~reference-frame~ for the
+    astronomical body. The ~speed~ value is in fractional meters per
+    second. For some applications that demand high accuracy, and
+    where the data is infrequently updated this value might also
+    track very slow movement such as continental drift.
 
 ** Tree
 
@@ -132,17 +143,23 @@ module: geo-location
        |     +-- geodetic-datum?    string
        |     +-- coord-accuracy?    decimal64
        |     +-- height-accuracy?   decimal64
+       +-- (location)
+       |  +--:(latlong)
+       |  |  +-- latitude     degrees
+       |  |  +-- longitude    degrees
+       |  |  +-- height?      decimal64
+       |  +--:(cartesian)
+       |     +-- x            decimal64
+       |     +-- y            decimal64
+       |     +-- z?           decimal64
        +-- velocity
        |  +-- heading?   degrees
        |  +-- speed?     decimal64
-       +-- latitude           degrees
-       +-- longitude          degrees
-       +-- height?            decimal64
        +-- timestamp?         types:date-and-time
 #+end_example
 
 
-** YANG Module
+* YANG Module
 
 #+name: geo-location-module
 #+header: :cmdline "-fyang --yang-canonical"
@@ -270,7 +287,9 @@ module: geo-location
               description
                 "The accuracy of the latitude longitute pair. When
                  coord-accuracy is specified it overrides the
-                 geodetic-datam implied accuracy.";
+                 geodetic-datam implied accuracy. If Cartesian
+                 coordinates are in use this accuracy corresponds to
+                 the X and Y components";
             }
             leaf height-accuracy {
               type decimal64 {
@@ -279,7 +298,68 @@ module: geo-location
               units "meters";
               description
                 "The accuracy of height value. When specified it
-                 overrides the geodetic-datam implied default.";
+                 overrides the geodetic-datum implied default. If
+                 Cartesian coordinates ar in use this accuracy
+                 corresponds to the Z component.";
+            }
+          }
+        }
+        choice location {
+          description
+            "The location data either in lat/long or cartesian values";
+
+          mandatory true;
+          case latlong {
+            leaf latitude {
+              type degrees;
+              mandatory true;
+              description
+                "The latitude value on the astronomical body. The
+                 definition and precision of this measurement is
+                 indicated by the reference-frame value.";
+            }
+            leaf longitude {
+              type degrees;
+              mandatory true;
+              description
+                "The longitude value on the astronomical body. The
+                 definition and precision of this measurement is
+                 indicated by the reference-frame.";
+            }
+            leaf height {
+              type decimal64 {
+                fraction-digits 6;
+              }
+              units "meters";
+              description
+                "Height from a reference 0 value. The precision and '0'
+                 value is defined by the reference-frame.";
+            }
+          }
+          case cartesian {
+            leaf x {
+              type decimal64 {
+                fraction-digits 6;
+              }
+              mandatory true;
+              description
+                "The X value as defined by the reference-frame.";
+            }
+            leaf y {
+              type decimal64 {
+                fraction-digits 6;
+              }
+              mandatory true;
+              description
+                "The Y value as defined by the reference-frame.";
+            }
+            leaf z {
+              type decimal64 {
+                fraction-digits 6;
+              }
+              units "meters";
+              description
+                "The Z value as defined by the reference-frame.";
             }
           }
         }
@@ -307,35 +387,6 @@ module: geo-location
                traveling along it's heading.";
           }
         }
-        leaf latitude {
-          type degrees;
-          mandatory true;
-          description
-            "The latitude value on the astronomical body. The precsion
-             of this measurement is indicated by the reference-frame
-             geodetic-datum value. If Cartesian coordinates are in use
-             then this represents the Y value.";
-        }
-        leaf longitude {
-          type degrees;
-          mandatory true;
-          description
-            "The longitude value on the astronomical body. The precsion
-             of this measurement is indicated by the reference-frame
-             geodetic-datum value. If Cartesian coordinates are in use
-             then this represents the X value.";
-        }
-        leaf height {
-          type decimal64 {
-            fraction-digits 6;
-          }
-          units "meters";
-          description
-              "Height from a reference 0 value. The 0 value is defined
-               by the reference-frame geodetic-datum for the specified
-               astronomical body. If Cartesian coordinates are in use
-               then this represents the Z value.";
-        }
         leaf timestamp {
           type types:date-and-time;
           description "Reference time when location was recorded.";
@@ -345,7 +396,32 @@ module: geo-location
   }
 #+end_src
 
-* Portability
+* ISO 6709:2008 Conformance
+
+[[ISO.6709.2008]] provides an appendix with a set of tests for
+conformance to the standard. The tests and results are given in the
+following table along with an explanation of non-applicable tests.
+
+#+CAPTION: Conformance Test Results
+| Test    | Description                              | Pass Explanation        |
+|---------+------------------------------------------+-------------------------|
+| A.1.2.1 | elements reqd. for a geo. point location | CRS is always indicated |
+| A.1.2.2 | Description of a CRS from a register     | CRS register is defined |
+| A.1.2.3 | definition of CRS                        | N/A - Don't define CRS  |
+| A.1.2.4 | representation of horizontal position    | lat/long values conform |
+| A.1.2.5 | representation of vertical position      | height value conforms   |
+| A.1.2.6 | text string representation               | N/A - No string format  |
+
+For test =A.1.2.1= the YANG geo location object either includes a CRS
+(~reference-frame~) or has a default defined ([[WGS84]]).
+
+For =A.1.2.3= we do not define our own CRS, and doing so is not
+required for conformance.
+
+For =A.1.2.6= we do not define a text string representation, which is
+also not required for conformance.
+
+* Usability
 
 The geo-location object defined in this document and YANG module have
 been designed to be usable in a very broad set of applications.
@@ -357,10 +433,17 @@ Many systems make use of geo-location data, and so it's important to
 be able describe this data using this geo-location object defined in
 this document.
 
-In order to verify portability while developing this module the
-following standard APIs and were considered.
+** Portability
 
-** W3C
+#   DOI: https://doi.org/10.1007/978-0-387-35973-1_904
+#   Percivall G. (2008) OGC's Open Standards for Geospatial
+#   Interoperability. In: Shekhar S., Xiong H. (eds) Encyclopedia of
+#   GIS. Springer, Boston, MA
+
+In order to verify portability while developing this module the
+following standards and standard APIs and were considered.
+
+*** W3C
 
 See https://w3c.github.io/geolocation-api/#dom-geolocationposition.
 
@@ -386,7 +469,7 @@ used by many application (e.g., Google Maps API).
   };
 #+end_src
 
-*** Compare with YANG Model
+**** Compare with YANG Model
 
 | Field            | Type         | YANG            | Type        |
 |------------------+--------------+-----------------+-------------|
@@ -414,14 +497,47 @@ used by many application (e.g., Google Maps API).
      which encompasses all representable values of this timestamp
      value.
 
-** KLM2.2
+W3C API values can be mapped to the YANG grouping, with the caveat
+that some loss of precision (in the extremes) may occur due to the
+YANG grouping using decimal64 values rather than doubles.
 
-KML XXXref (formerly Keyhole Markup Language) was submitted by Google to
-Open Geospatial Consortium (OGC XXref) and was adopted by OGC. This
-schema includes geo-location data in some of it's objects (e.g., the
-<camera> object). These data is provided in string format and
-corresponds to the [[W3CGEO]] values. The timestamp value is also
-specified as a string as in our YANG model.
+YANG values for The Earth, using the default =wgs-84= [[WGS84]] as the
+~geodetic-datum~ can be mapped to the W3C values.
+
+*** Geography Markup Language (GML)
+
+ISO has defined Geography Markup Language (GML) [[ISO.19136.2007]].
+
+*** KML 2.3
+
+KML2.2 [[KML22]] (formerly Keyhole Markup Language) was submitted by
+Google to Open Geospatial Consortium (OGC)
+[[https://www.opengeospatial.org/]] and was adopted. The latest version
+as of this writing is [[KML23]]. This schema includes geographic location
+data in some of it's objects (e.g., the <camera> object). This data
+is provided in string format and corresponds to the [[W3CGEO]] values.
+The timestamp value is also specified as a string as in our YANG
+grouping.
+
+The KML location values use a geodetic datum defined in Annex A by
+the GML Coordinate Reference System (CRS) with identifier
+LonLat84_5773. The altitude value is measured from the vertical datum
+specified by [[WGS84]].
+
+*** IETF URI Value
+
+[[RFC5870]] defines a standard URI value for geographic location data. It
+includes the ability to specify the ~geodetic-value~ (it calls this
+~crs~) with the default being =wgs-84= [[WGS84]]. For the location data
+it allows 2 to 3 coordinates defined by the ~crs~ value. For accuracy
+it has a single ~u~ parameter for specifying uncertainty. The ~u~
+value is in fractions of meters and applies to all the location
+values. As the URI is a string, all values are specifies as strings
+and so are capable of as much precision as required.
+
+URI values can be mapped to and from the YANG grouping, with the
+caveat that some loss of precision (in the extremes) may occur due to
+the YANG grouping using decimal64 values rather than strings.
 
 
 * IANA Considerations
@@ -435,21 +551,43 @@ specified as a string as in our YANG model.
    The values SHOULD use an acronym when available, they MUST be
    converted to lower case, and spaces MUST be changed to dashes "-".
 
+   It should be noted that [[RFC5870]] also has a registry for Geodetic
+   Systems (it calls CRS); however, this registry has a very strict
+   policy which is believed by the author to be too strict for easily
+   using.
+
+   An open question is whether we should create a new registry or
+   attempt to modify the existing one. It's worth noting that we
+   include the ability to specify any geodetic system including ones
+   designed for astronomical bodies other than the earth, as well as
+   ones based on alternate systems. These requirements may be too
+   broad for adpating the existing [[RFC5870]] registry.
+
    The allocation policy for this registry is First Come First Served,
    [RFC5226] as the intent is simply to avoid duplicate values.
 
    The initial values for this registry are as follows.
 
+# XXX check out: ISO TS 19127
+
    #+name: Intial Geodetic-Datum Values
-   | Name       | Description                         |
-   |------------+-------------------------------------|
-   | egm-2008   | Earth Gravitational Model 2008      |
-   | me         | Mean Earth/Polar Axis (Moon)        |
-   | mola-vik-1 | MOLA Height, IAU Viking-1 PM (Mars) |
-   | wgs-84     | World Geodetic System 1984 [[WGS84]]    |
+   | Name       | Description                               |
+   |------------+-------------------------------------------|
+   | egm-2008   | Earth Gravitational Model 2008            |
+   | me         | Mean Earth/Polar Axis (Moon)              |
+   | mola-vik-1 | MOLA Height, IAU Viking-1 PM (Mars)       |
+   | wgs-84     | World Geodetic System 1984 [[WGS84 (EGM-96)]] |
 
 * References
 ** Normative References
+*** ISO.6709.2008
+    :PROPERTIES:
+    :REF_AUTHOR: International Organization for Standardization
+    :REF_TITLE: ISO 6709:2008 Standard representation of geographic point location by coordinates.
+    :REF_DATE: 2008
+    :END:
+# Would like to use REF_ORG here...
+# WOuld like to use seriesInfo here name=ISO value="Standard 6709:2008"
 *** RFC2119
 *** RFC8174
 *** RFC8342
@@ -460,7 +598,31 @@ specified as a string as in our YANG model.
     :REF_DATE: 2000-01-03
     :REF_CONTENT: http://earth-info.nga.mil/GandG/publications/tr8350.2/wgs84fin.pdf
     :END:
+
 ** Informative References
+*** ISO.19136.2007
+    :PROPERTIES:
+    :REF_AUTHOR: International Organization for Standardization
+    :REF_TITLE: ISO 19136:2007 Geographic information -- Geography Markup Language (GML)
+    :REF_DATE: 2007
+    :END:
+# Would like to use REF_ORG here...
+# WOuld like to use seriesInfo here name=ISO value="Standard 6709:2008"
+*** KML22
+    :PROPERTIES:
+    :REF_AUTHOR: Tim Wilson (Ed)
+    :REF_TITLE: OGC KML 2.3
+    :REF_DATE: 2008-04-14
+    :REF_CONTENT: http://portal.opengeospatial.org/files/?artifact_id=27810
+    :END:
+*** KML23
+    :PROPERTIES:
+    :REF_AUTHOR: David Burggraf (Ed)
+    :REF_TITLE: OGC KML 2.3
+    :REF_DATE: 2015-08-04
+    :REF_CONTENT: http://www.opengis.net/doc/IS/kml/2.3
+    :END:
+*** RFC5870
 *** RFC8340
 *** W3CGEO
     :PROPERTIES:
@@ -469,7 +631,6 @@ specified as a string as in our YANG model.
     :REF_DATE: 2016-11-08
     :REF_CONTENT: https://www.w3.org/TR/2016/REC-geolocation-API-20161108/
     :END:
-
 * Examples
 
 Below is a fictitious module that uses the geo-location grouping.
@@ -555,13 +716,16 @@ pyang -f sample-xml-skeleton ${file}
             <height-accuracy/>
           </geodetic-system>
         </reference-frame>
+        <latitude/>
+        <longitude/>
+        <height/>
+        <x/>
+        <y/>
+        <z/>
         <velocity>
           <heading/>
           <speed/>
         </velocity>
-        <latitude/>
-        <longitude/>
-        <height/>
         <timestamp/>
       </geo-location>
     </locatable-item>
@@ -576,12 +740,3 @@ help in defining a more broadly useful geographic location object.
 
 We would also like to thank Acee Lindem and Qin Wu for their work on
 a geographic location object that led to this documents creation.
-
-* Contributors
-
-#+begin_example
-   Peter Lothberg
-   STUPI.AB
-
-   Email: roll@stupi.se
-#+end_example
