@@ -1,19 +1,13 @@
 # -*- fill-column: 69; org-confirm-babel-evaluate: nil -*-
 #+STARTUP: align entitiespretty hidestars inlineimages latexpreview noindent showall
-#
+#+OPTIONS: prop:nil title:t toc:t \n:nil ::t |:t ^:{} -:t *:t ':nil
+
 #+TITLE: YANG Geo Location
-#+AUTHOR: Christian E. Hopps
+#+AUTHOR: Christian Hopps
 #+EMAIL: chopps@chopps.org
-#
+#+AFFILIATION: LabN Consulting, L.L.C.
 #+RFC_NAME: draft-chopps-netmod-geo-location
 #+RFC_VERSION: 00
-#+RFC_AUTHORS: (("Christian Hopps" "chopps@chopps.org" "LabN Consulting, L.L.C."))
-#+RFC_XML_VERSION: 3
-#
-# Do: title, table-of-contents ::fixed-width-sections |tables
-# Do: ^:sup/sub with curly -:special-strings *:emphasis
-# Don't: prop:no-prop-drawers \n:preserve-linebreaks ':use-smart-quotes
-#+OPTIONS: prop:nil title:t toc:t \n:nil ::t |:t ^:{} -:t *:t ':nil
 
 #+begin_abstract
 This document defines a generic geographical location object YANG
@@ -144,7 +138,7 @@ module: geo-location
        |     +-- coord-accuracy?    decimal64
        |     +-- height-accuracy?   decimal64
        +-- (location)
-       |  +--:(latlong)
+       |  +--:(ellipsoid)
        |  |  +-- latitude     degrees
        |  |  +-- longitude    degrees
        |  |  +-- height?      decimal64
@@ -309,7 +303,7 @@ module: geo-location
             "The location data either in lat/long or cartesian values";
 
           mandatory true;
-          case latlong {
+          case ellipsoid {
             leaf latitude {
               type degrees;
               mandatory true;
@@ -443,6 +437,21 @@ this document.
 In order to verify portability while developing this module the
 following standards and standard APIs and were considered.
 
+*** IETF URI Value
+
+[[RFC5870]] defines a standard URI value for geographic location data. It
+includes the ability to specify the ~geodetic-value~ (it calls this
+~crs~) with the default being =wgs-84= [[WGS84]]. For the location data
+it allows 2 to 3 coordinates defined by the ~crs~ value. For accuracy
+it has a single ~u~ parameter for specifying uncertainty. The ~u~
+value is in fractions of meters and applies to all the location
+values. As the URI is a string, all values are specifies as strings
+and so are capable of as much precision as required.
+
+URI values can be mapped to and from the YANG grouping, with the
+caveat that some loss of precision (in the extremes) may occur due to
+the YANG grouping using decimal64 values rather than strings.
+
 *** W3C
 
 See https://w3c.github.io/geolocation-api/#dom-geolocationposition.
@@ -464,7 +473,7 @@ used by many application (e.g., Google Maps API).
     readonly attribute double? altitude;
     readonly attribute double accuracy;
     readonly attribute double? altitudeAccuracy;
-    readonly attribute double? heading;
+
     readonly attribute double? speed;
   };
 #+end_src
@@ -508,7 +517,37 @@ map the broader set of values supported by the YANG grouping.
 
 *** Geography Markup Language (GML)
 
-ISO has defined Geography Markup Language (GML) [[ISO.19136.2007]].
+ISO adopted the Geography Markup Language (GML) defined by OGC 07-036
+as [[ISO.19136.2007]]. GML defines, among many other things, a position
+type =gml:pos= which is a sequence of ~double~ values. This sequence
+of values represent coordinates in a given CRS. The CRS is either
+inherited from containing elements or directly specified as
+attributes ~srsName~ and optionally ~srsDimension~ on the ~gml:pos~.
+
+GML defines an Abstract CRS type which Concrete CRS types derive
+from. This allows for many types of CRS definitions. We are concerned
+with the Geodetic CRS type which can have either ellipsoidal or
+Cartesian coordinates. We believe that other non-Earth based CRS as
+well as virtual CRS should also be representable by the GML CRS types
+as well.
+
+Thus GML ~gml:pos~ values can be mapped directly to the YANG
+grouping, with the caveat that some loss of precision (in the
+extremes) may occur due to the YANG grouping using decimal64 values
+rather than doubles.
+
+Conversely, YANG grouping values can be mapped to GML as directly as
+the GML CRS available definitions allow with a minimum of Earth-based
+geodetic systems fully supported.
+
+GML also defines an observation value in ~gml:Observation~ which
+includes a timestamp value ~gml:validTime~ in addition to other
+components such as ~gml:using~ ~gml:target~ and ~gml:resultOf~. Only
+the timestamp is mappable to and from the YANG grouping. Furthermore
+~gml:validTime~ can either be an Instantaneous measure
+(~gml:TimeInstant~) or a time period (~gml:TimePeriod~). Only the
+instantaneous ~gml:TimeInstant~ is mappable to and from the YANG
+grouping.
 
 *** KML 2.3
 
@@ -522,53 +561,37 @@ The timestamp value is also specified as a string as in our YANG
 grouping.
 
 The KML location values use a geodetic datum defined in Annex A by
-the GML Coordinate Reference System (CRS) with identifier
-LonLat84_5773. The altitude value is measured from the vertical datum
+the GML Coordinate Reference System (CRS) [[ISO.19136.2007]] with identifier
+~LonLat84_5773~. The altitude value is measured from the vertical datum
 specified by [[WGS84]].
-
-*** IETF URI Value
-
-[[RFC5870]] defines a standard URI value for geographic location data. It
-includes the ability to specify the ~geodetic-value~ (it calls this
-~crs~) with the default being =wgs-84= [[WGS84]]. For the location data
-it allows 2 to 3 coordinates defined by the ~crs~ value. For accuracy
-it has a single ~u~ parameter for specifying uncertainty. The ~u~
-value is in fractions of meters and applies to all the location
-values. As the URI is a string, all values are specifies as strings
-and so are capable of as much precision as required.
-
-URI values can be mapped to and from the YANG grouping, with the
-caveat that some loss of precision (in the extremes) may occur due to
-the YANG grouping using decimal64 values rather than strings.
-
 
 * IANA Considerations
 ** Geodetic System Value Registry
 
-   This registry allocates names for standard geodetic systems. Often
-   these values are referred to using multiple names (e.g., full names or
-   multiple acronyms values). The intent of this registry is to provide a
-   single standard value for any given geodetic system.
+This registry allocates names for standard geodetic systems. Often
+these values are referred to using multiple names (e.g., full names
+or multiple acronyms values). The intent of this registry is to
+provide a single standard value for any given geodetic system.
 
-   The values SHOULD use an acronym when available, they MUST be
-   converted to lower case, and spaces MUST be changed to dashes "-".
+The values SHOULD use an acronym when available, they MUST be
+converted to lower case, and spaces MUST be changed to dashes "-".
 
-   It should be noted that [[RFC5870]] also has a registry for Geodetic
-   Systems (it calls CRS); however, this registry has a very strict
-   policy which is believed by the author to be too strict for easily
-   using.
+It should be noted that [[RFC5870]] also has a registry for Geodetic
+Systems (it calls CRS); however, this registry has a very strict
+policy which is believed by the author to be too strict for easily
+using.
 
-   An open question is whether we should create a new registry or
-   attempt to modify the existing one. It's worth noting that we
-   include the ability to specify any geodetic system including ones
-   designed for astronomical bodies other than the earth, as well as
-   ones based on alternate systems. These requirements may be too
-   broad for adpating the existing [[RFC5870]] registry.
+An open question is whether we should create a new registry or
+attempt to modify the existing one. It's worth noting that we include
+the ability to specify any geodetic system including ones designed
+for astronomical bodies other than the earth, as well as ones based
+on alternate systems. These requirements may be too broad for
+adpating the existing [[RFC5870]] registry.
 
-   The allocation policy for this registry is First Come First Served,
-   [RFC5226] as the intent is simply to avoid duplicate values.
+The allocation policy for this registry is First Come First Served,
+[RFC5226] as the intent is simply to avoid duplicate values.
 
-   The initial values for this registry are as follows.
+The initial values for this registry are as follows.
 
 # XXX check out: ISO TS 19127
 
@@ -742,3 +765,124 @@ help in defining a more broadly useful geographic location object.
 
 We would also like to thank Acee Lindem and Qin Wu for their work on
 a geographic location object that led to this documents creation.
+
+#+BEGIN_COMMENT
+REMOVE Notes from ISO reading...
+
+9.2 Relationship with ISO 19109..... 46
+12 GML schema — Coordinate reference systems schemas ... 97
+
+13 GML schema — Topology ............................ 138
+16 GML schema — Units, measures and values .......... 177
+18 GML schema — Observations......................... 195
+21.2 GML application schemas ........................ 227
+21.4 Schemas defining spatial geometries ............ 231
+
+gml:pointProperty
+gml:pos
+
+DirectPosition:
+GML PropertyType: gml:j
+GML Object Element: gml:Point
+GML Type: gml:PointType
+GML Property: gml:PointPropertyType
+
+GM_Point gml:Point gml:PointType gml:PointPropertyType
+
+GML Property Type
+
+gml:DirectPositionType
+
+
+98 - geodetic datum, vertical datum, temporal, engineering, image.
+98 - Ellipsoid CS, Vertical CS, Cartesian CS, Affine CS, Polar CS,
+Spherical CS, Cylindircal CS, Time CS, User Defined CS.
+
+
+
+
+,** GEODETIC CRS
+   Choices: Ellipsoid CS, Cartesian CS, Spherical CS.
+
+
+,*** Point Type
+10.3 Geometric primitives (0-dimensional)
+10.3.1 PointType, Point
+<complexType name="PointType">
+<complexContent>
+<extension base="gml:AbstractGeometricPrimitiveType">
+<sequence>
+<choice>
+<element ref="gml:pos" />
+<element ref="gml:coordinates" />
+</choice>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+<element name="Point" type="gml:PointType" substitutionGroup="gml:AbstractGeometricPrimitive" />
+A gml:Point is defined by a single coordinate tuple. The direct position of a point is specified by the gml:pos
+element which is of type gml:DirectPositionType.
+gml:Point implements ISO 19107 GM_Point (see D.2.3.3 and ISO 19107:2003, 6.3.11)
+
+
+
+
+,** Position
+
+10.1.4 Coordinate geometry, vectors and envelopes
+10.1.4.1 DirectPositionType, pos
+<complexType name="DirectPositionType">
+<simpleContent>
+<extension base="gml:doubleList">
+<attributeGroup ref="gml:SRSReferenceGroup"/>
+</extension>
+</simpleContent>
+</complexType>
+<element name="pos" type="gml:DirectPositionType"/>
+<sch:pattern>
+<sch:rule context="gml:pos">
+<sch:assert test="not(@srsDimension) or @srsName">The presence of a dimension attribute implies the
+presence of the srsName attribute.</sch:assert>
+<sch:assert test="not(@axisLabels) or @srsName">The presence of an axisLabels attribute implies the
+presence of the srsName attribute.</sch:assert>
+<sch:assert test="not(@uomLabels) or @srsName">The presence of an uomLabels attribute implies the
+presence of the srsName attribute.</sch:assert>
+<sch:assert test="(not(@uomLabels) and not(@axisLabels)) or (@uomLabels and @axisLabels)">The
+presence of an uomLabels attribute implies the presence of the axisLabels attribute and vice versa.</sch:assert>
+</sch:rule>
+</sch:pattern>
+Direct position instances hold the coordinates for a position within some coordinate reference system (CRS).
+Since direct positions, as data types, will often be included in larger objects (such as geometry elements) that
+have references to CRS, the srsName attribute will in general be missing, if this particular direct position is
+included in a larger element with such a reference to a CRS. In this case, the CRS is implicitly assumed to take on
+the value of the containing object's CRS.
+The attribute group gml:SRSReferenceGroup is described in 10.1.3.2. If no srsName attribute is given, the
+CRS shall be specified as part of the larger context this geometry element is part of, typically a geometric object
+like a point, curve, etc.
+NOTE It is expected that the attribute will be specified at the direct position level only in rare cases.
+D.2.3.4 specifies the implementation of ISO 19107 DirectPosition by
+these schema components.
+
+
+
+10.1.3.2 SRSReferenceGroup
+<attributeGroup name="SRSReferenceGroup">
+<attribute name="srsName" type="anyURI" />
+<attribute name="srsDimension" type="positiveInteger" />
+<attributeGroup ref="gml:SRSInformationGroup"/>
+</attributeGroup>
+The attribute group gml:SRSReferenceGroup is an optional reference to the CRS used by this geometry, with
+optional additional information to simplify the processing of the coordinates when a more complete definition of the
+CRS is not needed.
+In general the attribute srsName points to a CRS instance of gml:AbstractCoordinateReferenceSystem
+(see 12.2.3). For well-known references it is not required that the CRS description exists at the location the URI
+points to.
+If no srsName attribute is given, the CRS shall be specified as part of the larger context this geometry element is
+part of.
+EXAMPLE A geometric aggregate or a feature collection are typical ―larger contexts‖.
+NOTE The name ―srsName‖ has been chosen deliberately. In the current version of GML ―crsName‖ would be more
+appropriate, however, in future versions other types of spatial reference system, i.e. those using geographic identifiers, may be
+supported by GML, too.
+The optional attribute srsDimension is the number of coordinate values in a position. This dimension is deriv
+#+END_COMMENT
