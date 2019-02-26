@@ -655,7 +655,7 @@ The initial values for this registry are as follows.
     :END:
 *** KML22
     :PROPERTIES:
-    :REF_AUTHOR: Tim Wilson
+    :REF_EDITOR: Tim Wilson
     :REF_ORG: Open Geospatial Consortium
     :REF_TITLE: OGC KML (Version 2.2)
     :REF_DATE: 2008-04-14
@@ -663,7 +663,7 @@ The initial values for this registry are as follows.
     :END:
 *** KML23
     :PROPERTIES:
-    :REF_AUTHOR: David Burggraf
+    :REF_EDITOR: David Burggraf
     :REF_ORG: Open Geospatial Consortium
     :REF_TITLE: OGC KML 2.3
     :REF_DATE: 2015-08-04
