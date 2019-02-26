@@ -690,7 +690,7 @@ Table of Contents
    ones based on alternate systems.  These requirements may be too broad
    for adapting the existing [RFC5870] registry.
 
-   TODO: Open question, is FCFS _too_ easy, perhaps expert review would
+   TODO: Open question, is FCFS too easy, perhaps expert review would
    strike a good balance.  If expert review is acceptable, would it also
    be acceptable to update the policy on [RFC5870] and use it instead?
 

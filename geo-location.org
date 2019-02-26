@@ -623,7 +623,7 @@ designed for astronomical bodies other than the earth, as well as
 ones based on alternate systems. These requirements may be too broad
 for adapting the existing [[RFC5870]] registry.
 
-TODO: Open question, is FCFS *too* easy, perhaps expert review would
+TODO: Open question, is FCFS too easy, perhaps expert review would
 strike a good balance. If expert review is acceptable, would it also
 be acceptable to update the policy on [[RFC5870]] and use it instead?
 

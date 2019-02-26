@@ -54,7 +54,7 @@ as shown here.</t>
 </section>
 
 <section title="The Geo Location Object">
-<section title="Frame of Reference" anchor="orgad67a6c">
+<section title="Frame of Reference" anchor="org9ec810e">
 <t>The frame of reference (<tt>reference-frame</tt>) defines what the
 location values refer to and their meaning. The referred to
 object can be any astronomical body. It could be a planet such as
@@ -99,7 +99,7 @@ are specified as fractions of decimal degrees, and the <tt>height</tt>
 value is in fractions of meters. For the Cartesian choice <tt>x</tt>,
 <tt>y</tt> and <tt>z</tt> are in fractions of meters. In both choices the exact
 meanings of all of the values are defined by the <tt>geodetic-datum</tt>
-value in the <xref target="orgad67a6c"></xref>.</t>
+value in the <xref target="org9ec810e"></xref>.</t>
 
 </section>
 
@@ -627,7 +627,7 @@ designed for astronomical bodies other than the earth, as well as
 ones based on alternate systems. These requirements may be too broad
 for adapting the existing <xref target="RFC5870"/> registry.</t>
 
-<t>TODO: Open question, is FCFS <em>too</em> easy, perhaps expert review would
+<t>TODO: Open question, is FCFS too easy, perhaps expert review would
 strike a good balance. If expert review is acceptable, would it also
 be acceptable to update the policy on <xref target="RFC5870"/> and use it instead?</t>
 
