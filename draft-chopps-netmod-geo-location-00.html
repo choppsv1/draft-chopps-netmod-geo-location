@@ -1046,19 +1046,22 @@ Earth or any other astronomical object.<a href="#section-abstract-1" class="pilc
             </ul>
 </li>
           <li class="toc ulEmpty" id="section-boilerplate.3-1.7">
-            <p id="section-boilerplate.3-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-boilerplate.3-1.7.1" class="pilcrow">¶</a></p>
+            <p id="section-boilerplate.3-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a><a href="#section-boilerplate.3-1.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="toc ulEmpty" id="section-boilerplate.3-1.8">
-            <p id="section-boilerplate.3-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-boilerplate.3-1.8.1" class="pilcrow">¶</a></p>
+            <p id="section-boilerplate.3-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-boilerplate.3-1.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="toc ulEmpty" id="section-boilerplate.3-1.9">
-            <p id="section-boilerplate.3-1.9.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-examples" class="xref">Examples</a><a href="#section-boilerplate.3-1.9.1" class="pilcrow">¶</a></p>
+            <p id="section-boilerplate.3-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-boilerplate.3-1.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="toc ulEmpty" id="section-boilerplate.3-1.10">
-            <p id="section-boilerplate.3-1.10.1"><a href="#section-appendix.b" class="xref">Appendix B</a>.  <a href="#name-acknowledgements" class="xref">Acknowledgements</a><a href="#section-boilerplate.3-1.10.1" class="pilcrow">¶</a></p>
+            <p id="section-boilerplate.3-1.10.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-examples" class="xref">Examples</a><a href="#section-boilerplate.3-1.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="toc ulEmpty" id="section-boilerplate.3-1.11">
-            <p id="section-boilerplate.3-1.11.1"><a href="#section-appendix.c" class="xref"></a>  <a href="#name-authors-address" class="xref">Author's Address</a><a href="#section-boilerplate.3-1.11.1" class="pilcrow">¶</a></p>
+            <p id="section-boilerplate.3-1.11.1"><a href="#section-appendix.b" class="xref">Appendix B</a>.  <a href="#name-acknowledgements" class="xref">Acknowledgements</a><a href="#section-boilerplate.3-1.11.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="toc ulEmpty" id="section-boilerplate.3-1.12">
+            <p id="section-boilerplate.3-1.12.1"><a href="#section-appendix.c" class="xref"></a>  <a href="#name-authors-address" class="xref">Author's Address</a><a href="#section-boilerplate.3-1.12.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </nav>
@@ -1100,7 +1103,7 @@ as shown here.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
       <h2 id="name-the-geo-location-object">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-the-geo-location-object" class="section-name selfRef">The Geo Location Object</a>
       </h2>
-<div id="org54ed17b">
+<div id="orgc690b6d">
 <section id="section-2.1">
         <h3 id="name-frame-of-reference">
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-frame-of-reference" class="section-name selfRef">Frame of Reference</a>
@@ -1148,7 +1151,7 @@ are specified as fractions of decimal degrees, and the <code>height</code>
 value is in fractions of meters. For the Cartesian choice <code>x</code>,
 <code>y</code> and <code>z</code> are in fractions of meters. In both choices the exact
 meanings of all of the values are defined by the <code>geodetic-datum</code>
-value in the <a href="#org54ed17b" class="xref">Section 2.1</a>.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+value in the <a href="#orgc690b6d" class="xref">Section 2.1</a>.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-2.3">
         <h3 id="name-motion">
@@ -1169,35 +1172,36 @@ track very slow movement such as continental drift.<a href="#section-2.3-1" clas
         </h3>
 <p id="section-2.4-1">The following is the YANG tree diagram <span>[<a href="#RFC8340" class="xref">RFC8340</a>]</span> for the
 geo-location grouping.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-2.4-2">
+<span id="name-geo-location-yang-tree-diag"></span><figure id="figure-1">
+          <div class="artwork art-text alignLeft" id="section-2.4-2.1">
 <pre>
-module: geo-location
-
-  grouping geo-location
-    +-- geo-location
-       +-- reference-frame
-       |  +-- alternate-system?    string {alternate-systems}?
-       |  +-- astronomical-body?   string
-       |  +-- geodetic-system
-       |     +-- geodetic-datum?    string
-       |     +-- coord-accuracy?    decimal64
-       |     +-- height-accuracy?   decimal64
-       +-- (location)
-       |  +--:(ellipsoid)
-       |  |  +-- latitude     degrees
-       |  |  +-- longitude    degrees
-       |  |  +-- height?      decimal64
-       |  +--:(cartesian)
-       |     +-- x            decimal64
-       |     +-- y            decimal64
-       |     +-- z?           decimal64
-       +-- velocity
-       |  +-- heading?   degrees
-       |  +-- speed?     decimal64
-       +-- timestamp?         types:date-and-time
+   module: geo-location
+       +-- geo-location
+          +-- reference-frame
+          |  +-- alternate-system?    string {alternate-systems}?
+          |  +-- astronomical-body?   string
+          |  +-- geodetic-system
+          |     +-- geodetic-datum?    string
+          |     +-- coord-accuracy?    decimal64
+          |     +-- height-accuracy?   decimal64
+          +-- (location)
+          |  +--:(ellipsoid)
+          |  |  +-- latitude     degrees
+          |  |  +-- longitude    degrees
+          |  |  +-- height?      decimal64
+          |  +--:(cartesian)
+          |     +-- x            decimal64
+          |     +-- y            decimal64
+          |     +-- z?           decimal64
+          +-- velocity
+          |  +-- heading?   degrees
+          |  +-- speed?     decimal64
+          +-- timestamp?         types:date-and-time
 </pre>
-<a href="#section-2.4-2" class="pilcrow">¶</a>
 </div>
+<figcaption><a href="#figure-1">Figure 1</a>:
+<a href="#name-geo-location-yang-tree-diag" class="selfRef">Geo Location YANG tree diagram.</a>
+          </figcaption></figure>
 </section>
 </section>
 <section id="section-3">
@@ -1295,7 +1299,8 @@ module geo-location {
  leaf astronomical-body {
    type string {
      pattern
-       '[-0-9a-z #x22#x23#x5B#x5D!$%&amp;()*+,\./:;&lt;=&gt;?@\\^_`{|}~]+';
+       '[-0-9a-z #x22#x23#x5B#x5D' +
+ '!$%&amp;()*+,\./:;&lt;=&gt;?@\\^_`{|}~]+';
    }
    default "earth";
    description
@@ -1315,7 +1320,8 @@ module geo-location {
    leaf geodetic-datum {
      type string {
        pattern
- '[-0-9a-z#x22#x23#x5B#x5D!$%&amp;()*+,\./:;&lt;=&gt;?@\\^_`{|}~]+';
+ '[-0-9a-z#x22#x23#x5B#x5D' +
+   '!$%&amp;()*+,\./:;&lt;=&gt;?@\\^_`{|}~]+';
      }
      default "wgs-84";
      description
@@ -1541,7 +1547,7 @@ the YANG grouping using decimal64 values rather than strings.<a href="#section-5
 <p id="section-5.1.2-2">W3C Defines a geo-location API in <span>[<a href="#W3CGEO" class="xref">W3CGEO</a>]</span>. We show a snippet of
 code below which defines the geo-location data for this API. This is
 used by many application (e.g., Google Maps API).<a href="#section-5.1.2-2" class="pilcrow">¶</a></p>
-<span id="name-snippet-showing-geo-locatio"></span><figure id="figure-1">
+<span id="name-snippet-showing-geo-locatio"></span><figure id="figure-2">
             <div id="section-5.1.2-3.1">
 <pre class="sourcecode">
 interface GeolocationPosition {
@@ -1561,7 +1567,7 @@ interface GeolocationCoordinates {
 </pre>
 <a href="#section-5.1.2-3.1" class="pilcrow">¶</a>
 </div>
-<figcaption><a href="#figure-1">Figure 1</a>:
+<figcaption><a href="#figure-2">Figure 2</a>:
 <a href="#name-snippet-showing-geo-locatio" class="selfRef">Snippet Showing Geo-Location Defintion</a>
             </figcaption></figure>
 <section id="section-5.1.2.1">
@@ -1771,7 +1777,7 @@ for astronomical bodies other than the earth, as well as ones based
 on alternate systems. These requirements may be too broad for
 adpating the existing <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span> registry.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
 <p id="section-6.1-5">The allocation policy for this registry is First Come First Served,
-[RFC5226] as the intent is simply to avoid duplicate values.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
+<span>[<a href="#RFC8126" class="xref">RFC8126</a>]</span> as the intent is simply to avoid duplicate values.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
 <p id="section-6.1-6">The initial values for this registry are as follows.<a href="#section-6.1-6" class="pilcrow">¶</a></p>
 <table class="center" id="table-3">
           <caption><a href="#table-3">Table 3</a></caption>
@@ -1803,8 +1809,19 @@ adpating the existing <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span>
 </section>
 </section>
 <section id="section-7">
+      <h2 id="name-security-considerations">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-7-1">This document defines a common geo location grouping using the
+YANG data modeling language. The grouping itself has no security
+or privacy impact on the Internet, but the usage of the grouping
+in concrete YANG modules might have. The security considerations
+spelled out in the YANG 1.1 specification <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span> apply for this
+document as well.<a href="#section-7-1" class="pilcrow">¶</a></p>
+</section>
+<section id="section-8">
       <h2 id="name-normative-references">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
       </h2>
 <dl class="references">
 <dt id="ISO.6709.2008">[ISO.6709.2008]</dt>
@@ -1814,6 +1831,10 @@ adpating the existing <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span>
       <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03">March 1997</time>
           <span>, &lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<dt id="RFC8126">[RFC8126]</dt>
+      <dd>
+<span class="refAuthor">Cotton, M.</span><span class="refAuthor">, Leiba, B.</span><span class="refAuthor">, and T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06">June 2017</time>
+          <span>, &lt;<a href="https://www.rfc-editor.org/info/rfc8126">https://www.rfc-editor.org/info/rfc8126</a>&gt;</span>. </dd>
 <dt id="RFC8174">[RFC8174]</dt>
       <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05">May 2017</time>
@@ -1828,9 +1849,9 @@ adpating the existing <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span>
         <span>, &lt;<a href="http://earth-info.nga.mil/GandG/publications/tr8350.2/wgs84fin.pdf">http://earth-info.nga.mil/GandG/publications/tr8350.2/wgs84fin.pdf</a>&gt;</span>. </dd>
 </dl>
 </section>
-<section id="section-8">
+<section id="section-9">
       <h2 id="name-informative-references">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
       </h2>
 <dl class="references">
 <dt id="ISO.19136.2007">[ISO.19136.2007]</dt>
@@ -1838,16 +1859,20 @@ adpating the existing <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span>
 <span class="refAuthor">International Organization for Standardization</span>, <span class="refTitle">"ISO 19136:2007 Geographic information -- Geography Markup Language (GML)"</span>, <time datetime="2019-02">February 2019</time>. </dd>
 <dt id="KML22">[KML22]</dt>
       <dd>
-<span class="refAuthor">Wilson, T.</span>, <span class="refTitle">"OGC KML (Version 2.2)"</span>, <time datetime="2008-04-14">14 April 2008</time>
+<span class="refAuthor">Wilson, T., Ed.</span>, <span class="refTitle">"OGC KML (Version 2.2)"</span>, <time datetime="2008-04-14">14 April 2008</time>
         <span>, &lt;<a href="http://portal.opengeospatial.org/files/?artifact_id=27810">http://portal.opengeospatial.org/files/?artifact_id=27810</a>&gt;</span>. </dd>
 <dt id="KML23">[KML23]</dt>
       <dd>
-<span class="refAuthor">Burggraf, D.</span>, <span class="refTitle">"OGC KML 2.3"</span>, <time datetime="2015-08-04">4 August 2015</time>
+<span class="refAuthor">Burggraf, D., Ed.</span>, <span class="refTitle">"OGC KML 2.3"</span>, <time datetime="2015-08-04">4 August 2015</time>
         <span>, &lt;<a href="http://docs.opengeospatial.org/is/12-007r2/12-007r2.html">http://docs.opengeospatial.org/is/12-007r2/12-007r2.html</a>&gt;</span>. </dd>
 <dt id="RFC5870">[RFC5870]</dt>
       <dd>
 <span class="refAuthor">Mayrhofer, A.</span><span class="refAuthor"> and C. Spanring</span>, <span class="refTitle">"A Uniform Resource Identifier for Geographic Locations ('geo' URI)"</span>, <span class="seriesInfo">RFC 5870</span>, <span class="seriesInfo">DOI 10.17487/RFC5870</span>, <time datetime="2010-06">June 2010</time>
           <span>, &lt;<a href="https://www.rfc-editor.org/info/rfc5870">https://www.rfc-editor.org/info/rfc5870</a>&gt;</span>. </dd>
+<dt id="RFC7950">[RFC7950]</dt>
+      <dd>
+<span class="refAuthor">Bjorklund, M., Ed.</span>, <span class="refTitle">"The YANG 1.1 Data Modeling Language"</span>, <span class="seriesInfo">RFC 7950</span>, <span class="seriesInfo">DOI 10.17487/RFC7950</span>, <time datetime="2016-08">August 2016</time>
+          <span>, &lt;<a href="https://www.rfc-editor.org/info/rfc7950">https://www.rfc-editor.org/info/rfc7950</a>&gt;</span>. </dd>
 <dt id="RFC8340">[RFC8340]</dt>
       <dd>
 <span class="refAuthor">Bjorklund, M.</span><span class="refAuthor"> and L. Berger, Ed.</span>, <span class="refTitle">"YANG Tree Diagrams"</span>, <span class="seriesInfo">BCP 215</span>, <span class="seriesInfo">RFC 8340</span>, <span class="seriesInfo">DOI 10.17487/RFC8340</span>, <time datetime="2018-03">March 2018</time>
@@ -1863,7 +1888,7 @@ adpating the existing <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span>
 <a href="#section-appendix.a" class="section-number selfRef">Appendix A. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
       </h2>
 <p id="section-appendix.a-1">Below is a fictitious module that uses the geo-location grouping.<a href="#section-appendix.a-1" class="pilcrow">¶</a></p>
-<span id="name-example-yang-module-using-g"></span><figure id="figure-2">
+<span id="name-example-yang-module-using-g"></span><figure id="figure-3">
         <div id="section-appendix.a-2.1">
 <pre class="sourcecode">
 module uses-geo-location {
@@ -1877,7 +1902,10 @@ module uses-geo-location {
   list locatable-items {
     key name;
     description "leaf list of locatable items";
-    leaf name { type string; description "name of locatable item"; }
+    leaf name {
+      type string;
+      description "name of locatable item";
+    }
     container locatable-item {
       description "A locatable item";
       uses geo:geo-location;
@@ -1887,7 +1915,7 @@ module uses-geo-location {
 </pre>
 <a href="#section-appendix.a-2.1" class="pilcrow">¶</a>
 </div>
-<figcaption><a href="#figure-2">Figure 2</a>:
+<figcaption><a href="#figure-3">Figure 3</a>:
 <a href="#name-example-yang-module-using-g" class="selfRef">Example YANG module using geo location.</a>
         </figcaption></figure>
 <p id="section-appendix.a-3">Below is a the YANG tree for the fictitious module that uses the
@@ -1906,12 +1934,18 @@ module: uses-geo-location
            |     +--rw geodetic-datum?    string
            |     +--rw coord-accuracy?    decimal64
            |     +--rw height-accuracy?   decimal64
+           +--rw (location)
+           |  +--:(ellipsoid)
+           |  |  +--rw latitude     degrees
+           |  |  +--rw longitude    degrees
+           |  |  +--rw height?      decimal64
+           |  +--:(cartesian)
+           |     +--rw x            decimal64
+           |     +--rw y            decimal64
+           |     +--rw z?           decimal64
            +--rw velocity
            |  +--rw heading?   degrees
            |  +--rw speed?     decimal64
-           +--rw latitude           degrees
-           +--rw longitude          degrees
-           +--rw height?            decimal64
            +--rw timestamp?         types:date-and-time
 </pre>
 <a href="#section-appendix.a-4" class="pilcrow">¶</a>

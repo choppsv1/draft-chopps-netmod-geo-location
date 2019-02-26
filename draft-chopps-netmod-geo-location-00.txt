@@ -68,8 +68,9 @@ Table of Contents
              5.1.4.  KML 2.3
    6.  IANA Considerations
        6.1.  Geodetic System Value Registry
-   7.  Normative References
-   8.  Informative References
+   7.  Security Considerations
+   8.  Normative References
+   9.  Informative References
    Appendix A.  Examples
    Appendix B.  Acknowledgements
    Author's Address
@@ -171,30 +172,30 @@ Table of Contents
    The following is the YANG tree diagram [RFC8340] for the geo-location
    grouping.
 
-   module: geo-location
+     module: geo-location
+         +-- geo-location
+            +-- reference-frame
+            |  +-- alternate-system?    string {alternate-systems}?
+            |  +-- astronomical-body?   string
+            |  +-- geodetic-system
+            |     +-- geodetic-datum?    string
+            |     +-- coord-accuracy?    decimal64
+            |     +-- height-accuracy?   decimal64
+            +-- (location)
+            |  +--:(ellipsoid)
+            |  |  +-- latitude     degrees
+            |  |  +-- longitude    degrees
+            |  |  +-- height?      decimal64
+            |  +--:(cartesian)
+            |     +-- x            decimal64
+            |     +-- y            decimal64
+            |     +-- z?           decimal64
+            +-- velocity
+            |  +-- heading?   degrees
+            |  +-- speed?     decimal64
+            +-- timestamp?         types:date-and-time
 
-     grouping geo-location
-       +-- geo-location
-          +-- reference-frame
-          |  +-- alternate-system?    string {alternate-systems}?
-          |  +-- astronomical-body?   string
-          |  +-- geodetic-system
-          |     +-- geodetic-datum?    string
-          |     +-- coord-accuracy?    decimal64
-          |     +-- height-accuracy?   decimal64
-          +-- (location)
-          |  +--:(ellipsoid)
-          |  |  +-- latitude     degrees
-          |  |  +-- longitude    degrees
-          |  |  +-- height?      decimal64
-          |  +--:(cartesian)
-          |     +-- x            decimal64
-          |     +-- y            decimal64
-          |     +-- z?           decimal64
-          +-- velocity
-          |  +-- heading?   degrees
-          |  +-- speed?     decimal64
-          +-- timestamp?         types:date-and-time
+                 Figure 1: Geo Location YANG tree diagram.
 
 3.  YANG Module
 
@@ -287,7 +288,8 @@ Table of Contents
            leaf astronomical-body {
              type string {
                pattern
-                 '[-0-9a-z #x22#x23#x5B#x5D!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
+                 '[-0-9a-z #x22#x23#x5B#x5D' +
+                   '!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
              }
              default "earth";
              description
@@ -307,7 +309,8 @@ Table of Contents
              leaf geodetic-datum {
                type string {
                  pattern
-                   '[-0-9a-z#x22#x23#x5B#x5D!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
+                   '[-0-9a-z#x22#x23#x5B#x5D' +
+                     '!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
                }
                default "wgs-84";
                description
@@ -524,7 +527,7 @@ Table of Contents
         readonly attribute double? speed;
       };
 
-              Figure 1: Snippet Showing Geo-Location Defintion
+              Figure 2: Snippet Showing Geo-Location Defintion
 
 5.1.2.1.  Compare with YANG Model
 
@@ -679,7 +682,7 @@ Table of Contents
    for adpating the existing [RFC5870] registry.
 
    The allocation policy for this registry is First Come First Served,
-   [RFC5226] as the intent is simply to avoid duplicate values.
+   [RFC8126] as the intent is simply to avoid duplicate values.
 
    The initial values for this registry are as follows.
 
@@ -697,7 +700,16 @@ Table of Contents
 
                                  Table 3
 
-7.  Normative References
+7.  Security Considerations
+
+   This document defines a common geo location grouping using the YANG
+   data modeling language.  The grouping itself has no security or
+   privacy impact on the Internet, but the usage of the grouping in
+   concrete YANG modules might have.  The security considerations
+   spelled out in the YANG 1.1 specification [RFC7950] apply for this
+   document as well.
+
+8.  Normative References
 
    [ISO.6709.2008]
               International Organization for Standardization, "ISO
@@ -708,6 +720,11 @@ Table of Contents
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
+              Writing an IANA Considerations Section in RFCs", BCP 26,
+              RFC 8126, DOI 10.17487/RFC8126, June 2017,
+              <https://www.rfc-editor.org/info/rfc8126>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -724,7 +741,7 @@ Table of Contents
               <http://earth-info.nga.mil/GandG/publications/tr8350.2/
               wgs84fin.pdf>.
 
-8.  Informative References
+9.  Informative References
 
    [ISO.19136.2007]
               International Organization for Standardization, "ISO
@@ -743,6 +760,10 @@ Table of Contents
               Identifier for Geographic Locations ('geo' URI)",
               RFC 5870, DOI 10.17487/RFC5870, June 2010,
               <https://www.rfc-editor.org/info/rfc5870>.
+
+   [RFC7950]  Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
+              RFC 7950, DOI 10.17487/RFC7950, August 2016,
+              <https://www.rfc-editor.org/info/rfc7950>.
 
    [RFC8340]  Bjorklund, M. and L. Berger, Ed., "YANG Tree Diagrams",
               BCP 215, RFC 8340, DOI 10.17487/RFC8340, March 2018,
@@ -767,7 +788,10 @@ Appendix A.  Examples
         list locatable-items {
           key name;
           description "leaf list of locatable items";
-          leaf name { type string; description "name of locatable item"; }
+          leaf name {
+            type string;
+            description "name of locatable item";
+          }
           container locatable-item {
             description "A locatable item";
             uses geo:geo-location;
@@ -775,7 +799,7 @@ Appendix A.  Examples
         }
       }
 
-             Figure 2: Example YANG module using geo location.
+             Figure 3: Example YANG module using geo location.
 
    Below is a the YANG tree for the fictitious module that uses the geo-
    location grouping.
@@ -792,12 +816,18 @@ Appendix A.  Examples
               |     +--rw geodetic-datum?    string
               |     +--rw coord-accuracy?    decimal64
               |     +--rw height-accuracy?   decimal64
+              +--rw (location)
+              |  +--:(ellipsoid)
+              |  |  +--rw latitude     degrees
+              |  |  +--rw longitude    degrees
+              |  |  +--rw height?      decimal64
+              |  +--:(cartesian)
+              |     +--rw x            decimal64
+              |     +--rw y            decimal64
+              |     +--rw z?           decimal64
               +--rw velocity
               |  +--rw heading?   degrees
               |  +--rw speed?     decimal64
-              +--rw latitude           degrees
-              +--rw longitude          degrees
-              +--rw height?            decimal64
               +--rw timestamp?         types:date-and-time
 
    Below is some example YANG XML data for the fictitious module that

@@ -23,6 +23,14 @@ $(BASE).xml: $(ORG) ox-rfc.el
 %-$(VERSION).pdf: %.xml
 	xml2rfc --pdf -o $@ $<
 
+# ------------
+# Verification
+# ------------
+
+idnits: $(VBASE).txt
+	if [ ! -e idnits ]; then curl -fLO 'http://tools.ietf.org/tools/idnits/idnits'; chmod 755 idnits; fi
+	./idnits --verbose $<
+
 # NRL-NMF
 # google maps api
 # http://www.orekit.org/ - orekit

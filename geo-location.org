@@ -8,6 +8,7 @@
 #+AFFILIATION: LabN Consulting, L.L.C.
 #+RFC_NAME: draft-chopps-netmod-geo-location
 #+RFC_VERSION: 00
+#+RFC_XML_VERSION: 3
 
 #+begin_abstract
 This document defines a generic geographical location object YANG
@@ -121,35 +122,34 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
 
 #+NAME: Geo location YANG tree diagram.
 #+begin_src bash  :var file=geo-location-module :results output verbatim replace :wrap example :exports results
-pyang --tree-print-groupings -f tree ${file}
+pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;/grouping geo/d;s/^/  /'
 #+end_src
 
+#+CAPTION: Geo Location YANG tree diagram.
 #+RESULTS: Geo location YANG tree diagram.
 #+begin_example
-module: geo-location
-
-  grouping geo-location
-    +-- geo-location
-       +-- reference-frame
-       |  +-- alternate-system?    string {alternate-systems}?
-       |  +-- astronomical-body?   string
-       |  +-- geodetic-system
-       |     +-- geodetic-datum?    string
-       |     +-- coord-accuracy?    decimal64
-       |     +-- height-accuracy?   decimal64
-       +-- (location)
-       |  +--:(ellipsoid)
-       |  |  +-- latitude     degrees
-       |  |  +-- longitude    degrees
-       |  |  +-- height?      decimal64
-       |  +--:(cartesian)
-       |     +-- x            decimal64
-       |     +-- y            decimal64
-       |     +-- z?           decimal64
-       +-- velocity
-       |  +-- heading?   degrees
-       |  +-- speed?     decimal64
-       +-- timestamp?         types:date-and-time
+  module: geo-location
+      +-- geo-location
+         +-- reference-frame
+         |  +-- alternate-system?    string {alternate-systems}?
+         |  +-- astronomical-body?   string
+         |  +-- geodetic-system
+         |     +-- geodetic-datum?    string
+         |     +-- coord-accuracy?    decimal64
+         |     +-- height-accuracy?   decimal64
+         +-- (location)
+         |  +--:(ellipsoid)
+         |  |  +-- latitude     degrees
+         |  |  +-- longitude    degrees
+         |  |  +-- height?      decimal64
+         |  +--:(cartesian)
+         |     +-- x            decimal64
+         |     +-- y            decimal64
+         |     +-- z?           decimal64
+         +-- velocity
+         |  +-- heading?   degrees
+         |  +-- speed?     decimal64
+         +-- timestamp?         types:date-and-time
 #+end_example
 
 
@@ -159,236 +159,238 @@ module: geo-location
 #+header: :cmdline "-fyang --yang-canonical"
 #+header: :file geo-location.yang :results output code silent
 #+begin_src yang :exports code
-  // -*- fill-column: 69 -*-
-  module geo-location {
-    namespace "urn:ietf:geo-location";
-    prefix geo;
-    import ietf-yang-types { prefix types; }
+    // -*- fill-column: 69 -*-
+    module geo-location {
+      namespace "urn:ietf:geo-location";
+      prefix geo;
+      import ietf-yang-types { prefix types; }
 
-    organization
-      "IETF NETMOD Working Group (NETMOD)";
-    contact
-      "Christian Hopps <chopps@chopps.org>";
+      organization
+        "IETF NETMOD Working Group (NETMOD)";
+      contact
+        "Christian Hopps <chopps@chopps.org>";
 
-    // RFC Ed.: replace XXXX with actual RFC number and
-    // remove this note.
+      // RFC Ed.: replace XXXX with actual RFC number and
+      // remove this note.
 
-    description
-      "This module defines a grouping of a container object for
-       specifying a location on or around an astronomical object (e.g.,
-       The Earth).
-
-       Copyright (c) 2018 IETF Trust and the persons identified as
-       authors of the code. All rights reserved.
-
-       Redistribution and use in source and binary forms, with or
-       without modification, is permitted pursuant to, and subject to
-       the license terms contained in, the Simplified BSD License set
-       forth in Section 4.c of the IETF Trust's Legal Provisions
-       Relating to IETF Documents
-       (https://trustee.ietf.org/license-info).
-
-       The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
-       NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
-       'MAY', and 'OPTIONAL' in this document are to be interpreted as
-       described in BCP 14 [RFC2119] [RFC8174] when, and only when,
-       they appear in all capitals, as shown here.
-
-       This version of this YANG module is part of RFC XXXX
-       (https://tools.ietf.org/html/rfcXXXX); see the RFC itself for
-       full legal notices.";
-
-    // RFC Ed.: replace XXXX with actual RFC number and
-    // remove this note.
-
-    revision 2019-02-17 {
-      description "Initial Revision";
-      reference "RFC XXXX: YANG Geo Location";
-    }
-
-    typedef degrees {
-      type decimal64 {
-        fraction-digits 16;
-      }
-      units "decimal degrees";
-      description "Coordinate value.";
-    }
-
-    feature alternate-systems {
       description
-        "This feature means the device supports specifying locations
-         using alternate systems for reference frames.";
-    }
+        "This module defines a grouping of a container object for
+         specifying a location on or around an astronomical object (e.g.,
+         The Earth).
 
-    grouping geo-location {
-     description
-        "Grouping to identify a location on an astronomical object.";
+         Copyright (c) 2018 IETF Trust and the persons identified as
+         authors of the code. All rights reserved.
 
-      container geo-location {
+         Redistribution and use in source and binary forms, with or
+         without modification, is permitted pursuant to, and subject to
+         the license terms contained in, the Simplified BSD License set
+         forth in Section 4.c of the IETF Trust's Legal Provisions
+         Relating to IETF Documents
+         (https://trustee.ietf.org/license-info).
+
+         The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+         NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+         'MAY', and 'OPTIONAL' in this document are to be interpreted as
+         described in BCP 14 [RFC2119] [RFC8174] when, and only when,
+         they appear in all capitals, as shown here.
+
+         This version of this YANG module is part of RFC XXXX
+         (https://tools.ietf.org/html/rfcXXXX); see the RFC itself for
+         full legal notices.";
+
+      // RFC Ed.: replace XXXX with actual RFC number and
+      // remove this note.
+
+      revision 2019-02-17 {
+        description "Initial Revision";
+        reference "RFC XXXX: YANG Geo Location";
+      }
+
+      typedef degrees {
+        type decimal64 {
+          fraction-digits 16;
+        }
+        units "decimal degrees";
+        description "Coordinate value.";
+      }
+
+      feature alternate-systems {
         description
-          "A location on an astronomical body (e.g., The Earth)
-           somewhere in a universe.";
+          "This feature means the device supports specifying locations
+           using alternate systems for reference frames.";
+      }
 
-        container reference-frame {
+      grouping geo-location {
+       description
+          "Grouping to identify a location on an astronomical object.";
+
+        container geo-location {
           description
-            "The Frame of Reference for the location values.";
+            "A location on an astronomical body (e.g., The Earth)
+             somewhere in a universe.";
 
-          leaf alternate-system {
-            if-feature alternate-systems;
-            type string;
+          container reference-frame {
             description
-              "The system in which the astronomical body and
-               geodetic-datum is defined. Normally, this value is not
-               present and the system is the natural universe; however,
-               when present this value allows for specifying alternate
-               systems (e.g., virtual realities). An alternate-system
-               modifies the definition (but not the type) of the other
-               values in the reference frame.";
-          }
-          leaf astronomical-body {
-            type string {
-              pattern
-                '[-0-9a-z #x22#x23#x5B#x5D!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
+              "The Frame of Reference for the location values.";
+
+            leaf alternate-system {
+              if-feature alternate-systems;
+              type string;
+              description
+                "The system in which the astronomical body and
+                 geodetic-datum is defined. Normally, this value is not
+                 present and the system is the natural universe; however,
+                 when present this value allows for specifying alternate
+                 systems (e.g., virtual realities). An alternate-system
+                 modifies the definition (but not the type) of the other
+                 values in the reference frame.";
             }
-            default "earth";
-            description
-              "An astronomical body as named by the International
-               Astronomical Union (IAU) or according to the alternate
-               system if specified. Examples include 'sun' (our star),
-               'earth' (our planet), 'moon' (our moon), 'enceladus' (a
-               moon of Saturn), 'ceres' (an asteroid),
-               '67p/churyumov-gerasimenko (a comet). The value should
-               be comprised of all lower case ASCII characters not
-               including control characters (i.e., values 32..64, and
-               91..126)";
-          }
-          container geodetic-system {
-            description
-              "The geodetic system of the location data.";
-            leaf geodetic-datum {
+            leaf astronomical-body {
               type string {
                 pattern
-                  '[-0-9a-z#x22#x23#x5B#x5D!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
+                  '[-0-9a-z #x22#x23#x5B#x5D' +
+                    '!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
               }
-              default "wgs-84";
+              default "earth";
               description
-                "A geodetic-datum defining the meaning of latitude,
-                 longitude and height. The default is 'wgs-84' which is
-                 used by the Global Positioning System (GPS)";
+                "An astronomical body as named by the International
+                 Astronomical Union (IAU) or according to the alternate
+                 system if specified. Examples include 'sun' (our star),
+                 'earth' (our planet), 'moon' (our moon), 'enceladus' (a
+                 moon of Saturn), 'ceres' (an asteroid),
+                 '67p/churyumov-gerasimenko (a comet). The value should
+                 be comprised of all lower case ASCII characters not
+                 including control characters (i.e., values 32..64, and
+                 91..126)";
             }
-            leaf coord-accuracy {
-              type decimal64 {
-                fraction-digits 6;
-              }
+            container geodetic-system {
               description
-                "The accuracy of the latitude longitute pair. When
-                 coord-accuracy is specified it overrides the
-                 geodetic-datam implied accuracy. If Cartesian
-                 coordinates are in use this accuracy corresponds to
-                 the X and Y components";
-            }
-            leaf height-accuracy {
-              type decimal64 {
-                fraction-digits 6;
+                "The geodetic system of the location data.";
+              leaf geodetic-datum {
+                type string {
+                  pattern
+                    '[-0-9a-z#x22#x23#x5B#x5D' +
+                      '!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
+                }
+                default "wgs-84";
+                description
+                  "A geodetic-datum defining the meaning of latitude,
+                   longitude and height. The default is 'wgs-84' which is
+                   used by the Global Positioning System (GPS)";
               }
-              units "meters";
-              description
-                "The accuracy of height value. When specified it
-                 overrides the geodetic-datum implied default. If
-                 Cartesian coordinates ar in use this accuracy
-                 corresponds to the Z component.";
+              leaf coord-accuracy {
+                type decimal64 {
+                  fraction-digits 6;
+                }
+                description
+                  "The accuracy of the latitude longitute pair. When
+                   coord-accuracy is specified it overrides the
+                   geodetic-datam implied accuracy. If Cartesian
+                   coordinates are in use this accuracy corresponds to
+                   the X and Y components";
+              }
+              leaf height-accuracy {
+                type decimal64 {
+                  fraction-digits 6;
+                }
+                units "meters";
+                description
+                  "The accuracy of height value. When specified it
+                   overrides the geodetic-datum implied default. If
+                   Cartesian coordinates ar in use this accuracy
+                   corresponds to the Z component.";
+              }
             }
           }
-        }
-        choice location {
-          mandatory true;
-          description
-            "The location data either in lat/long or cartesian values";
-          case ellipsoid {
-            leaf latitude {
-              type degrees;
-              mandatory true;
-              description
-                "The latitude value on the astronomical body. The
-                 definition and precision of this measurement is
-                 indicated by the reference-frame value.";
-            }
-            leaf longitude {
-              type degrees;
-              mandatory true;
-              description
-                "The longitude value on the astronomical body. The
-                 definition and precision of this measurement is
-                 indicated by the reference-frame.";
-            }
-            leaf height {
-              type decimal64 {
-                fraction-digits 6;
-              }
-              units "meters";
-              description
-                "Height from a reference 0 value. The precision and '0'
-                 value is defined by the reference-frame.";
-            }
-          }
-          case cartesian {
-            leaf x {
-              type decimal64 {
-                fraction-digits 6;
-              }
-              mandatory true;
-              description
-                "The X value as defined by the reference-frame.";
-            }
-            leaf y {
-              type decimal64 {
-                fraction-digits 6;
-              }
-              mandatory true;
-              description
-                "The Y value as defined by the reference-frame.";
-            }
-            leaf z {
-              type decimal64 {
-                fraction-digits 6;
-              }
-              units "meters";
-              description
-                "The Z value as defined by the reference-frame.";
-            }
-          }
-        }
-        container velocity {
-          description
-            "If the object is in motion the velocity describes this
-             motion at the the time given by the timestamp.";
-
-          leaf heading {
-              type degrees;
-              description
-                  "If the object is in motion then the heading will
-                  indicate the direction in which the object is
-                  currently moving. It is specified in fractions of
-                  degrees from true north of the astronomical object";
-          }
-          leaf speed {
-            type decimal64 {
-              fraction-digits 12;
-            }
-            units "meters per second";
+          choice location {
+            mandatory true;
             description
-              "If the object is in motion then the speed will
-               indicate the rate at which the object is currently
-               traveling along it's heading.";
+              "The location data either in lat/long or cartesian values";
+            case ellipsoid {
+              leaf latitude {
+                type degrees;
+                mandatory true;
+                description
+                  "The latitude value on the astronomical body. The
+                   definition and precision of this measurement is
+                   indicated by the reference-frame value.";
+              }
+              leaf longitude {
+                type degrees;
+                mandatory true;
+                description
+                  "The longitude value on the astronomical body. The
+                   definition and precision of this measurement is
+                   indicated by the reference-frame.";
+              }
+              leaf height {
+                type decimal64 {
+                  fraction-digits 6;
+                }
+                units "meters";
+                description
+                  "Height from a reference 0 value. The precision and '0'
+                   value is defined by the reference-frame.";
+              }
+            }
+            case cartesian {
+              leaf x {
+                type decimal64 {
+                  fraction-digits 6;
+                }
+                mandatory true;
+                description
+                  "The X value as defined by the reference-frame.";
+              }
+              leaf y {
+                type decimal64 {
+                  fraction-digits 6;
+                }
+                mandatory true;
+                description
+                  "The Y value as defined by the reference-frame.";
+              }
+              leaf z {
+                type decimal64 {
+                  fraction-digits 6;
+                }
+                units "meters";
+                description
+                  "The Z value as defined by the reference-frame.";
+              }
+            }
           }
-        }
-        leaf timestamp {
-          type types:date-and-time;
-          description "Reference time when location was recorded.";
+          container velocity {
+            description
+              "If the object is in motion the velocity describes this
+               motion at the the time given by the timestamp.";
+
+            leaf heading {
+                type degrees;
+                description
+                    "If the object is in motion then the heading will
+                    indicate the direction in which the object is
+                    currently moving. It is specified in fractions of
+                    degrees from true north of the astronomical object";
+            }
+            leaf speed {
+              type decimal64 {
+                fraction-digits 12;
+              }
+              units "meters per second";
+              description
+                "If the object is in motion then the speed will
+                 indicate the rate at which the object is currently
+                 traveling along it's heading.";
+            }
+          }
+          leaf timestamp {
+            type types:date-and-time;
+            description "Reference time when location was recorded.";
+          }
         }
       }
     }
-  }
 #+end_src
 
 * ISO 6709:2008 Conformance
@@ -613,7 +615,7 @@ on alternate systems. These requirements may be too broad for
 adpating the existing [[RFC5870]] registry.
 
 The allocation policy for this registry is First Come First Served,
-[RFC5226] as the intent is simply to avoid duplicate values.
+[[RFC8126]] as the intent is simply to avoid duplicate values.
 
 The initial values for this registry are as follows.
 
@@ -627,6 +629,15 @@ The initial values for this registry are as follows.
    | mola-vik-1 | MOLA Height, IAU Viking-1 PM (Mars)       |
    | wgs-84     | World Geodetic System 1984 [[WGS84]] (EGM-96) |
 
+* Security Considerations
+
+   This document defines a common geo location grouping using the
+   YANG data modeling language. The grouping itself has no security
+   or privacy impact on the Internet, but the usage of the grouping
+   in concrete YANG modules might have. The security considerations
+   spelled out in the YANG 1.1 specification [[RFC7950]] apply for this
+   document as well.
+
 * References
 ** Normative References
 *** ISO.6709.2008
@@ -637,6 +648,7 @@ The initial values for this registry are as follows.
     :END:
 *** RFC2119
 *** RFC8174
+*** RFC8126
 *** RFC8342
 *** WGS84
     :PROPERTIES:
@@ -670,6 +682,7 @@ The initial values for this registry are as follows.
     :REF_TARGET: http://docs.opengeospatial.org/is/12-007r2/12-007r2.html
     :END:
 *** RFC5870
+*** RFC7950
 *** RFC8340
 *** W3CGEO
     :PROPERTIES:
@@ -700,7 +713,10 @@ Below is a fictitious module that uses the geo-location grouping.
     list locatable-items {
       key name;
       description "leaf list of locatable items";
-      leaf name { type string; description "name of locatable item"; }
+      leaf name {
+        type string;
+        description "name of locatable item";
+      }
       container locatable-item {
         description "A locatable item";
         uses geo:geo-location;
@@ -714,7 +730,8 @@ geo-location grouping.
 
 #+NAME: Example YANG tree diagram of geo location use.
 #+begin_src bash  :var file=uses-geo-location :results output verbatim replace :wrap example :exports results
-pyang -P /tmp -f tree ${file}
+pyang --tree-print-groupings -f tree ${file}
+# pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
 #+end_src
 
 #+RESULTS: Example YANG tree diagram of geo location use.
@@ -731,12 +748,18 @@ module: uses-geo-location
            |     +--rw geodetic-datum?    string
            |     +--rw coord-accuracy?    decimal64
            |     +--rw height-accuracy?   decimal64
+           +--rw (location)
+           |  +--:(ellipsoid)
+           |  |  +--rw latitude     degrees
+           |  |  +--rw longitude    degrees
+           |  |  +--rw height?      decimal64
+           |  +--:(cartesian)
+           |     +--rw x            decimal64
+           |     +--rw y            decimal64
+           |     +--rw z?           decimal64
            +--rw velocity
            |  +--rw heading?   degrees
            |  +--rw speed?     decimal64
-           +--rw latitude           degrees
-           +--rw longitude          degrees
-           +--rw height?            decimal64
            +--rw timestamp?         types:date-and-time
 #+end_example
 

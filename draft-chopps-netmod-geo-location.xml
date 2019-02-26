@@ -54,7 +54,7 @@ as shown here.</t>
 </section>
 
 <section title="The Geo Location Object">
-<section title="Frame of Reference" anchor="org54ed17b">
+<section title="Frame of Reference" anchor="org7739d4f">
 <t>The frame of reference (<tt>reference-frame</tt>) defines what the
 location values refer to and their meaning. The referred to
 object can be any astronomical body. It could be a planet such as
@@ -99,7 +99,7 @@ are specified as fractions of decimal degrees, and the <tt>height</tt>
 value is in fractions of meters. For the Cartesian choice <tt>x</tt>,
 <tt>y</tt> and <tt>z</tt> are in fractions of meters. In both choices the exact
 meanings of all of the values are defined by the <tt>geodetic-datum</tt>
-value in the <xref target="org54ed17b"></xref>.</t>
+value in the <xref target="org7739d4f"></xref>.</t>
 
 </section>
 
@@ -119,32 +119,30 @@ track very slow movement such as continental drift.</t>
 <t>The following is the YANG tree diagram <xref target="RFC8340"/> for the
 geo-location grouping.</t>
 
-<artwork><![CDATA[
-module: geo-location
-
-  grouping geo-location
-    +-- geo-location
-       +-- reference-frame
-       |  +-- alternate-system?    string {alternate-systems}?
-       |  +-- astronomical-body?   string
-       |  +-- geodetic-system
-       |     +-- geodetic-datum?    string
-       |     +-- coord-accuracy?    decimal64
-       |     +-- height-accuracy?   decimal64
-       +-- (location)
-       |  +--:(ellipsoid)
-       |  |  +-- latitude     degrees
-       |  |  +-- longitude    degrees
-       |  |  +-- height?      decimal64
-       |  +--:(cartesian)
-       |     +-- x            decimal64
-       |     +-- y            decimal64
-       |     +-- z?           decimal64
-       +-- velocity
-       |  +-- heading?   degrees
-       |  +-- speed?     decimal64
-       +-- timestamp?         types:date-and-time
-]]></artwork>
+<figure><name>Geo Location YANG tree diagram.</name><artwork><![CDATA[
+  module: geo-location
+      +-- geo-location
+         +-- reference-frame
+         |  +-- alternate-system?    string {alternate-systems}?
+         |  +-- astronomical-body?   string
+         |  +-- geodetic-system
+         |     +-- geodetic-datum?    string
+         |     +-- coord-accuracy?    decimal64
+         |     +-- height-accuracy?   decimal64
+         +-- (location)
+         |  +--:(ellipsoid)
+         |  |  +-- latitude     degrees
+         |  |  +-- longitude    degrees
+         |  |  +-- height?      decimal64
+         |  +--:(cartesian)
+         |     +-- x            decimal64
+         |     +-- y            decimal64
+         |     +-- z?           decimal64
+         +-- velocity
+         |  +-- heading?   degrees
+         |  +-- speed?     decimal64
+         +-- timestamp?         types:date-and-time
+]]></artwork></figure>
 
 </section>
 
@@ -242,7 +240,8 @@ module geo-location {
 	leaf astronomical-body {
 	  type string {
 	    pattern
-	      '[-0-9a-z #x22#x23#x5B#x5D!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
+	      '[-0-9a-z #x22#x23#x5B#x5D' +
+		'!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
 	  }
 	  default "earth";
 	  description
@@ -262,7 +261,8 @@ module geo-location {
 	  leaf geodetic-datum {
 	    type string {
 	      pattern
-		'[-0-9a-z#x22#x23#x5B#x5D!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
+		'[-0-9a-z#x22#x23#x5B#x5D' +
+		  '!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
 	    }
 	    default "wgs-84";
 	    description
@@ -619,7 +619,7 @@ on alternate systems. These requirements may be too broad for
 adpating the existing <xref target="RFC5870"/> registry.</t>
 
 <t>The allocation policy for this registry is First Come First Served,
-[RFC5226] as the intent is simply to avoid duplicate values.</t>
+<xref target="RFC8126"/> as the intent is simply to avoid duplicate values.</t>
 
 <t>The initial values for this registry are as follows.</t>
 
@@ -635,6 +635,16 @@ adpating the existing <xref target="RFC5870"/> registry.</t>
 </table>
 
 </section>
+
+</section>
+
+<section title="Security Considerations">
+<t>This document defines a common geo location grouping using the
+YANG data modeling language. The grouping itself has no security
+or privacy impact on the Internet, but the usage of the grouping
+in concrete YANG modules might have. The security considerations
+spelled out in the YANG 1.1 specification <xref target="RFC7950"/> apply for this
+document as well.</t>
 
 </section>
 
@@ -676,6 +686,21 @@ adpating the existing <xref target="RFC5870"/> registry.</t>
 </reference>
 
 
+<reference  anchor='RFC8126' target='https://www.rfc-editor.org/info/rfc8126'>
+<front>
+<title>Guidelines for Writing an IANA Considerations Section in RFCs</title>
+<author initials='M.' surname='Cotton' fullname='M. Cotton'><organization /></author>
+<author initials='B.' surname='Leiba' fullname='B. Leiba'><organization /></author>
+<author initials='T.' surname='Narten' fullname='T. Narten'><organization /></author>
+<date year='2017' month='June' />
+<abstract><t>Many protocols make use of points of extensibility that use constants to identify various protocol parameters.  To ensure that the values in these fields do not have conflicting uses and to promote interoperability, their allocations are often coordinated by a central record keeper.  For IETF protocols, that role is filled by the Internet Assigned Numbers Authority (IANA).</t><t>To make assignments in a given registry prudently, guidance describing the conditions under which new values should be assigned, as well as when and how modifications to existing values can be made, is needed.  This document defines a framework for the documentation of these guidelines by specification authors, in order to assure that the provided guidance for the IANA Considerations is clear and addresses the various issues that are likely in the operation of a registry.</t><t>This is the third edition of this document; it obsoletes RFC 5226.</t></abstract>
+</front>
+<seriesInfo name='BCP' value='26'/>
+<seriesInfo name='RFC' value='8126'/>
+<seriesInfo name='DOI' value='10.17487/RFC8126'/>
+</reference>
+
+
 <reference  anchor='RFC8342' target='https://www.rfc-editor.org/info/rfc8342'>
 <front>
 <title>Network Management Datastore Architecture (NMDA)</title>
@@ -710,14 +735,14 @@ adpating the existing <xref target="RFC5870"/> registry.</t>
 <reference anchor="KML22" target='http://portal.opengeospatial.org/files/?artifact_id=27810'>
 <front>
 <title>OGC KML (Version 2.2)</title>
-<author fullname='Tim Wilson'><organization>Open Geospatial Consortium</organization></author>
+<author fullname='Tim Wilson' role='editor'><organization>Open Geospatial Consortium</organization></author>
 <date day="14" month="4" year="2008"/>
 </front>
 </reference>
 <reference anchor="KML23" target='http://docs.opengeospatial.org/is/12-007r2/12-007r2.html'>
 <front>
 <title>OGC KML 2.3</title>
-<author fullname='David Burggraf'><organization>Open Geospatial Consortium</organization></author>
+<author fullname='David Burggraf' role='editor'><organization>Open Geospatial Consortium</organization></author>
 <date day="4" month="8" year="2015"/>
 </front>
 </reference>
@@ -733,6 +758,18 @@ adpating the existing <xref target="RFC5870"/> registry.</t>
 </front>
 <seriesInfo name='RFC' value='5870'/>
 <seriesInfo name='DOI' value='10.17487/RFC5870'/>
+</reference>
+
+
+<reference  anchor='RFC7950' target='https://www.rfc-editor.org/info/rfc7950'>
+<front>
+<title>The YANG 1.1 Data Modeling Language</title>
+<author initials='M.' surname='Bjorklund' fullname='M. Bjorklund' role='editor'><organization /></author>
+<date year='2016' month='August' />
+<abstract><t>YANG is a data modeling language used to model configuration data, state data, Remote Procedure Calls, and notifications for network management protocols.  This document describes the syntax and semantics of version 1.1 of the YANG language.  YANG version 1.1 is a maintenance release of the YANG language, addressing ambiguities and defects in the original specification.  There are a small number of backward incompatibilities from YANG version 1.  This document also specifies the YANG mappings to the Network Configuration Protocol (NETCONF).</t></abstract>
+</front>
+<seriesInfo name='RFC' value='7950'/>
+<seriesInfo name='DOI' value='10.17487/RFC7950'/>
 </reference>
 
 
@@ -771,7 +808,10 @@ module uses-geo-location {
   list locatable-items {
     key name;
     description "leaf list of locatable items";
-    leaf name { type string; description "name of locatable item"; }
+    leaf name {
+      type string;
+      description "name of locatable item";
+    }
     container locatable-item {
       description "A locatable item";
       uses geo:geo-location;
@@ -796,12 +836,18 @@ module: uses-geo-location
            |     +--rw geodetic-datum?    string
            |     +--rw coord-accuracy?    decimal64
            |     +--rw height-accuracy?   decimal64
+           +--rw (location)
+           |  +--:(ellipsoid)
+           |  |  +--rw latitude     degrees
+           |  |  +--rw longitude    degrees
+           |  |  +--rw height?      decimal64
+           |  +--:(cartesian)
+           |     +--rw x            decimal64
+           |     +--rw y            decimal64
+           |     +--rw z?           decimal64
            +--rw velocity
            |  +--rw heading?   degrees
            |  +--rw speed?     decimal64
-           +--rw latitude           degrees
-           +--rw longitude          degrees
-           +--rw height?            decimal64
            +--rw timestamp?         types:date-and-time
 ]]></artwork>
 
