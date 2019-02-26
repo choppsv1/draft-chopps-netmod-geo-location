@@ -669,36 +669,52 @@ Table of Contents
    The values SHOULD use an acronym when available, they MUST be
    converted to lower case, and spaces MUST be changed to dashes "-".
 
-   It should be noted that [RFC5870] also has a registry for Geodetic
-   Systems (it calls CRS); however, this registry has a very strict
-   policy which is believed by the author to be too strict for easily
-   using.
+   Each entry should be sufficient to define the 3 coordinate values (2
+   if height is not required).  So for example the "wgs-84" is defined
+   as WGS-84 with the geoid updated by at least [EGM96] for height
+   values.  Specific entries for [EGM96] and [EGM08] are present if a
+   more precise definition of the data is required.
 
-   TODO: Open question is whether we should create a new registry or
-   attempt to modify the existing one.  It's worth noting that we
+   It should be noted that [RFC5870] also creates a registry for
+   Geodetic Systems (it calls CRS); however, this registry has a very
+   strict modification policy.  The authors of [RFC5870] have the stated
+   goal of making CRS registration hard to avoid proliferation of CRS
+   values.  As our module defines alternate systems and has a broader
+   (beyond earth) scope, the registry defined below is meant to be more
+   easily modified.
+
+   TODO: Open question, should we create a new registry here or attempt
+   to modify the one created by [RFC5870].  It's worth noting that we
    include the ability to specify any geodetic system including ones
    designed for astronomical bodies other than the earth, as well as
    ones based on alternate systems.  These requirements may be too broad
    for adapting the existing [RFC5870] registry.
+
+   TODO: Open question, is FCFS _too_ easy, perhaps expert review would
+   strike a good balance.  If expert review is acceptable, would it also
+   be acceptable to update the policy on [RFC5870] and use it instead?
 
    The allocation policy for this registry is First Come First Served,
    [RFC8126] as the intent is simply to avoid duplicate values.
 
    The initial values for this registry are as follows.
 
-       +------------+---------------------------------------------+
-       | Name       | Description                                 |
-       +============+=============================================+
-       | egm-2008   | Earth Gravitational Model 2008              |
-       +------------+---------------------------------------------+
-       | me         | Mean Earth/Polar Axis (Moon)                |
-       +------------+---------------------------------------------+
-       | mola-vik-1 | MOLA Height, IAU Viking-1 PM (Mars)         |
-       +------------+---------------------------------------------+
-       | wgs-84     | World Geodetic System 1984 [WGS84] (EGM-96) |
-       +------------+---------------------------------------------+
+   +------------+------------------------------------------------------+
+   | Name       | Description                                          |
+   +============+======================================================+
+   | me         | Mean Earth/Polar Axis (Moon)                         |
+   +------------+------------------------------------------------------+
+   | mola-vik-1 | MOLA Height, IAU Viking-1 PM (Mars)                  |
+   +------------+------------------------------------------------------+
+   | wgs-84-96  | World Geodetic System 1984 [WGS84] w/ EGM96          |
+   +------------+------------------------------------------------------+
+   | wgs-84-08  | World Geodetic System 1984 [WGS84] w/ [EGM08]        |
+   +------------+------------------------------------------------------+
+   | wgs-84     | World Geodetic System 1984 [WGS84] (EGM96 or         |
+   |            | better)                                              |
+   +------------+------------------------------------------------------+
 
-                                 Table 3
+                                  Table 3
 
 7.  Security Considerations
 
@@ -710,6 +726,19 @@ Table of Contents
    document as well.
 
 8.  Normative References
+
+   [EGM08]    and , "An Earth Gravitational Model to Degree 2160:
+              EGM08.", Presented at the 2008 General Assembly of the
+              European Geosciences Union, Vienna, Arpil13-18, 2008,
+              2008,
+              <http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008/
+              egm08_wgs84.html>.
+
+   [EGM96]    and , "The Development of the Joint NASA GSFC and the
+              National Imagery and Mapping Agency (NIMA) Geopotential
+              Model EGM96.", Technical Report NASA/TP-1998-206861, NASA,
+              Greenbelt., 1998,
+              <https://cddis.nasa.gov/926/egm96/egm96.html>.
 
    [ISO.6709.2008]
               International Organization for Standardization, "ISO
@@ -848,6 +877,7 @@ Appendix A.  Examples
               <timestamp>2012-03-31T16:00:00Z</timestamp>
               <latitude>48.8583424</latitude>
               <longitude>2.3375084</longitude>
+              <height>35</height>
             </geo-location>
           </locatable-item>
           <locatable-item>

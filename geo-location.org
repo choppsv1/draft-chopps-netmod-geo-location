@@ -603,17 +603,29 @@ provide a single standard value for any given geodetic system.
 The values SHOULD use an acronym when available, they MUST be
 converted to lower case, and spaces MUST be changed to dashes "-".
 
-It should be noted that [[RFC5870]] also has a registry for Geodetic
-Systems (it calls CRS); however, this registry has a very strict
-policy which is believed by the author to be too strict for easily
-using.
+Each entry should be sufficient to define the 3 coordinate values (2
+if height is not required). So for example the =wgs-84= is defined as
+WGS-84 with the geoid updated by at least [[EGM96]] for height values.
+Specific entries for [[EGM96]] and [[EGM08]] are present if a more precise
+definition of the data is required.
 
-TODO: Open question is whether we should create a new registry or
-attempt to modify the existing one. It's worth noting that we include
-the ability to specify any geodetic system including ones designed
-for astronomical bodies other than the earth, as well as ones based
-on alternate systems. These requirements may be too broad for
-adapting the existing [[RFC5870]] registry.
+It should be noted that [[RFC5870]] also creates a registry for Geodetic
+Systems (it calls CRS); however, this registry has a very strict
+modification policy. The authors of [[RFC5870]] have the stated goal of
+making CRS registration hard to avoid proliferation of CRS values. As
+our module defines alternate systems and has a broader (beyond earth)
+scope, the registry defined below is meant to be more easily modified.
+
+TODO: Open question, should we create a new registry here or attempt
+to modify the one created by [[RFC5870]]. It's worth noting that we
+include the ability to specify any geodetic system including ones
+designed for astronomical bodies other than the earth, as well as
+ones based on alternate systems. These requirements may be too broad
+for adapting the existing [[RFC5870]] registry.
+
+TODO: Open question, is FCFS *too* easy, perhaps expert review would
+strike a good balance. If expert review is acceptable, would it also
+be acceptable to update the policy on [[RFC5870]] and use it instead?
 
 The allocation policy for this registry is First Come First Served,
 [[RFC8126]] as the intent is simply to avoid duplicate values.
@@ -623,12 +635,13 @@ The initial values for this registry are as follows.
 # XXX check out: ISO TS 19127
 
    #+name: Initial Geodetic-Datum Values
-   | Name       | Description                               |
-   |------------+-------------------------------------------|
-   | egm-2008   | Earth Gravitational Model 2008            |
-   | me         | Mean Earth/Polar Axis (Moon)              |
-   | mola-vik-1 | MOLA Height, IAU Viking-1 PM (Mars)       |
-   | wgs-84     | World Geodetic System 1984 [[WGS84]] (EGM-96) |
+   | Name       | Description                                        |
+   |------------+----------------------------------------------------|
+   | me         | Mean Earth/Polar Axis (Moon)                       |
+   | mola-vik-1 | MOLA Height, IAU Viking-1 PM (Mars)                |
+   | wgs-84-96  | World Geodetic System 1984 [[WGS84]] w/ EGM96          |
+   | wgs-84-08  | World Geodetic System 1984 [[WGS84]] w/ [[EGM08]]          |
+   | wgs-84     | World Geodetic System 1984 [[WGS84]] (EGM96 or better) |
 
 * Security Considerations
 
@@ -641,6 +654,22 @@ The initial values for this registry are as follows.
 
 * References
 ** Normative References
+*** EGM08
+    :PROPERTIES:
+    :REF_TITLE: An Earth Gravitational Model to Degree 2160: EGM08.
+    :REF_AUTHOR: ("Pavlis N.K." "Holmes S.A." "Kenyon S.C." "Factor J.K.")
+    :REF_DATE: 2008
+    :REF_CONTENT: Presented at the 2008 General Assembly of the European Geosciences Union, Vienna, Arpil13-18, 2008
+    :REF_TARGET: http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008/egm08_wgs84.html
+    :END:
+*** EGM96
+    :PROPERTIES:
+    :REF_TITLE: The Development of the Joint NASA GSFC and the National Imagery and Mapping Agency (NIMA) Geopotential Model EGM96.
+    :REF_AUTHOR: ("Lemoine, F.G." "Kenyon S.C." "Factor J.K." "Trimmer R.G." "Pavlis N.K." "Chinn D.S." "Cox C.M." "Klosko S.M." "Luthcke S.B." "Torrence M.H." "Wang Y.M." "Williamson R.G." "Pavlis E.C." "Rapp R.H." "Olson T.R.")
+    :REF_CONTENT: Technical Report NASA/TP-1998-206861, NASA, Greenbelt.
+    :REF_DATE: 1998
+    :REF_TARGET: https://cddis.nasa.gov/926/egm96/egm96.html
+    :END:
 *** ISO.6709.2008
     :PROPERTIES:
     :REF_ORG: International Organization for Standardization
@@ -800,6 +829,7 @@ No errors found.
           <timestamp>2012-03-31T16:00:00Z</timestamp>
           <latitude>48.8583424</latitude>
           <longitude>2.3375084</longitude>
+          <height>35</height>
         </geo-location>
       </locatable-item>
       <locatable-item>

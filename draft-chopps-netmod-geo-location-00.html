@@ -1103,7 +1103,7 @@ as shown here.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
       <h2 id="name-the-geo-location-object">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-the-geo-location-object" class="section-name selfRef">The Geo Location Object</a>
       </h2>
-<div id="org076c26a">
+<div id="orgd8a7991">
 <section id="section-2.1">
         <h3 id="name-frame-of-reference">
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-frame-of-reference" class="section-name selfRef">Frame of Reference</a>
@@ -1151,7 +1151,7 @@ are specified as fractions of decimal degrees, and the <code>height</code>
 value is in fractions of meters. For the Cartesian choice <code>x</code>,
 <code>y</code> and <code>z</code> are in fractions of meters. In both choices the exact
 meanings of all of the values are defined by the <code>geodetic-datum</code>
-value in the <a href="#org076c26a" class="xref">Section 2.1</a>.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+value in the <a href="#orgd8a7991" class="xref">Section 2.1</a>.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-2.3">
         <h3 id="name-motion">
@@ -1767,19 +1767,29 @@ or multiple acronyms values). The intent of this registry is to
 provide a single standard value for any given geodetic system.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.1-2">The values SHOULD use an acronym when available, they MUST be
 converted to lower case, and spaces MUST be changed to dashes "-".<a href="#section-6.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.1-3">It should be noted that <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span> also has a registry for Geodetic
+<p id="section-6.1-3">Each entry should be sufficient to define the 3 coordinate values (2
+if height is not required). So for example the <code>wgs-84</code> is defined as
+WGS-84 with the geoid updated by at least <span>[<a href="#EGM96" class="xref">EGM96</a>]</span> for height values.
+Specific entries for <span>[<a href="#EGM96" class="xref">EGM96</a>]</span> and <span>[<a href="#EGM08" class="xref">EGM08</a>]</span> are present if a more precise
+definition of the data is required.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.1-4">It should be noted that <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span> also creates a registry for Geodetic
 Systems (it calls CRS); however, this registry has a very strict
-policy which is believed by the author to be too strict for easily
-using.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.1-4">TODO: Open question is whether we should create a new registry or
-attempt to modify the existing one. It's worth noting that we include
-the ability to specify any geodetic system including ones designed
-for astronomical bodies other than the earth, as well as ones based
-on alternate systems. These requirements may be too broad for
-adapting the existing <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span> registry.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
-<p id="section-6.1-5">The allocation policy for this registry is First Come First Served,
-<span>[<a href="#RFC8126" class="xref">RFC8126</a>]</span> as the intent is simply to avoid duplicate values.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
-<p id="section-6.1-6">The initial values for this registry are as follows.<a href="#section-6.1-6" class="pilcrow">¶</a></p>
+modification policy. The authors of <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span> have the stated goal of
+making CRS registration hard to avoid proliferation of CRS values. As
+our module defines alternate systems and has a broader (beyond earth)
+scope, the registry defined below is meant to be more easily modified.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+<p id="section-6.1-5">TODO: Open question, should we create a new registry here or attempt
+to modify the one created by <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span>. It's worth noting that we
+include the ability to specify any geodetic system including ones
+designed for astronomical bodies other than the earth, as well as
+ones based on alternate systems. These requirements may be too broad
+for adapting the existing <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span> registry.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
+<p id="section-6.1-6">TODO: Open question, is FCFS <em>too</em> easy, perhaps expert review would
+strike a good balance. If expert review is acceptable, would it also
+be acceptable to update the policy on <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span> and use it instead?<a href="#section-6.1-6" class="pilcrow">¶</a></p>
+<p id="section-6.1-7">The allocation policy for this registry is First Come First Served,
+<span>[<a href="#RFC8126" class="xref">RFC8126</a>]</span> as the intent is simply to avoid duplicate values.<a href="#section-6.1-7" class="pilcrow">¶</a></p>
+<p id="section-6.1-8">The initial values for this registry are as follows.<a href="#section-6.1-8" class="pilcrow">¶</a></p>
 <table class="center" id="table-3">
           <caption><a href="#table-3">Table 3</a></caption>
 <thead>
@@ -1790,10 +1800,6 @@ adapting the existing <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span>
           </thead>
           <tbody>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">egm-2008</td>
-              <td class="text-left" rowspan="1" colspan="1">Earth Gravitational Model 2008</td>
-            </tr>
-            <tr>
               <td class="text-left" rowspan="1" colspan="1">me</td>
               <td class="text-left" rowspan="1" colspan="1">Mean Earth/Polar Axis (Moon)</td>
             </tr>
@@ -1802,8 +1808,17 @@ adapting the existing <span>[<a href="#RFC5870" class="xref">RFC5870</a>]</span>
               <td class="text-left" rowspan="1" colspan="1">MOLA Height, IAU Viking-1 PM (Mars)</td>
             </tr>
             <tr>
+              <td class="text-left" rowspan="1" colspan="1">wgs-84-96</td>
+              <td class="text-left" rowspan="1" colspan="1">World Geodetic System 1984 <span>[<a href="#WGS84" class="xref">WGS84</a>]</span> w/ EGM96</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">wgs-84-08</td>
+              <td class="text-left" rowspan="1" colspan="1">World Geodetic System 1984 <span>[<a href="#WGS84" class="xref">WGS84</a>]</span> w/ <span>[<a href="#EGM08" class="xref">EGM08</a>]</span>
+</td>
+            </tr>
+            <tr>
               <td class="text-left" rowspan="1" colspan="1">wgs-84</td>
-              <td class="text-left" rowspan="1" colspan="1">World Geodetic System 1984 <span>[<a href="#WGS84" class="xref">WGS84</a>]</span> (EGM-96)</td>
+              <td class="text-left" rowspan="1" colspan="1">World Geodetic System 1984 <span>[<a href="#WGS84" class="xref">WGS84</a>]</span> (EGM96 or better)</td>
             </tr>
           </tbody>
         </table>
@@ -1825,6 +1840,14 @@ document as well.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
       </h2>
 <dl class="references">
+<dt id="EGM08">[EGM08]</dt>
+      <dd>
+<span class="refAuthor">N.K., P.</span><span class="refAuthor">, S.A., H.</span><span class="refAuthor">, S.C., K.</span><span class="refAuthor">, and F. J.K.</span>, <span class="refTitle">"An Earth Gravitational Model to Degree 2160: EGM08."</span>, <span class="refContent">Presented at the 2008 General Assembly of the European Geosciences Union, Vienna, Arpil13-18, 2008</span>, <time datetime="2008">2008</time>
+        <span>, &lt;<a href="http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008/egm08_wgs84.html">http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008/egm08_wgs84.html</a>&gt;</span>. </dd>
+<dt id="EGM96">[EGM96]</dt>
+      <dd>
+<span class="refAuthor">F.G., L.</span><span class="refAuthor">, S.C., K.</span><span class="refAuthor">, J.K., F.</span><span class="refAuthor">, R.G., T.</span><span class="refAuthor">, N.K., P.</span><span class="refAuthor">, D.S., C.</span><span class="refAuthor">, C.M., C.</span><span class="refAuthor">, S.M., K.</span><span class="refAuthor">, S.B., L.</span><span class="refAuthor">, M.H., T.</span><span class="refAuthor">, Y.M., W.</span><span class="refAuthor">, R.G., W.</span><span class="refAuthor">, E.C., P.</span><span class="refAuthor">, R.H., R.</span><span class="refAuthor">, and O. T.R.</span>, <span class="refTitle">"The Development of the Joint NASA GSFC and the National Imagery and Mapping Agency (NIMA) Geopotential Model EGM96."</span>, <span class="refContent">Technical Report NASA/TP-1998-206861, NASA, Greenbelt.</span>, <time datetime="1998">1998</time>
+        <span>, &lt;<a href="https://cddis.nasa.gov/926/egm96/egm96.html">https://cddis.nasa.gov/926/egm96/egm96.html</a>&gt;</span>. </dd>
 <dt id="ISO.6709.2008">[ISO.6709.2008]</dt>
       <dd>
 <span class="refAuthor">International Organization for Standardization</span>, <span class="refTitle">"ISO 6709:2008 Standard representation of geographic point location by coordinates."</span>, <time datetime="2008">2008</time>. </dd>
@@ -1971,6 +1994,7 @@ uses the geo-location grouping.<a href="#section-appendix.a-5" class="pilcrow">�
  &lt;timestamp&gt;2012-03-31T16:00:00Z&lt;/timestamp&gt;
  &lt;latitude&gt;48.8583424&lt;/latitude&gt;
  &lt;longitude&gt;2.3375084&lt;/longitude&gt;
+ &lt;height&gt;35&lt;/height&gt;
       &lt;/geo-location&gt;
     &lt;/locatable-item&gt;
     &lt;locatable-item&gt;

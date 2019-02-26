@@ -54,7 +54,7 @@ as shown here.</t>
 </section>
 
 <section title="The Geo Location Object">
-<section title="Frame of Reference" anchor="org076c26a">
+<section title="Frame of Reference" anchor="orgd8a7991">
 <t>The frame of reference (<tt>reference-frame</tt>) defines what the
 location values refer to and their meaning. The referred to
 object can be any astronomical body. It could be a planet such as
@@ -99,7 +99,7 @@ are specified as fractions of decimal degrees, and the <tt>height</tt>
 value is in fractions of meters. For the Cartesian choice <tt>x</tt>,
 <tt>y</tt> and <tt>z</tt> are in fractions of meters. In both choices the exact
 meanings of all of the values are defined by the <tt>geodetic-datum</tt>
-value in the <xref target="org076c26a"></xref>.</t>
+value in the <xref target="orgd8a7991"></xref>.</t>
 
 </section>
 
@@ -607,17 +607,29 @@ provide a single standard value for any given geodetic system.</t>
 <t>The values SHOULD use an acronym when available, they MUST be
 converted to lower case, and spaces MUST be changed to dashes "-".</t>
 
-<t>It should be noted that <xref target="RFC5870"/> also has a registry for Geodetic
-Systems (it calls CRS); however, this registry has a very strict
-policy which is believed by the author to be too strict for easily
-using.</t>
+<t>Each entry should be sufficient to define the 3 coordinate values (2
+if height is not required). So for example the <tt>wgs-84</tt> is defined as
+WGS-84 with the geoid updated by at least <xref target="EGM96"/> for height values.
+Specific entries for <xref target="EGM96"/> and <xref target="EGM08"/> are present if a more precise
+definition of the data is required.</t>
 
-<t>TODO: Open question is whether we should create a new registry or
-attempt to modify the existing one. It's worth noting that we include
-the ability to specify any geodetic system including ones designed
-for astronomical bodies other than the earth, as well as ones based
-on alternate systems. These requirements may be too broad for
-adapting the existing <xref target="RFC5870"/> registry.</t>
+<t>It should be noted that <xref target="RFC5870"/> also creates a registry for Geodetic
+Systems (it calls CRS); however, this registry has a very strict
+modification policy. The authors of <xref target="RFC5870"/> have the stated goal of
+making CRS registration hard to avoid proliferation of CRS values. As
+our module defines alternate systems and has a broader (beyond earth)
+scope, the registry defined below is meant to be more easily modified.</t>
+
+<t>TODO: Open question, should we create a new registry here or attempt
+to modify the one created by <xref target="RFC5870"/>. It's worth noting that we
+include the ability to specify any geodetic system including ones
+designed for astronomical bodies other than the earth, as well as
+ones based on alternate systems. These requirements may be too broad
+for adapting the existing <xref target="RFC5870"/> registry.</t>
+
+<t>TODO: Open question, is FCFS <em>too</em> easy, perhaps expert review would
+strike a good balance. If expert review is acceptable, would it also
+be acceptable to update the policy on <xref target="RFC5870"/> and use it instead?</t>
 
 <t>The allocation policy for this registry is First Come First Served,
 <xref target="RFC8126"/> as the intent is simply to avoid duplicate values.</t>
@@ -628,10 +640,11 @@ adapting the existing <xref target="RFC5870"/> registry.</t>
 
 <thead><tr><th>Name</th><th>Description</th></tr>
 </thead>
-<tbody><tr><td>egm-2008</td><td>Earth Gravitational Model 2008</td></tr>
-<tr><td>me</td><td>Mean Earth/Polar Axis (Moon)</td></tr>
+<tbody><tr><td>me</td><td>Mean Earth/Polar Axis (Moon)</td></tr>
 <tr><td>mola-vik-1</td><td>MOLA Height, IAU Viking-1 PM (Mars)</td></tr>
-<tr><td>wgs-84</td><td>World Geodetic System 1984 <xref target="WGS84"/> (EGM-96)</td></tr>
+<tr><td>wgs-84-96</td><td>World Geodetic System 1984 <xref target="WGS84"/> w/ EGM96</td></tr>
+<tr><td>wgs-84-08</td><td>World Geodetic System 1984 <xref target="WGS84"/> w/ <xref target="EGM08"/></td></tr>
+<tr><td>wgs-84</td><td>World Geodetic System 1984 <xref target="WGS84"/> (EGM96 or better)</td></tr>
 </tbody>
 </table>
 
@@ -652,6 +665,37 @@ document as well.</t>
 </middle>
 <back>
 <references title="Normative References">
+<reference anchor="EGM08" target='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008/egm08_wgs84.html'>
+<front>
+<title>An Earth Gravitational Model to Degree 2160: EGM08.</title>
+<author fullname='Pavlis N.K.'><organization/></author>
+<author fullname='Holmes S.A.'><organization/></author>
+<author fullname='Kenyon S.C.'><organization/></author>
+<author fullname='Factor J.K.'><organization/></author>
+<date year="2008"/>
+</front><refcontent>Presented at the 2008 General Assembly of the European Geosciences Union, Vienna, Arpil13-18, 2008</refcontent>
+</reference>
+<reference anchor="EGM96" target='https://cddis.nasa.gov/926/egm96/egm96.html'>
+<front>
+<title>The Development of the Joint NASA GSFC and the National Imagery and Mapping Agency (NIMA) Geopotential Model EGM96.</title>
+<author fullname='Lemoine, F.G.'><organization/></author>
+<author fullname='Kenyon S.C.'><organization/></author>
+<author fullname='Factor J.K.'><organization/></author>
+<author fullname='Trimmer R.G.'><organization/></author>
+<author fullname='Pavlis N.K.'><organization/></author>
+<author fullname='Chinn D.S.'><organization/></author>
+<author fullname='Cox C.M.'><organization/></author>
+<author fullname='Klosko S.M.'><organization/></author>
+<author fullname='Luthcke S.B.'><organization/></author>
+<author fullname='Torrence M.H.'><organization/></author>
+<author fullname='Wang Y.M.'><organization/></author>
+<author fullname='Williamson R.G.'><organization/></author>
+<author fullname='Pavlis E.C.'><organization/></author>
+<author fullname='Rapp R.H.'><organization/></author>
+<author fullname='Olson T.R.'><organization/></author>
+<date year="1998"/>
+</front><refcontent>Technical Report NASA/TP-1998-206861, NASA, Greenbelt.</refcontent>
+</reference>
 <reference anchor="ISO.6709.2008">
 <front>
 <title>ISO 6709:2008 Standard representation of geographic point location by coordinates.</title>
@@ -871,6 +915,7 @@ uses the geo-location grouping.</t>
 	<timestamp>2012-03-31T16:00:00Z</timestamp>
 	<latitude>48.8583424</latitude>
 	<longitude>2.3375084</longitude>
+	<height>35</height>
       </geo-location>
     </locatable-item>
     <locatable-item>
