@@ -247,7 +247,8 @@ module: geo-location
           }
           leaf astronomical-body {
             type string {
-              pattern '[-0-9a-z #x22#x23#x5B#x5D!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
+              pattern
+                '[-0-9a-z #x22#x23#x5B#x5D!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
             }
             default "earth";
             description
@@ -266,7 +267,8 @@ module: geo-location
               "The geodetic system of the location data.";
             leaf geodetic-datum {
               type string {
-                pattern '[-0-9a-z#x22#x23#x5B#x5D!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
+                pattern
+                  '[-0-9a-z#x22#x23#x5B#x5D!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
               }
               default "wgs-84";
               description
@@ -299,10 +301,9 @@ module: geo-location
           }
         }
         choice location {
+          mandatory true;
           description
             "The location data either in lat/long or cartesian values";
-
-          mandatory true;
           case ellipsoid {
             leaf latitude {
               type degrees;
@@ -359,8 +360,8 @@ module: geo-location
         }
         container velocity {
           description
-            "If the object is in motion the velocity describes this motion at
-             the the time given by the timestamp.";
+            "If the object is in motion the velocity describes this
+             motion at the the time given by the timestamp.";
 
           leaf heading {
               type degrees;
@@ -555,15 +556,38 @@ KML2.2 [[KML22]] (formerly Keyhole Markup Language) was submitted by
 Google to Open Geospatial Consortium (OGC)
 [[https://www.opengeospatial.org/]] and was adopted. The latest version
 as of this writing is [[KML23]]. This schema includes geographic location
-data in some of it's objects (e.g., the <camera> object). This data
-is provided in string format and corresponds to the [[W3CGEO]] values.
-The timestamp value is also specified as a string as in our YANG
-grouping.
+data in some of it's objects (e.g., <kml:Point or <kml:Camera>
+objects). This data is provided in string format and corresponds to
+the [[W3CGEO]] values. The timestamp value is also specified as a string
+as in our YANG grouping.
+
+KML has some special handling for the height value useful for
+visualization software, ~kml:altitudeMode~. These values for
+~kml:altitudeMode~ include indicating the height is ignored
+(~clampToGround~), in relation to the locations ground level
+(~relativeToGround~), or in relation to the geodetic datum
+(~absolute~). The YANG grouping can directly map the ignored and
+absolute cases, but not the relative to ground case.
+
+In addition to the ~kml:altitudeMode~ KML also defines two seafloor
+height values using ~kml:seaFloorAltitudeMode~. One value is to
+ignore the height value (~clampToSeaFloor~) and the other is relative
+(~relativeToSeaFloor~). As with the ~kml:altitudeMode~ value, the
+YANG grouping supports the ignore case but not the relative case.
 
 The KML location values use a geodetic datum defined in Annex A by
-the GML Coordinate Reference System (CRS) [[ISO.19136.2007]] with identifier
-~LonLat84_5773~. The altitude value is measured from the vertical datum
-specified by [[WGS84]].
+the GML Coordinate Reference System (CRS) [[ISO.19136.2007]] with
+identifier ~LonLat84_5773~. The altitude value for KML absolute
+height mode is measured from the vertical datum specified by [[WGS84]].
+
+Thus the YANG grouping and KML values can be directly mapped in both
+directions (when using a supported altitude mode) with the caveat
+that some loss of precision (in the extremes) may occur due to the
+YANG grouping using decimal64 values rather than strings. For the
+relative height cases the application doing the transformation is
+expected to have the data available to transform the relative height
+into an absolute height which can then be expressed using the YANG
+grouping.
 
 * IANA Considerations
 ** Geodetic System Value Registry
@@ -607,45 +631,43 @@ The initial values for this registry are as follows.
 ** Normative References
 *** ISO.6709.2008
     :PROPERTIES:
-    :REF_AUTHOR: International Organization for Standardization
+    :REF_ORG: International Organization for Standardization
     :REF_TITLE: ISO 6709:2008 Standard representation of geographic point location by coordinates.
     :REF_DATE: 2008
     :END:
-# Would like to use REF_ORG here...
-# WOuld like to use seriesInfo here name=ISO value="Standard 6709:2008"
 *** RFC2119
 *** RFC8174
 *** RFC8342
 *** WGS84
     :PROPERTIES:
-    :REF_AUTHOR: National Imagery and Mapping Agency.
+    :REF_ORG: National Imagery and Mapping Agency.
     :REF_TITLE: National Imagery and Mapping Agency Technical Report 8350.2, Third Edition.
     :REF_DATE: 2000-01-03
-    :REF_CONTENT: http://earth-info.nga.mil/GandG/publications/tr8350.2/wgs84fin.pdf
+    :REF_TARGET: http://earth-info.nga.mil/GandG/publications/tr8350.2/wgs84fin.pdf
     :END:
 
 ** Informative References
 *** ISO.19136.2007
     :PROPERTIES:
-    :REF_AUTHOR: International Organization for Standardization
+    :REF_ORG: International Organization for Standardization
     :REF_TITLE: ISO 19136:2007 Geographic information -- Geography Markup Language (GML)
-    :REF_DATE: 2007
+    :REX_DATE: 2007
     :END:
-# Would like to use REF_ORG here...
-# WOuld like to use seriesInfo here name=ISO value="Standard 6709:2008"
 *** KML22
     :PROPERTIES:
-    :REF_AUTHOR: Tim Wilson (Ed)
-    :REF_TITLE: OGC KML 2.3
+    :REF_AUTHOR: Tim Wilson
+    :REF_ORG: Open Geospatial Consortium
+    :REF_TITLE: OGC KML (Version 2.2)
     :REF_DATE: 2008-04-14
-    :REF_CONTENT: http://portal.opengeospatial.org/files/?artifact_id=27810
+    :REF_TARGET: http://portal.opengeospatial.org/files/?artifact_id=27810
     :END:
 *** KML23
     :PROPERTIES:
-    :REF_AUTHOR: David Burggraf (Ed)
+    :REF_AUTHOR: David Burggraf
+    :REF_ORG: Open Geospatial Consortium
     :REF_TITLE: OGC KML 2.3
     :REF_DATE: 2015-08-04
-    :REF_CONTENT: http://www.opengis.net/doc/IS/kml/2.3
+    :REF_TARGET: http://docs.opengeospatial.org/is/12-007r2/12-007r2.html
     :END:
 *** RFC5870
 *** RFC8340
@@ -654,7 +676,7 @@ The initial values for this registry are as follows.
     :REF_AUTHOR: Andrei Popescu
     :REF_TITLE: Geolocation API Specification
     :REF_DATE: 2016-11-08
-    :REF_CONTENT: https://www.w3.org/TR/2016/REC-geolocation-API-20161108/
+    :REF_TARGET: https://www.w3.org/TR/2016/REC-geolocation-API-20161108/
     :END:
 * Examples
 
