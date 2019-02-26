@@ -54,7 +54,7 @@ as shown here.</t>
 </section>
 
 <section title="The Geo Location Object">
-<section title="Frame of Reference" anchor="org7739d4f">
+<section title="Frame of Reference" anchor="orgfa1544d">
 <t>The frame of reference (<tt>reference-frame</tt>) defines what the
 location values refer to and their meaning. The referred to
 object can be any astronomical body. It could be a planet such as
@@ -99,7 +99,7 @@ are specified as fractions of decimal degrees, and the <tt>height</tt>
 value is in fractions of meters. For the Cartesian choice <tt>x</tt>,
 <tt>y</tt> and <tt>z</tt> are in fractions of meters. In both choices the exact
 meanings of all of the values are defined by the <tt>geodetic-datum</tt>
-value in the <xref target="org7739d4f"></xref>.</t>
+value in the <xref target="orgfa1544d"></xref>.</t>
 
 </section>
 
@@ -275,9 +275,9 @@ module geo-location {
 	      fraction-digits 6;
 	    }
 	    description
-	      "The accuracy of the latitude longitute pair. When
+	      "The accuracy of the latitude longitude pair. When
 	       coord-accuracy is specified it overrides the
-	       geodetic-datam implied accuracy. If Cartesian
+	       geodetic-datum implied accuracy. If Cartesian
 	       coordinates are in use this accuracy corresponds to
 	       the X and Y components";
 	  }
@@ -297,7 +297,7 @@ module geo-location {
       choice location {
 	mandatory true;
 	description
-	  "The location data either in lat/long or cartesian values";
+	  "The location data either in lat/long or Cartesian values";
 	case ellipsoid {
 	  leaf latitude {
 	    type degrees;
@@ -454,7 +454,7 @@ the YANG grouping using decimal64 values rather than strings.</t>
 code below which defines the geo-location data for this API. This is
 used by many application (e.g., Google Maps API).</t>
 
-<figure><name>Snippet Showing Geo-Location Defintion</name><sourcecode><![CDATA[
+<figure><name>Snippet Showing Geo-Location Definition</name><sourcecode><![CDATA[
 interface GeolocationPosition {
   readonly attribute GeolocationCoordinates coords;
   readonly attribute DOMTimeStamp timestamp;
@@ -552,15 +552,15 @@ grouping.</t>
 
 </section>
 
-<section title="KML 2.3">
-<t>KML2.2 <xref target="KML22"/> (formerly Keyhole Markup Language) was submitted by
+<section title="KML">
+<t>KML 2.2 <xref target="KML22"/> (formerly Keyhole Markup Language) was submitted by
 Google to Open Geospatial Consortium (OGC)
 <eref target="https://www.opengeospatial.org/"/> and was adopted. The latest version
-as of this writing is <xref target="KML23"/>. This schema includes geographic location
-data in some of it's objects (e.g., &lt;kml:Point or &lt;kml:Camera&gt;
-objects). This data is provided in string format and corresponds to
-the <xref target="W3CGEO"/> values. The timestamp value is also specified as a string
-as in our YANG grouping.</t>
+as of this writing is KML 2.3 <xref target="KML23"/>. This schema includes geographic
+location data in some of it's objects (e.g., &lt;kml:Point or
+&lt;kml:Camera&gt; objects). This data is provided in string format and
+corresponds to the <xref target="W3CGEO"/> values. The timestamp value is also
+specified as a string as in our YANG grouping.</t>
 
 <t>KML has some special handling for the height value useful for
 visualization software, <tt>kml:altitudeMode</tt>. These values for
@@ -616,7 +616,7 @@ attempt to modify the existing one. It's worth noting that we include
 the ability to specify any geodetic system including ones designed
 for astronomical bodies other than the earth, as well as ones based
 on alternate systems. These requirements may be too broad for
-adpating the existing <xref target="RFC5870"/> registry.</t>
+adapting the existing <xref target="RFC5870"/> registry.</t>
 
 <t>The allocation policy for this registry is First Come First Served,
 <xref target="RFC8126"/> as the intent is simply to avoid duplicate values.</t>

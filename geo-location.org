@@ -283,9 +283,9 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;/grouping geo/d;s/^
                   fraction-digits 6;
                 }
                 description
-                  "The accuracy of the latitude longitute pair. When
+                  "The accuracy of the latitude longitude pair. When
                    coord-accuracy is specified it overrides the
-                   geodetic-datam implied accuracy. If Cartesian
+                   geodetic-datum implied accuracy. If Cartesian
                    coordinates are in use this accuracy corresponds to
                    the X and Y components";
               }
@@ -305,7 +305,7 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;/grouping geo/d;s/^
           choice location {
             mandatory true;
             description
-              "The location data either in lat/long or cartesian values";
+              "The location data either in lat/long or Cartesian values";
             case ellipsoid {
               leaf latitude {
                 type degrees;
@@ -463,7 +463,7 @@ W3C Defines a geo-location API in [[W3CGEO]]. We show a snippet of
 code below which defines the geo-location data for this API. This is
 used by many application (e.g., Google Maps API).
 
-#+CAPTION: Snippet Showing Geo-Location Defintion
+#+CAPTION: Snippet Showing Geo-Location Definition
 #+begin_src javascript
   interface GeolocationPosition {
     readonly attribute GeolocationCoordinates coords;
@@ -552,16 +552,16 @@ the timestamp is mappable to and from the YANG grouping. Furthermore
 instantaneous ~gml:TimeInstant~ is mappable to and from the YANG
 grouping.
 
-*** KML 2.3
+*** KML
 
-KML2.2 [[KML22]] (formerly Keyhole Markup Language) was submitted by
+KML 2.2 [[KML22]] (formerly Keyhole Markup Language) was submitted by
 Google to Open Geospatial Consortium (OGC)
 [[https://www.opengeospatial.org/]] and was adopted. The latest version
-as of this writing is [[KML23]]. This schema includes geographic location
-data in some of it's objects (e.g., <kml:Point or <kml:Camera>
-objects). This data is provided in string format and corresponds to
-the [[W3CGEO]] values. The timestamp value is also specified as a string
-as in our YANG grouping.
+as of this writing is KML 2.3 [[KML23]]. This schema includes geographic
+location data in some of it's objects (e.g., <kml:Point or
+<kml:Camera> objects). This data is provided in string format and
+corresponds to the [[W3CGEO]] values. The timestamp value is also
+specified as a string as in our YANG grouping.
 
 KML has some special handling for the height value useful for
 visualization software, ~kml:altitudeMode~. These values for
@@ -612,7 +612,7 @@ attempt to modify the existing one. It's worth noting that we include
 the ability to specify any geodetic system including ones designed
 for astronomical bodies other than the earth, as well as ones based
 on alternate systems. These requirements may be too broad for
-adpating the existing [[RFC5870]] registry.
+adapting the existing [[RFC5870]] registry.
 
 The allocation policy for this registry is First Come First Served,
 [[RFC8126]] as the intent is simply to avoid duplicate values.
@@ -621,7 +621,7 @@ The initial values for this registry are as follows.
 
 # XXX check out: ISO TS 19127
 
-   #+name: Intial Geodetic-Datum Values
+   #+name: Initial Geodetic-Datum Values
    | Name       | Description                               |
    |------------+-------------------------------------------|
    | egm-2008   | Earth Gravitational Model 2008            |
