@@ -6,7 +6,7 @@ VBASE := $(BASE)-$(VERSION)
 all: $(BASE).xml $(VBASE).txt $(VBASE).html $(VBASE).pdf
 
 clean:
-	rm ${BASE}-*.{xml,txt,html,pdf}
+	rm -f ${BASE}.xml ${BASE}-*.{txt,html,pdf}
 
 ox-rfc.el:
 	curl -fLO 'https://raw.githubusercontent.com/choppsv1/org-rfc-export/master/ox-rfc.el'

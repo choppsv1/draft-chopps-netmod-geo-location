@@ -727,16 +727,20 @@ Table of Contents
 
 8.  Normative References
 
-   [EGM08]    and , "An Earth Gravitational Model to Degree 2160:
-              EGM08.", Presented at the 2008 General Assembly of the
-              European Geosciences Union, Vienna, Arpil13-18, 2008,
-              2008,
+   [EGM08]    Pavlis, N.K., Holmes, S.A., Kenyon, S.C., and J.K. Factor,
+              "An Earth Gravitational Model to Degree 2160: EGM08.",
+              Presented at the 2008 General Assembly of the European
+              Geosciences Union, Vienna, Arpil13-18, 2008, 2008,
               <http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008/
               egm08_wgs84.html>.
 
-   [EGM96]    and , "The Development of the Joint NASA GSFC and the
-              National Imagery and Mapping Agency (NIMA) Geopotential
-              Model EGM96.", Technical Report NASA/TP-1998-206861, NASA,
+   [EGM96]    Lemoine, F.G., Kenyon, S.C., Factor, J.K., Trimmer, R.G.,
+              Pavlis, N.K., Chinn, D.S., Cox, C.M., Klosko, S.M.,
+              Luthcke, S.B., Torrence, M.H., Wang, Y.M., Williamson,
+              R.G., Pavlis, E.C., Rapp, R.H., and T.R. Olson, "The
+              Development of the Joint NASA GSFC and the National
+              Imagery and Mapping Agency (NIMA) Geopotential Model
+              EGM96.", Technical Report NASA/TP-1998-206861, NASA,
               Greenbelt., 1998,
               <https://cddis.nasa.gov/926/egm96/egm96.html>.
 
@@ -777,11 +781,11 @@ Table of Contents
               19136:2007 Geographic information -- Geography Markup
               Language (GML)", February 2019.
 
-   [KML22]    Open Geospatial Consortium, "OGC KML (Version 2.2)", 14
-              April 2008, <http://portal.opengeospatial.org/
+   [KML22]    Wilson, T., Ed., "OGC KML (Version 2.2)", 14 April 2008,
+              <http://portal.opengeospatial.org/
               files/?artifact_id=27810>.
 
-   [KML23]    Open Geospatial Consortium, "OGC KML 2.3", 4 August 2015,
+   [KML23]    Burggraf, D., Ed., "OGC KML 2.3", 4 August 2015,
               <http://docs.opengeospatial.org/
               is/12-007r2/12-007r2.html>.
 
@@ -798,8 +802,8 @@ Table of Contents
               BCP 215, RFC 8340, DOI 10.17487/RFC8340, March 2018,
               <https://www.rfc-editor.org/info/rfc8340>.
 
-   [W3CGEO]   "Geolocation API Specification", 8 November 2016,
-              <https://www.w3.org/TR/2016/
+   [W3CGEO]   Popescu, A., "Geolocation API Specification", 8 November
+              2016, <https://www.w3.org/TR/2016/
               REC-geolocation-API-20161108/>.
 
 Appendix A.  Examples

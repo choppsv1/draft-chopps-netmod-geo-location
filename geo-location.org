@@ -657,7 +657,7 @@ The initial values for this registry are as follows.
 *** EGM08
     :PROPERTIES:
     :REF_TITLE: An Earth Gravitational Model to Degree 2160: EGM08.
-    :REF_AUTHOR: ("Pavlis N.K." "Holmes S.A." "Kenyon S.C." "Factor J.K.")
+    :REF_AUTHOR: ("N. K. Pavlis" "S. A. Holmes" "S. C. Kenyon" "J. K. Factor")
     :REF_DATE: 2008
     :REF_CONTENT: Presented at the 2008 General Assembly of the European Geosciences Union, Vienna, Arpil13-18, 2008
     :REF_TARGET: http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008/egm08_wgs84.html
@@ -665,7 +665,7 @@ The initial values for this registry are as follows.
 *** EGM96
     :PROPERTIES:
     :REF_TITLE: The Development of the Joint NASA GSFC and the National Imagery and Mapping Agency (NIMA) Geopotential Model EGM96.
-    :REF_AUTHOR: ("Lemoine, F.G." "Kenyon S.C." "Factor J.K." "Trimmer R.G." "Pavlis N.K." "Chinn D.S." "Cox C.M." "Klosko S.M." "Luthcke S.B." "Torrence M.H." "Wang Y.M." "Williamson R.G." "Pavlis E.C." "Rapp R.H." "Olson T.R.")
+    :REF_AUTHOR: ("F. G. Lemoine" "S. C. Kenyon" "J. K. Factor" "R. G. Trimmer" "N. K. Pavlis" "D. S. Chinn" "C. M. Cox" "S. M. Klosko" "S. B. Luthcke" "M. H. Torrence" "Y. M. Wang" "R. G. Williamson" "E. C. Pavlis" "R. H. Rapp" "T. R. Olson")
     :REF_CONTENT: Technical Report NASA/TP-1998-206861, NASA, Greenbelt.
     :REF_DATE: 1998
     :REF_TARGET: https://cddis.nasa.gov/926/egm96/egm96.html

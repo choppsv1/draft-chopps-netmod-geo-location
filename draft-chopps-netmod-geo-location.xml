@@ -13,7 +13,7 @@
     consensus="true"    tocInclude="true"    version="3">
   <front>
     <title abbrev="YANG Geo Location">YANG Geo Location</title>
-<author fullname="Christian Hopps"><organization>LabN Consulting, L.L.C.</organization><address><email>chopps@chopps.org</email></address></author>  <date/><abstract><t>This document defines a generic geographical location object YANG
+<author initials='C.' surname='Hopps' fullname='Christian Hopps'><organization>LabN Consulting, L.L.C.</organization><address><email>chopps@chopps.org</email></address></author>  <date/><abstract><t>This document defines a generic geographical location object YANG
 grouping. The geographical location grouping is intended to be used
 in YANG models for specifying a location on or in reference to the
 Earth or any other astronomical object.</t></abstract>  </front>  <middle>
@@ -54,7 +54,7 @@ as shown here.</t>
 </section>
 
 <section title="The Geo Location Object">
-<section title="Frame of Reference" anchor="orgd8a7991">
+<section title="Frame of Reference" anchor="orgad67a6c">
 <t>The frame of reference (<tt>reference-frame</tt>) defines what the
 location values refer to and their meaning. The referred to
 object can be any astronomical body. It could be a planet such as
@@ -99,7 +99,7 @@ are specified as fractions of decimal degrees, and the <tt>height</tt>
 value is in fractions of meters. For the Cartesian choice <tt>x</tt>,
 <tt>y</tt> and <tt>z</tt> are in fractions of meters. In both choices the exact
 meanings of all of the values are defined by the <tt>geodetic-datum</tt>
-value in the <xref target="orgd8a7991"></xref>.</t>
+value in the <xref target="orgad67a6c"></xref>.</t>
 
 </section>
 
@@ -668,31 +668,31 @@ document as well.</t>
 <reference anchor="EGM08" target='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008/egm08_wgs84.html'>
 <front>
 <title>An Earth Gravitational Model to Degree 2160: EGM08.</title>
-<author fullname='Pavlis N.K.'><organization/></author>
-<author fullname='Holmes S.A.'><organization/></author>
-<author fullname='Kenyon S.C.'><organization/></author>
-<author fullname='Factor J.K.'><organization/></author>
+<author initials='N.K.' surname='Pavlis' fullname='N. K. Pavlis'><organization/></author>
+<author initials='S.A.' surname='Holmes' fullname='S. A. Holmes'><organization/></author>
+<author initials='S.C.' surname='Kenyon' fullname='S. C. Kenyon'><organization/></author>
+<author initials='J.K.' surname='Factor' fullname='J. K. Factor'><organization/></author>
 <date year="2008"/>
 </front><refcontent>Presented at the 2008 General Assembly of the European Geosciences Union, Vienna, Arpil13-18, 2008</refcontent>
 </reference>
 <reference anchor="EGM96" target='https://cddis.nasa.gov/926/egm96/egm96.html'>
 <front>
 <title>The Development of the Joint NASA GSFC and the National Imagery and Mapping Agency (NIMA) Geopotential Model EGM96.</title>
-<author fullname='Lemoine, F.G.'><organization/></author>
-<author fullname='Kenyon S.C.'><organization/></author>
-<author fullname='Factor J.K.'><organization/></author>
-<author fullname='Trimmer R.G.'><organization/></author>
-<author fullname='Pavlis N.K.'><organization/></author>
-<author fullname='Chinn D.S.'><organization/></author>
-<author fullname='Cox C.M.'><organization/></author>
-<author fullname='Klosko S.M.'><organization/></author>
-<author fullname='Luthcke S.B.'><organization/></author>
-<author fullname='Torrence M.H.'><organization/></author>
-<author fullname='Wang Y.M.'><organization/></author>
-<author fullname='Williamson R.G.'><organization/></author>
-<author fullname='Pavlis E.C.'><organization/></author>
-<author fullname='Rapp R.H.'><organization/></author>
-<author fullname='Olson T.R.'><organization/></author>
+<author initials='F.G.' surname='Lemoine' fullname='F. G. Lemoine'><organization/></author>
+<author initials='S.C.' surname='Kenyon' fullname='S. C. Kenyon'><organization/></author>
+<author initials='J.K.' surname='Factor' fullname='J. K. Factor'><organization/></author>
+<author initials='R.G.' surname='Trimmer' fullname='R. G. Trimmer'><organization/></author>
+<author initials='N.K.' surname='Pavlis' fullname='N. K. Pavlis'><organization/></author>
+<author initials='D.S.' surname='Chinn' fullname='D. S. Chinn'><organization/></author>
+<author initials='C.M.' surname='Cox' fullname='C. M. Cox'><organization/></author>
+<author initials='S.M.' surname='Klosko' fullname='S. M. Klosko'><organization/></author>
+<author initials='S.B.' surname='Luthcke' fullname='S. B. Luthcke'><organization/></author>
+<author initials='M.H.' surname='Torrence' fullname='M. H. Torrence'><organization/></author>
+<author initials='Y.M.' surname='Wang' fullname='Y. M. Wang'><organization/></author>
+<author initials='R.G.' surname='Williamson' fullname='R. G. Williamson'><organization/></author>
+<author initials='E.C.' surname='Pavlis' fullname='E. C. Pavlis'><organization/></author>
+<author initials='R.H.' surname='Rapp' fullname='R. H. Rapp'><organization/></author>
+<author initials='T.R.' surname='Olson' fullname='T. R. Olson'><organization/></author>
 <date year="1998"/>
 </front><refcontent>Technical Report NASA/TP-1998-206861, NASA, Greenbelt.</refcontent>
 </reference>
@@ -780,14 +780,14 @@ document as well.</t>
 <reference anchor="KML22" target='http://portal.opengeospatial.org/files/?artifact_id=27810'>
 <front>
 <title>OGC KML (Version 2.2)</title>
-<author fullname='Tim Wilson' role='editor'><organization>Open Geospatial Consortium</organization></author>
+<author role='editor' initials='T.' surname='Wilson' fullname='Tim Wilson'><organization>Open Geospatial Consortium</organization></author>
 <date day="14" month="4" year="2008"/>
 </front>
 </reference>
 <reference anchor="KML23" target='http://docs.opengeospatial.org/is/12-007r2/12-007r2.html'>
 <front>
 <title>OGC KML 2.3</title>
-<author fullname='David Burggraf' role='editor'><organization>Open Geospatial Consortium</organization></author>
+<author role='editor' initials='D.' surname='Burggraf' fullname='David Burggraf'><organization>Open Geospatial Consortium</organization></author>
 <date day="4" month="8" year="2015"/>
 </front>
 </reference>
@@ -833,7 +833,7 @@ document as well.</t>
 <reference anchor="W3CGEO" target='https://www.w3.org/TR/2016/REC-geolocation-API-20161108/'>
 <front>
 <title>Geolocation API Specification</title>
-<author fullname='Andrei Popescu'><organization/></author>
+<author initials='A.' surname='Popescu' fullname='Andrei Popescu'><organization/></author>
 <date day="8" month="11" year="2016"/>
 </front>
 </reference>
