@@ -54,7 +54,7 @@ as shown here.</t>
 </section>
 
 <section title="The Geo Location Object">
-<section title="Frame of Reference" anchor="orgfa1544d">
+<section title="Frame of Reference" anchor="org076c26a">
 <t>The frame of reference (<tt>reference-frame</tt>) defines what the
 location values refer to and their meaning. The referred to
 object can be any astronomical body. It could be a planet such as
@@ -99,19 +99,20 @@ are specified as fractions of decimal degrees, and the <tt>height</tt>
 value is in fractions of meters. For the Cartesian choice <tt>x</tt>,
 <tt>y</tt> and <tt>z</tt> are in fractions of meters. In both choices the exact
 meanings of all of the values are defined by the <tt>geodetic-datum</tt>
-value in the <xref target="orgfa1544d"></xref>.</t>
+value in the <xref target="org076c26a"></xref>.</t>
 
 </section>
 
 <section title="Motion">
-<t>Limited support is added for objects in motion. For objects in
-motion there are an additional 2 values to describe a velocity;
-these are <tt>heading</tt> and <tt>speed</tt>. The <tt>heading</tt> value is relative
-to true-north as defined by the <tt>reference-frame</tt> for the
-astronomical body. The <tt>speed</tt> value is in fractional meters per
-second. For some applications that demand high accuracy, and
-where the data is infrequently updated this value might also
-track very slow movement such as continental drift.</t>
+<t>Support is added for objects in relatively stable motion. For
+objects in relatively stable motion there are an additional 2
+values to describe their velocity; these are <tt>heading</tt> and
+<tt>speed</tt>. The <tt>heading</tt> value is relative to true-north as defined
+by the <tt>reference-frame</tt> for the astronomical body. The <tt>speed</tt>
+value is in fractional meters per second. For some applications
+that demand high accuracy, and where the data is infrequently
+updated this value can track very slow movement such as
+continental drift.</t>
 
 </section>
 
@@ -611,7 +612,7 @@ Systems (it calls CRS); however, this registry has a very strict
 policy which is believed by the author to be too strict for easily
 using.</t>
 
-<t>An open question is whether we should create a new registry or
+<t>TODO: Open question is whether we should create a new registry or
 attempt to modify the existing one. It's worth noting that we include
 the ability to specify any geodetic system including ones designed
 for astronomical bodies other than the earth, as well as ones based
@@ -799,21 +800,21 @@ document as well.</t>
 <figure><name>Example YANG module using geo location.</name><sourcecode><![CDATA[
 module uses-geo-location {
   namespace "urn:ietf:uses-geo-location";
-  prefix use-geo;
+  prefix ugeo;
   import geo-location { prefix geo; }
   organization "Empty Org";
   contact "Example Author <eauthor@example.com>";
   description "Example use of geo-location";
   revision 2019-02-02 { reference "None"; }
-  list locatable-items {
-    key name;
-    description "leaf list of locatable items";
-    leaf name {
-      type string;
-      description "name of locatable item";
-    }
-    container locatable-item {
-      description "A locatable item";
+  container locatable-items {
+    description "container of locatable items";
+    list locatable-item {
+      key name;
+      description "A of locatable item";
+      leaf name {
+	type string;
+	description "name of locatable item";
+      }
       uses geo:geo-location;
     }
   }
@@ -825,9 +826,9 @@ geo-location grouping.</t>
 
 <artwork><![CDATA[
 module: uses-geo-location
-  +--rw locatable-items* [name]
-     +--rw name              string
-     +--rw locatable-item
+  +--rw locatable-items
+     +--rw locatable-item* [name]
+        +--rw name            string
         +--rw geo-location
            +--rw reference-frame
            |  +--rw alternate-system?    string {alternate-systems}?
@@ -854,36 +855,49 @@ module: uses-geo-location
 <t>Below is some example YANG XML data for the fictitious module that
 uses the geo-location grouping.</t>
 
-<artwork><![CDATA[
-<?xml version='1.0' encoding='UTF-8'?>
-<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+<figure><name>Example XML data of geo location use.</name><sourcecode><![CDATA[
+<ns0:config xmlns:ns0="urn:ietf:params:xml:ns:netconf:base:1.0">
   <locatable-items xmlns="urn:ietf:uses-geo-location">
-    <name/>
     <locatable-item>
+      <name>Gaetana's</name>
       <geo-location>
-        <reference-frame>
-          <alternate-system/>
-          <geodetic-system>
-            <coord-accuracy/>
-            <height-accuracy/>
-          </geodetic-system>
-        </reference-frame>
-        <latitude/>
-        <longitude/>
-        <height/>
-        <x/>
-        <y/>
-        <z/>
-        <velocity>
-          <heading/>
-          <speed/>
-        </velocity>
-        <timestamp/>
+	<latitude>40.73297</latitude>
+	<longitude>-74.007696</longitude>
+      </geo-location>
+    </locatable-item>
+    <locatable-item>
+      <name>Pont des Arts</name>
+      <geo-location>
+	<timestamp>2012-03-31T16:00:00Z</timestamp>
+	<latitude>48.8583424</latitude>
+	<longitude>2.3375084</longitude>
+      </geo-location>
+    </locatable-item>
+    <locatable-item>
+      <name>Saint Louis Cathedral</name>
+      <geo-location>
+	<timestamp>2013-10-12T15:00:00-06:00</timestamp>
+	<latitude>29.9579735</latitude>
+	<longitude>-90.0637281</longitude>
+      </geo-location>
+    </locatable-item>
+    <locatable-item>
+      <name>Apollo 11 Landing Site</name>
+      <geo-location>
+	<timestamp>1969-07-21T02:56:15Z</timestamp>
+	<reference-frame>
+	  <astronomical-body>moon</astronomical-body>
+	  <geodetic-system>
+	    <geodetic-datum>me</geodetic-datum>
+	  </geodetic-system>
+	</reference-frame>
+	<latitude>0.67409</latitude>
+	<longitude>23.47298</longitude>
       </geo-location>
     </locatable-item>
   </locatable-items>
-</data>
-]]></artwork>
+</ns0:config>
+]]></sourcecode></figure>
 
 </section>
 

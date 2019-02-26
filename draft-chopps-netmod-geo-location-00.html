@@ -1103,7 +1103,7 @@ as shown here.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
       <h2 id="name-the-geo-location-object">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-the-geo-location-object" class="section-name selfRef">The Geo Location Object</a>
       </h2>
-<div id="orgfa1544d">
+<div id="org076c26a">
 <section id="section-2.1">
         <h3 id="name-frame-of-reference">
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-frame-of-reference" class="section-name selfRef">Frame of Reference</a>
@@ -1151,20 +1151,21 @@ are specified as fractions of decimal degrees, and the <code>height</code>
 value is in fractions of meters. For the Cartesian choice <code>x</code>,
 <code>y</code> and <code>z</code> are in fractions of meters. In both choices the exact
 meanings of all of the values are defined by the <code>geodetic-datum</code>
-value in the <a href="#orgfa1544d" class="xref">Section 2.1</a>.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+value in the <a href="#org076c26a" class="xref">Section 2.1</a>.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-2.3">
         <h3 id="name-motion">
 <a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-motion" class="section-name selfRef">Motion</a>
         </h3>
-<p id="section-2.3-1">Limited support is added for objects in motion. For objects in
-motion there are an additional 2 values to describe a velocity;
-these are <code>heading</code> and <code>speed</code>. The <code>heading</code> value is relative
-to true-north as defined by the <code>reference-frame</code> for the
-astronomical body. The <code>speed</code> value is in fractional meters per
-second. For some applications that demand high accuracy, and
-where the data is infrequently updated this value might also
-track very slow movement such as continental drift.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-1">Support is added for objects in relatively stable motion. For
+objects in relatively stable motion there are an additional 2
+values to describe their velocity; these are <code>heading</code> and
+<code>speed</code>. The <code>heading</code> value is relative to true-north as defined
+by the <code>reference-frame</code> for the astronomical body. The <code>speed</code>
+value is in fractional meters per second. For some applications
+that demand high accuracy, and where the data is infrequently
+updated this value can track very slow movement such as
+continental drift.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-2.4">
         <h3 id="name-tree">
@@ -1770,7 +1771,7 @@ converted to lower case, and spaces MUST be changed to dashes "-".<a href="#sect
 Systems (it calls CRS); however, this registry has a very strict
 policy which is believed by the author to be too strict for easily
 using.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.1-4">An open question is whether we should create a new registry or
+<p id="section-6.1-4">TODO: Open question is whether we should create a new registry or
 attempt to modify the existing one. It's worth noting that we include
 the ability to specify any geodetic system including ones designed
 for astronomical bodies other than the earth, as well as ones based
@@ -1893,21 +1894,21 @@ document as well.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <pre class="sourcecode">
 module uses-geo-location {
   namespace "urn:ietf:uses-geo-location";
-  prefix use-geo;
+  prefix ugeo;
   import geo-location { prefix geo; }
   organization "Empty Org";
   contact "Example Author &lt;eauthor@example.com&gt;";
   description "Example use of geo-location";
   revision 2019-02-02 { reference "None"; }
-  list locatable-items {
-    key name;
-    description "leaf list of locatable items";
-    leaf name {
-      type string;
-      description "name of locatable item";
-    }
-    container locatable-item {
-      description "A locatable item";
+  container locatable-items {
+    description "container of locatable items";
+    list locatable-item {
+      key name;
+      description "A of locatable item";
+      leaf name {
+ type string;
+ description "name of locatable item";
+      }
       uses geo:geo-location;
     }
   }
@@ -1923,9 +1924,9 @@ geo-location grouping.<a href="#section-appendix.a-3" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-appendix.a-4">
 <pre>
 module: uses-geo-location
-  +--rw locatable-items* [name]
-     +--rw name              string
-     +--rw locatable-item
+  +--rw locatable-items
+     +--rw locatable-item* [name]
+        +--rw name            string
         +--rw geo-location
            +--rw reference-frame
            |  +--rw alternate-system?    string {alternate-systems}?
@@ -1952,39 +1953,56 @@ module: uses-geo-location
 </div>
 <p id="section-appendix.a-5">Below is some example YANG XML data for the fictitious module that
 uses the geo-location grouping.<a href="#section-appendix.a-5" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-appendix.a-6">
-<pre>
-&lt;?xml version='1.0' encoding='UTF-8'?&gt;
-&lt;data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"&gt;
+<span id="name-example-xml-data-of-geo-loc"></span><figure id="figure-4">
+        <div id="section-appendix.a-6.1">
+<pre class="sourcecode">
+&lt;ns0:config xmlns:ns0="urn:ietf:params:xml:ns:netconf:base:1.0"&gt;
   &lt;locatable-items xmlns="urn:ietf:uses-geo-location"&gt;
-    &lt;name/&gt;
     &lt;locatable-item&gt;
+      &lt;name&gt;Gaetana's&lt;/name&gt;
       &lt;geo-location&gt;
-        &lt;reference-frame&gt;
-          &lt;alternate-system/&gt;
-          &lt;geodetic-system&gt;
-            &lt;coord-accuracy/&gt;
-            &lt;height-accuracy/&gt;
-          &lt;/geodetic-system&gt;
-        &lt;/reference-frame&gt;
-        &lt;latitude/&gt;
-        &lt;longitude/&gt;
-        &lt;height/&gt;
-        &lt;x/&gt;
-        &lt;y/&gt;
-        &lt;z/&gt;
-        &lt;velocity&gt;
-          &lt;heading/&gt;
-          &lt;speed/&gt;
-        &lt;/velocity&gt;
-        &lt;timestamp/&gt;
+ &lt;latitude&gt;40.73297&lt;/latitude&gt;
+ &lt;longitude&gt;-74.007696&lt;/longitude&gt;
+      &lt;/geo-location&gt;
+    &lt;/locatable-item&gt;
+    &lt;locatable-item&gt;
+      &lt;name&gt;Pont des Arts&lt;/name&gt;
+      &lt;geo-location&gt;
+ &lt;timestamp&gt;2012-03-31T16:00:00Z&lt;/timestamp&gt;
+ &lt;latitude&gt;48.8583424&lt;/latitude&gt;
+ &lt;longitude&gt;2.3375084&lt;/longitude&gt;
+      &lt;/geo-location&gt;
+    &lt;/locatable-item&gt;
+    &lt;locatable-item&gt;
+      &lt;name&gt;Saint Louis Cathedral&lt;/name&gt;
+      &lt;geo-location&gt;
+ &lt;timestamp&gt;2013-10-12T15:00:00-06:00&lt;/timestamp&gt;
+ &lt;latitude&gt;29.9579735&lt;/latitude&gt;
+ &lt;longitude&gt;-90.0637281&lt;/longitude&gt;
+      &lt;/geo-location&gt;
+    &lt;/locatable-item&gt;
+    &lt;locatable-item&gt;
+      &lt;name&gt;Apollo 11 Landing Site&lt;/name&gt;
+      &lt;geo-location&gt;
+ &lt;timestamp&gt;1969-07-21T02:56:15Z&lt;/timestamp&gt;
+ &lt;reference-frame&gt;
+   &lt;astronomical-body&gt;moon&lt;/astronomical-body&gt;
+   &lt;geodetic-system&gt;
+     &lt;geodetic-datum&gt;me&lt;/geodetic-datum&gt;
+   &lt;/geodetic-system&gt;
+ &lt;/reference-frame&gt;
+ &lt;latitude&gt;0.67409&lt;/latitude&gt;
+ &lt;longitude&gt;23.47298&lt;/longitude&gt;
       &lt;/geo-location&gt;
     &lt;/locatable-item&gt;
   &lt;/locatable-items&gt;
-&lt;/data&gt;
+&lt;/ns0:config&gt;
 </pre>
-<a href="#section-appendix.a-6" class="pilcrow">¶</a>
+<a href="#section-appendix.a-6.1" class="pilcrow">¶</a>
 </div>
+<figcaption><a href="#figure-4">Figure 4</a>:
+<a href="#name-example-xml-data-of-geo-loc" class="selfRef">Example XML data of geo location use.</a>
+        </figcaption></figure>
 </section>
 <section id="section-appendix.b">
       <h2 id="name-acknowledgements">

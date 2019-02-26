@@ -158,14 +158,14 @@ Table of Contents
 
 2.3.  Motion
 
-   Limited support is added for objects in motion.  For objects in
-   motion there are an additional 2 values to describe a velocity; these
-   are "heading" and "speed".  The "heading" value is relative to true-
-   north as defined by the "reference-frame" for the astronomical body.
-   The "speed" value is in fractional meters per second.  For some
-   applications that demand high accuracy, and where the data is
-   infrequently updated this value might also track very slow movement
-   such as continental drift.
+   Support is added for objects in relatively stable motion.  For
+   objects in relatively stable motion there are an additional 2 values
+   to describe their velocity; these are "heading" and "speed".  The
+   "heading" value is relative to true-north as defined by the
+   "reference-frame" for the astronomical body.  The "speed" value is in
+   fractional meters per second.  For some applications that demand high
+   accuracy, and where the data is infrequently updated this value can
+   track very slow movement such as continental drift.
 
 2.4.  Tree
 
@@ -674,7 +674,7 @@ Table of Contents
    policy which is believed by the author to be too strict for easily
    using.
 
-   An open question is whether we should create a new registry or
+   TODO: Open question is whether we should create a new registry or
    attempt to modify the existing one.  It's worth noting that we
    include the ability to specify any geodetic system including ones
    designed for astronomical bodies other than the earth, as well as
@@ -779,21 +779,21 @@ Appendix A.  Examples
 
       module uses-geo-location {
         namespace "urn:ietf:uses-geo-location";
-        prefix use-geo;
+        prefix ugeo;
         import geo-location { prefix geo; }
         organization "Empty Org";
         contact "Example Author <eauthor@example.com>";
         description "Example use of geo-location";
         revision 2019-02-02 { reference "None"; }
-        list locatable-items {
-          key name;
-          description "leaf list of locatable items";
-          leaf name {
-            type string;
-            description "name of locatable item";
-          }
-          container locatable-item {
-            description "A locatable item";
+        container locatable-items {
+          description "container of locatable items";
+          list locatable-item {
+            key name;
+            description "A of locatable item";
+            leaf name {
+              type string;
+              description "name of locatable item";
+            }
             uses geo:geo-location;
           }
         }
@@ -805,9 +805,9 @@ Appendix A.  Examples
    location grouping.
 
    module: uses-geo-location
-     +--rw locatable-items* [name]
-        +--rw name              string
-        +--rw locatable-item
+     +--rw locatable-items
+        +--rw locatable-item* [name]
+           +--rw name            string
            +--rw geo-location
               +--rw reference-frame
               |  +--rw alternate-system?    string {alternate-systems}?
@@ -833,34 +833,49 @@ Appendix A.  Examples
    Below is some example YANG XML data for the fictitious module that
    uses the geo-location grouping.
 
-   <?xml version='1.0' encoding='UTF-8'?>
-   <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
-     <locatable-items xmlns="urn:ietf:uses-geo-location">
-       <name/>
-       <locatable-item>
-         <geo-location>
-           <reference-frame>
-             <alternate-system/>
-             <geodetic-system>
-               <coord-accuracy/>
-               <height-accuracy/>
-             </geodetic-system>
-           </reference-frame>
-           <latitude/>
-           <longitude/>
-           <height/>
-           <x/>
-           <y/>
-           <z/>
-           <velocity>
-             <heading/>
-             <speed/>
-           </velocity>
-           <timestamp/>
-         </geo-location>
-       </locatable-item>
-     </locatable-items>
-   </data>
+      <ns0:config xmlns:ns0="urn:ietf:params:xml:ns:netconf:base:1.0">
+        <locatable-items xmlns="urn:ietf:uses-geo-location">
+          <locatable-item>
+            <name>Gaetana's</name>
+            <geo-location>
+              <latitude>40.73297</latitude>
+              <longitude>-74.007696</longitude>
+            </geo-location>
+          </locatable-item>
+          <locatable-item>
+            <name>Pont des Arts</name>
+            <geo-location>
+              <timestamp>2012-03-31T16:00:00Z</timestamp>
+              <latitude>48.8583424</latitude>
+              <longitude>2.3375084</longitude>
+            </geo-location>
+          </locatable-item>
+          <locatable-item>
+            <name>Saint Louis Cathedral</name>
+            <geo-location>
+              <timestamp>2013-10-12T15:00:00-06:00</timestamp>
+              <latitude>29.9579735</latitude>
+              <longitude>-90.0637281</longitude>
+            </geo-location>
+          </locatable-item>
+          <locatable-item>
+            <name>Apollo 11 Landing Site</name>
+            <geo-location>
+              <timestamp>1969-07-21T02:56:15Z</timestamp>
+              <reference-frame>
+                <astronomical-body>moon</astronomical-body>
+                <geodetic-system>
+                  <geodetic-datum>me</geodetic-datum>
+                </geodetic-system>
+              </reference-frame>
+              <latitude>0.67409</latitude>
+              <longitude>23.47298</longitude>
+            </geo-location>
+          </locatable-item>
+        </locatable-items>
+      </ns0:config>
+
+              Figure 4: Example XML data of geo location use.
 
 Appendix B.  Acknowledgements
 
