@@ -9,7 +9,7 @@
 <?rfc strict="yes"?>
 <rfc ipr="trust200902"
      category="std"
-     docName="draft-chopps-netmod-geo-location-00"     submissionType="IETF"
+     docName="draft-chopps-netmod-geo-location-01"     submissionType="IETF"
     consensus="true"    tocInclude="true"    version="3">
   <front>
     <title abbrev="YANG Geo Location">YANG Geo Location</title>
@@ -30,8 +30,8 @@ it does not need to be. Indeed it is easy to imagine a network or
 device located on The Moon, on Mars, on Enceladus (the moon of
 Saturn) or even a comet (e.g., 67p/churyumov-gerasimenko).</t>
 
-<t>Finally, one can imagine defining locations using a different frames
-of reference or even alternate systems (e.g., a simulations or
+<t>Finally, one can imagine defining locations using different frames
+of reference or even alternate systems (e.g., simulations or
 virtual realities).</t>
 
 <t>This document defines a <tt>geo-location</tt> YANG grouping that allows for
@@ -54,7 +54,7 @@ as shown here.</t>
 </section>
 
 <section title="The Geo Location Object">
-<section title="Frame of Reference" anchor="org9ec810e">
+<section title="Frame of Reference" anchor="org889ab86">
 <t>The frame of reference (<tt>reference-frame</tt>) defines what the
 location values refer to and their meaning. The referred to
 object can be any astronomical body. It could be a planet such as
@@ -99,20 +99,34 @@ are specified as fractions of decimal degrees, and the <tt>height</tt>
 value is in fractions of meters. For the Cartesian choice <tt>x</tt>,
 <tt>y</tt> and <tt>z</tt> are in fractions of meters. In both choices the exact
 meanings of all of the values are defined by the <tt>geodetic-datum</tt>
-value in the <xref target="org9ec810e"></xref>.</t>
+value in the <xref target="org889ab86"></xref>.</t>
 
 </section>
 
 <section title="Motion">
 <t>Support is added for objects in relatively stable motion. For
-objects in relatively stable motion there are an additional 2
-values to describe their velocity; these are <tt>heading</tt> and
-<tt>speed</tt>. The <tt>heading</tt> value is relative to true-north as defined
-by the <tt>reference-frame</tt> for the astronomical body. The <tt>speed</tt>
-value is in fractional meters per second. For some applications
-that demand high accuracy, and where the data is infrequently
-updated this value can track very slow movement such as
-continental drift.</t>
+objects in relatively stable motion the grouping provides a
+3-dimensional vector value. The components of the vector are
+<tt>v-north</tt>, <tt>v-east</tt> and <tt>v-up</tt> which are all given in fractional
+meters per second. The values <tt>v-north</tt> and <tt>v-east</tt> are relative
+to true-north as defined by the reference frame for the
+astronomical body, <tt>v-up</tt> is perpendicular to the plane defined
+by <tt>v-north</tt> and <tt>v-east</tt>, and is pointed away from the center of
+mass.</t>
+
+<t>To derive the 2-dimensional heading and speed one would use the
+following formulas:</t>
+
+<artwork><![CDATA[
+              ,------------------------------
+    speed =  V  v_{north}^{2} + v_{east}^{2}
+
+    heading = arctan(v_{east} / v_{north})
+]]></artwork>
+
+<t>For some applications that demand high accuracy, and where the
+data is infrequently updated this velocity vector can track very
+slow movement such as continental drift.</t>
 
 </section>
 
@@ -152,6 +166,7 @@ geo-location grouping.</t>
 
 <section title="YANG Module">
 <sourcecode><![CDATA[
+<CODE BEGINS> file "geo-location@2019-02-17.yang"
 // -*- fill-column: 69 -*-
 module geo-location {
   namespace "urn:ietf:geo-location";
@@ -355,26 +370,37 @@ module geo-location {
       }
       container velocity {
 	description
-	  "If the object is in motion the velocity describes this
-	   motion at the the time given by the timestamp.";
+	  "If the object is in motion the velocity vector describes
+	   this motion at the the time given by the timestamp.";
 
-	leaf heading {
-	    type degrees;
-	    description
-		"If the object is in motion then the heading will
-		indicate the direction in which the object is
-		currently moving. It is specified in fractions of
-		degrees from true north of the astronomical object";
-	}
-	leaf speed {
+	leaf v-north {
 	  type decimal64 {
 	    fraction-digits 12;
 	  }
 	  units "meters per second";
 	  description
-	    "If the object is in motion then the speed will
-	     indicate the rate at which the object is currently
-	     traveling along it's heading.";
+	    "v-north is the rate of change (i.e., speed) towards truth
+	     north as defined by the ~geodetic-system~.";
+	}
+
+	leaf v-east {
+	  type decimal64 {
+	    fraction-digits 12;
+	  }
+	  units "meters per second";
+	  description
+	    "v-east is the rate of change (i.e., speed) perpendicular
+	     to truth-north as defined by the ~geodetic-system~.";
+	}
+
+	leaf v-up {
+	  type decimal64 {
+	    fraction-digits 12;
+	  }
+	  units "meters per second";
+	  description
+	    "v-up is the rate of change (i.e., speed) away from the
+	     center of mass.";
 	}
       }
       leaf timestamp {
@@ -384,6 +410,7 @@ module geo-location {
     }
   }
 }
+<CODE ENDS>
 ]]></sourcecode>
 
 </section>
@@ -842,6 +869,7 @@ document as well.</t>
 <t>Below is a fictitious module that uses the geo-location grouping.</t>
 
 <figure><name>Example YANG module using geo location.</name><sourcecode><![CDATA[
+<CODE BEGINS> file "uses-geo-location@2019-02-02.yang"
 module uses-geo-location {
   namespace "urn:ietf:uses-geo-location";
   prefix ugeo;
@@ -863,6 +891,7 @@ module uses-geo-location {
     }
   }
 }
+<CODE ENDS>
 ]]></sourcecode></figure>
 
 <t>Below is a the YANG tree for the fictitious module that uses the
