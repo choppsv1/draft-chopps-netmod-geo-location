@@ -8,7 +8,7 @@
 #+AFFILIATION: LabN Consulting, L.L.C.
 #+RFC_NAME: draft-chopps-netmod-geo-location
 #+RFC_VERSION: 01
-#+RFC_XML_VERSION: 3
+#+RFC_XML_VERSION: 2
 
 #+begin_abstract
 This document defines a generic geographical location object YANG
@@ -130,13 +130,43 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
     data is infrequently updated this velocity vector can track very
     slow movement such as continental drift.
 
+    Tracking more complex forms of motion is outside the scope of
+    this work. The intent of the grouping being defined here is to
+    identify where something is located, and generally this is
+    expected to be somewhere on or relative to the Earth (or another
+    astronomical body). At least two options are available to YANG
+    models that wish to use this grouping with objects that are
+    changing location frequently in non-simple ways, they can add
+    additional motion data to their model directly, or if the
+    application allows it can require more frequent queries to keep
+    the location data current.
+
+*** Nested Locations
+
+    When locations are nested (e.g., a building may have a location
+    which houses routers that also have locations) the module using
+    this grouping is free to indicate in its definition that the
+    ~reference-frame~ is inherited from the containing object so that
+    the ~reference-frame~ need not be repeated in every instance of
+    location data.
+
+*** Non-location Attributes
+
+    During the development of this module, the question of whether it
+    would support data such as orientation arose. These types of
+    attributes are outside the scope of this grouping because they do
+    not deal with a location but rather describe something more about
+    the object that is at the location. Module authors are free to
+    add these non-location attributes along with their use of this
+    location grouping.
+
 ** Tree
 
    The following is the YANG tree diagram [[RFC8340]] for the
    geo-location grouping.
 
 #+NAME: Geo location YANG tree diagram.
-#+begin_src bash  :var file=geo-location-module :results output verbatim replace :wrap example :exports results
+#+begin_src shell  :var file=geo-location-module :results output verbatim replace :wrap example :exports results
 pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;/grouping geo/d;s/^/  /'
 #+end_src
 
@@ -162,8 +192,9 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;/grouping geo/d;s/^
          |     +-- y            decimal64
          |     +-- z?           decimal64
          +-- velocity
-         |  +-- heading?   degrees
-         |  +-- speed?     decimal64
+         |  +-- v-north?   decimal64
+         |  +-- v-east?    decimal64
+         |  +-- v-up?      decimal64
          +-- timestamp?         types:date-and-time
 #+end_example
 
@@ -315,6 +346,14 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;/grouping geo/d;s/^
                  Cartesian coordinates ar in use this accuracy
                  corresponds to the Z component.";
             }
+            // May wish to allow for height to be relative.
+            // If so need to decide if we have a boolean (to ground)
+            // or an enumeration (e.g., local ground, sea-floor,
+            // ground floor, containing object, ...) or even allow
+            // for a string for most generic but least portable
+            // comparable
+            // leaf height-relative {
+            // }
           }
         }
         choice location {
@@ -813,8 +852,9 @@ module: uses-geo-location
            |     +--rw y            decimal64
            |     +--rw z?           decimal64
            +--rw velocity
-           |  +--rw heading?   degrees
-           |  +--rw speed?     decimal64
+           |  +--rw v-north?   decimal64
+           |  +--rw v-east?    decimal64
+           |  +--rw v-up?      decimal64
            +--rw timestamp?         types:date-and-time
 #+end_example
 

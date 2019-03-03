@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" []>
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt"?>
 <?rfc toc="yes"?>
 <?rfc compact="no"?>
@@ -9,8 +10,7 @@
 <?rfc strict="yes"?>
 <rfc ipr="trust200902"
      category="std"
-     docName="draft-chopps-netmod-geo-location-01"     submissionType="IETF"
-    consensus="true"    tocInclude="true"    version="3">
+     docName="draft-chopps-netmod-geo-location-01"     submissionType="IETF">
   <front>
     <title abbrev="YANG Geo Location">YANG Geo Location</title>
 <author initials='C.' surname='Hopps' fullname='Christian Hopps'><organization>LabN Consulting, L.L.C.</organization><address><email>chopps@chopps.org</email></address></author>  <date/><abstract><t>This document defines a generic geographical location object YANG
@@ -34,7 +34,7 @@ Saturn) or even a comet (e.g., 67p/churyumov-gerasimenko).</t>
 of reference or even alternate systems (e.g., simulations or
 virtual realities).</t>
 
-<t>This document defines a <tt>geo-location</tt> YANG grouping that allows for
+<t>This document defines a <spanx style='verb'>geo-location</spanx> YANG grouping that allows for
 all of the above data to be captured.</t>
 
 <t>This specification conforms to <xref target="ISO.6709.2008"/>.</t>
@@ -55,32 +55,32 @@ as shown here.</t>
 
 <section title="The Geo Location Object">
 <section title="Frame of Reference" anchor="sec-frame-of-reference">
-<t>The frame of reference (<tt>reference-frame</tt>) defines what the
+<t>The frame of reference (<spanx style='verb'>reference-frame</spanx>) defines what the
 location values refer to and their meaning. The referred to
 object can be any astronomical body. It could be a planet such as
 The Earth or Mars, a moon such as Enceladus, an asteroid such as
 Ceres, or even a comet such as 1P/Halley. This value is specified
-in <tt>astronomical-body</tt> and is defined by the International
+in <spanx style='verb'>astronomical-body</spanx> and is defined by the International
 Astronomical Union (<eref target="http://www.iau.org"/>), The default
-<tt>astronomical-body</tt> value is <tt>earth</tt>.</t>
+<spanx style='verb'>astronomical-body</spanx> value is <spanx style='verb'>earth</spanx>.</t>
 
 <t>In addition to identifying the astronomical body we also need to
 define the meaning of the coordinates (e.g., latitude and
 longitude) and the definition of 0-height. This is done with a
-<tt>geodetic-datum</tt> value. The default value for <tt>geodetic-datum</tt> is
-<tt>wgs-84</tt> (i.e., the World Geodetic System, <xref target="WGS84"/>), which is used
+<spanx style='verb'>geodetic-datum</spanx> value. The default value for <spanx style='verb'>geodetic-datum</spanx> is
+<spanx style='verb'>wgs-84</spanx> (i.e., the World Geodetic System, <xref target="WGS84"/>), which is used
 by the Global Positioning System (GPS) among many others. We
 define an IANA registry for specifying standard values for the
-<tt>geodetic-datum</tt>.</t>
+<spanx style='verb'>geodetic-datum</spanx>.</t>
 
-<t>In addition to the <tt>geodetic-datum</tt> value we allow refining the
-coordinate and height accuracy using <tt>coord-accuracy</tt> and
-<tt>height-accuracy</tt> respectively. When specified these values
-override the defaults implied by the <tt>geodetic-datum</tt> value.</t>
+<t>In addition to the <spanx style='verb'>geodetic-datum</spanx> value we allow refining the
+coordinate and height accuracy using <spanx style='verb'>coord-accuracy</spanx> and
+<spanx style='verb'>height-accuracy</spanx> respectively. When specified these values
+override the defaults implied by the <spanx style='verb'>geodetic-datum</spanx> value.</t>
 
 <t>Finally, we define an optional feature which allows for changing
 the system for which the above values are defined. This optional
-feature adds an <tt>alternate-system</tt> value to the reference frame.
+feature adds an <spanx style='verb'>alternate-system</spanx> value to the reference frame.
 This value is normally not present which implies the natural
 universe is the system. The use of this value is intended to
 allow for creating virtual realities or perhaps alternate
@@ -92,13 +92,13 @@ outside the scope of this document.</t>
 <section title="Location">
 <t>This is the location on or relative to the astronomical object.
 It is specified using 2 or 3 coordinates values. These values are
-given either as <tt>latitude</tt>, <tt>longitude</tt>, and an optional
-<tt>height</tt>, or as Cartesian coordinates of <tt>x</tt>, <tt>y</tt> and an optional
-<tt>z</tt>. For the standard location choice <tt>latitude</tt> and <tt>longitude</tt>
-are specified as fractions of decimal degrees, and the <tt>height</tt>
-value is in fractions of meters. For the Cartesian choice <tt>x</tt>,
-<tt>y</tt> and <tt>z</tt> are in fractions of meters. In both choices the exact
-meanings of all of the values are defined by the <tt>geodetic-datum</tt>
+given either as <spanx style='verb'>latitude</spanx>, <spanx style='verb'>longitude</spanx>, and an optional
+<spanx style='verb'>height</spanx>, or as Cartesian coordinates of <spanx style='verb'>x</spanx>, <spanx style='verb'>y</spanx> and an optional
+<spanx style='verb'>z</spanx>. For the standard location choice <spanx style='verb'>latitude</spanx> and <spanx style='verb'>longitude</spanx>
+are specified as fractions of decimal degrees, and the <spanx style='verb'>height</spanx>
+value is in fractions of meters. For the Cartesian choice <spanx style='verb'>x</spanx>,
+<spanx style='verb'>y</spanx> and <spanx style='verb'>z</spanx> are in fractions of meters. In both choices the exact
+meanings of all of the values are defined by the <spanx style='verb'>geodetic-datum</spanx>
 value in the <xref target="sec-frame-of-reference"></xref>.</t>
 
 </section>
@@ -107,26 +107,58 @@ value in the <xref target="sec-frame-of-reference"></xref>.</t>
 <t>Support is added for objects in relatively stable motion. For
 objects in relatively stable motion the grouping provides a
 3-dimensional vector value. The components of the vector are
-<tt>v-north</tt>, <tt>v-east</tt> and <tt>v-up</tt> which are all given in fractional
-meters per second. The values <tt>v-north</tt> and <tt>v-east</tt> are relative
+<spanx style='verb'>v-north</spanx>, <spanx style='verb'>v-east</spanx> and <spanx style='verb'>v-up</spanx> which are all given in fractional
+meters per second. The values <spanx style='verb'>v-north</spanx> and <spanx style='verb'>v-east</spanx> are relative
 to true-north as defined by the reference frame for the
-astronomical body, <tt>v-up</tt> is perpendicular to the plane defined
-by <tt>v-north</tt> and <tt>v-east</tt>, and is pointed away from the center of
+astronomical body, <spanx style='verb'>v-up</spanx> is perpendicular to the plane defined
+by <spanx style='verb'>v-north</spanx> and <spanx style='verb'>v-east</spanx>, and is pointed away from the center of
 mass.</t>
 
 <t>To derive the 2-dimensional heading and speed one would use the
 following formulas:</t>
 
-<artwork><![CDATA[
+<figure><artwork><![CDATA[
               ,------------------------------
     speed =  V  v_{north}^{2} + v_{east}^{2}
 
     heading = arctan(v_{east} / v_{north})
-]]></artwork>
+]]></artwork></figure>
 
 <t>For some applications that demand high accuracy, and where the
 data is infrequently updated this velocity vector can track very
 slow movement such as continental drift.</t>
+
+<t>Tracking more complex forms of motion is outside the scope of
+this work. The intent of the grouping being defined here is to
+identify where something is located, and generally this is
+expected to be somewhere on or relative to the Earth (or another
+astronomical body). At least two options are available to YANG
+models that wish to use this grouping with objects that are
+changing location frequently in non-simple ways, they can add
+additional motion data to their model directly, or if the
+application allows it can require more frequent queries to keep
+the location data current.</t>
+
+</section>
+
+<section title="Nested Locations">
+<t>When locations are nested (e.g., a building may have a location
+which houses routers that also have locations) the module using
+this grouping is free to indicate in its definition that the
+<spanx style='verb'>reference-frame</spanx> is inherited from the containing object so that
+the <spanx style='verb'>reference-frame</spanx> need not be repeated in every instance of
+location data.</t>
+
+</section>
+
+<section title="Non-location Attributes">
+<t>During the development of this module, the question of whether it
+would support data such as orientation arose. These types of
+attributes are outside the scope of this grouping because they do
+not deal with a location but rather describe something more about
+the object that is at the location. Module authors are free to
+add these non-location attributes along with their use of this
+location grouping.</t>
 
 </section>
 
@@ -134,7 +166,7 @@ slow movement such as continental drift.</t>
 <t>The following is the YANG tree diagram <xref target="RFC8340"/> for the
 geo-location grouping.</t>
 
-<figure><name>Geo Location YANG tree diagram.</name><artwork><![CDATA[
+<figure><artwork><![CDATA[
   module: geo-location
       +-- geo-location
          +-- reference-frame
@@ -154,8 +186,9 @@ geo-location grouping.</t>
          |     +-- y            decimal64
          |     +-- z?           decimal64
          +-- velocity
-         |  +-- heading?   degrees
-         |  +-- speed?     decimal64
+         |  +-- v-north?   decimal64
+         |  +-- v-east?    decimal64
+         |  +-- v-up?      decimal64
          +-- timestamp?         types:date-and-time
 ]]></artwork></figure>
 
@@ -165,7 +198,7 @@ geo-location grouping.</t>
 
 
 <section title="YANG Module">
-<sourcecode><![CDATA[
+<figure><artwork><![CDATA[
 <CODE BEGINS> file "geo-location@2019-02-17.yang"
 // -*- fill-column: 69 -*-
 module geo-location {
@@ -308,6 +341,14 @@ module geo-location {
 	       Cartesian coordinates ar in use this accuracy
 	       corresponds to the Z component.";
 	  }
+	  // May wish to allow for height to be relative.
+	  // If so need to decide if we have a boolean (to ground)
+	  // or an enumeration (e.g., local ground, sea-floor,
+	  // ground floor, containing object, ...) or even allow
+	  // for a string for most generic but least portable
+	  // comparable
+	  // leaf height-relative {
+	  // }
 	}
       }
       choice location {
@@ -411,7 +452,7 @@ module geo-location {
   }
 }
 <CODE ENDS>
-]]></sourcecode>
+]]></artwork></figure>
 
 </section>
 
@@ -420,26 +461,23 @@ module geo-location {
 conformance to the standard. The tests and results are given in the
 following table along with an explanation of non-applicable tests.</t>
 
-<table>
-<name>Conformance Test Results</name>
-<thead><tr><th>Test</th><th>Description</th><th>Pass Explanation</th></tr>
-</thead>
-<tbody><tr><td>A.1.2.1</td><td>elements reqd. for a geo. point location</td><td>CRS is always indicated</td></tr>
-<tr><td>A.1.2.2</td><td>Description of a CRS from a register</td><td>CRS register is defined</td></tr>
-<tr><td>A.1.2.3</td><td>definition of CRS</td><td>N/A - Don't define CRS</td></tr>
-<tr><td>A.1.2.4</td><td>representation of horizontal position</td><td>lat/long values conform</td></tr>
-<tr><td>A.1.2.5</td><td>representation of vertical position</td><td>height value conforms</td></tr>
-<tr><td>A.1.2.6</td><td>text string representation</td><td>N/A - No string format</td></tr>
-</tbody>
-</table>
+<texttable title="Conformance Test Results">
+<ttcol>Test</ttcol><ttcol>Description</ttcol><ttcol>Pass Explanation</ttcol>
+<c>A.1.2.1</c><c>elements reqd. for a geo. point location</c><c>CRS is always indicated</c>
+<c>A.1.2.2</c><c>Description of a CRS from a register</c><c>CRS register is defined</c>
+<c>A.1.2.3</c><c>definition of CRS</c><c>N/A - Don't define CRS</c>
+<c>A.1.2.4</c><c>representation of horizontal position</c><c>lat/long values conform</c>
+<c>A.1.2.5</c><c>representation of vertical position</c><c>height value conforms</c>
+<c>A.1.2.6</c><c>text string representation</c><c>N/A - No string format</c>
+</texttable>
 
-<t>For test <tt>A.1.2.1</tt> the YANG geo location object either includes a CRS
-(<tt>reference-frame</tt>) or has a default defined (<xref target="WGS84"/>).</t>
+<t>For test <spanx style='verb'>A.1.2.1</spanx> the YANG geo location object either includes a CRS
+(<spanx style='verb'>reference-frame</spanx>) or has a default defined (<xref target="WGS84"/>).</t>
 
-<t>For <tt>A.1.2.3</tt> we do not define our own CRS, and doing so is not
+<t>For <spanx style='verb'>A.1.2.3</spanx> we do not define our own CRS, and doing so is not
 required for conformance.</t>
 
-<t>For <tt>A.1.2.6</tt> we do not define a text string representation, which is
+<t>For <spanx style='verb'>A.1.2.6</spanx> we do not define a text string representation, which is
 also not required for conformance.</t>
 
 </section>
@@ -461,10 +499,10 @@ following standards and standard APIs and were considered.</t>
 
 <section title="IETF URI Value">
 <t><xref target="RFC5870"/> defines a standard URI value for geographic location data. It
-includes the ability to specify the <tt>geodetic-value</tt> (it calls this
-<tt>crs</tt>) with the default being <tt>wgs-84</tt> <xref target="WGS84"/>. For the location data
-it allows 2 to 3 coordinates defined by the <tt>crs</tt> value. For accuracy
-it has a single <tt>u</tt> parameter for specifying uncertainty. The <tt>u</tt>
+includes the ability to specify the <spanx style='verb'>geodetic-value</spanx> (it calls this
+<spanx style='verb'>crs</spanx>) with the default being <spanx style='verb'>wgs-84</spanx> <xref target="WGS84"/>. For the location data
+it allows 2 to 3 coordinates defined by the <spanx style='verb'>crs</spanx> value. For accuracy
+it has a single <spanx style='verb'>u</spanx> parameter for specifying uncertainty. The <spanx style='verb'>u</spanx>
 value is in fractions of meters and applies to all the location
 values. As the URI is a string, all values are specifies as strings
 and so are capable of as much precision as required.</t>
@@ -482,7 +520,7 @@ the YANG grouping using decimal64 values rather than strings.</t>
 code below which defines the geo-location data for this API. This is
 used by many application (e.g., Google Maps API).</t>
 
-<figure><name>Snippet Showing Geo-Location Definition</name><sourcecode><![CDATA[
+<figure><artwork><![CDATA[
 interface GeolocationPosition {
   readonly attribute GeolocationCoordinates coords;
   readonly attribute DOMTimeStamp timestamp;
@@ -497,47 +535,44 @@ interface GeolocationCoordinates {
 
   readonly attribute double? speed;
 };
-]]></sourcecode></figure>
+]]></artwork></figure>
 
 <section title="Compare with YANG Model">
-<table>
+<texttable>
+<ttcol>Field</ttcol><ttcol>Type</ttcol><ttcol>YANG</ttcol><ttcol>Type</ttcol>
+<c>accuracy</c><c>double</c><c>coord-accuracy</c><c>dec64 fr 6</c>
+<c>altitude</c><c>double</c><c>height</c><c>dec64 fr 6</c>
+<c>altitudeAccuracy</c><c>double</c><c>height-accuracy</c><c>dec64 fr 6</c>
+<c>heading</c><c>double</c><c>heading</c><c>dec64 fr 16</c>
+<c>latitude</c><c>double</c><c>latitude</c><c>dec64 fr 16</c>
+<c>longitude</c><c>double</c><c>longitude</c><c>dec64 fr 16</c>
+<c>speed</c><c>double</c><c>speed</c><c>dec64 fr 12</c>
+<c>timestamp</c><c>DOMTimeStamp</c><c>timestamp</c><c>string</c>
+</texttable>
 
-<thead><tr><th>Field</th><th>Type</th><th>YANG</th><th>Type</th></tr>
-</thead>
-<tbody><tr><td>accuracy</td><td>double</td><td>coord-accuracy</td><td>dec64 fr 6</td></tr>
-<tr><td>altitude</td><td>double</td><td>height</td><td>dec64 fr 6</td></tr>
-<tr><td>altitudeAccuracy</td><td>double</td><td>height-accuracy</td><td>dec64 fr 6</td></tr>
-<tr><td>heading</td><td>double</td><td>heading</td><td>dec64 fr 16</td></tr>
-<tr><td>latitude</td><td>double</td><td>latitude</td><td>dec64 fr 16</td></tr>
-<tr><td>longitude</td><td>double</td><td>longitude</td><td>dec64 fr 16</td></tr>
-<tr><td>speed</td><td>double</td><td>speed</td><td>dec64 fr 12</td></tr>
-<tr><td>timestamp</td><td>DOMTimeStamp</td><td>timestamp</td><td>string</td></tr>
-</tbody>
-</table>
-
-<dl>
-<dt>accuracy (double)</dt> <dd><t>Accuracy of <tt>latitude</tt> and <tt>longitude</tt> values
-in meters.</t></dd>
-<dt>altitude (double)</dt> <dd><t>Optional height in meters above the <xref target="WGS84"/> ellipsoid.</t></dd>
-<dt>altitudeAccuracy (double)</dt> <dd><t>Optional accuracy of <tt>altitude</tt> value
-in meters.</t></dd>
-<dt>heading (double)</dt> <dd><t>Optional Direction in decimal deg from true
-north increasing clock-wise.</t></dd>
-<dt>latitude, longitude (double)</dt> <dd><t>Standard lat/long values in decimal degrees.</t></dd>
-<dt>speed (double)</dt> <dd><t>Speed along heading in meters per second.</t></dd>
-<dt>timestamp (DOMTimeStamp)</dt> <dd><t>Specifies milliseconds since the Unix
+<t><list style="hanging">
+<t hangText="accuracy (double):">Accuracy of <spanx style='verb'>latitude</spanx> and <spanx style='verb'>longitude</spanx> values
+in meters.</t>
+<t hangText="altitude (double):">Optional height in meters above the <xref target="WGS84"/> ellipsoid.</t>
+<t hangText="altitudeAccuracy (double):">Optional accuracy of <spanx style='verb'>altitude</spanx> value
+in meters.</t>
+<t hangText="heading (double):">Optional Direction in decimal deg from true
+north increasing clock-wise.</t>
+<t hangText="latitude, longitude (double):">Standard lat/long values in decimal degrees.</t>
+<t hangText="speed (double):">Speed along heading in meters per second.</t>
+<t hangText="timestamp (DOMTimeStamp):">Specifies milliseconds since the Unix
 EPOCH in 64 bit unsigned integer. The YANG model defines the
 timestamp with arbitrarily large precision by using a string
 which encompasses all representable values of this timestamp
-value.</t></dd>
-</dl>
+value.</t>
+</list></t>
 
 <t>W3C API values can be mapped to the YANG grouping, with the caveat
 that some loss of precision (in the extremes) may occur due to the
 YANG grouping using decimal64 values rather than doubles.</t>
 
 <t>Conversely, only YANG values for The Earth using the default
-<tt>wgs-84</tt> <xref target="WGS84"/> as the <tt>geodetic-datum</tt>, can be directly mapped to the
+<spanx style='verb'>wgs-84</spanx> <xref target="WGS84"/> as the <spanx style='verb'>geodetic-datum</spanx>, can be directly mapped to the
 W3C values, as W3C does not provide the extra features necessary to
 map the broader set of values supported by the YANG grouping.</t>
 
@@ -548,10 +583,10 @@ map the broader set of values supported by the YANG grouping.</t>
 <section title="Geography Markup Language (GML)">
 <t>ISO adopted the Geography Markup Language (GML) defined by OGC 07-036
 as <xref target="ISO.19136.2007"/>. GML defines, among many other things, a position
-type <tt>gml:pos</tt> which is a sequence of <tt>double</tt> values. This sequence
+type <spanx style='verb'>gml:pos</spanx> which is a sequence of <spanx style='verb'>double</spanx> values. This sequence
 of values represent coordinates in a given CRS. The CRS is either
 inherited from containing elements or directly specified as
-attributes <tt>srsName</tt> and optionally <tt>srsDimension</tt> on the <tt>gml:pos</tt>.</t>
+attributes <spanx style='verb'>srsName</spanx> and optionally <spanx style='verb'>srsDimension</spanx> on the <spanx style='verb'>gml:pos</spanx>.</t>
 
 <t>GML defines an Abstract CRS type which Concrete CRS types derive
 from. This allows for many types of CRS definitions. We are concerned
@@ -560,7 +595,7 @@ Cartesian coordinates. We believe that other non-Earth based CRS as
 well as virtual CRS should also be representable by the GML CRS types
 as well.</t>
 
-<t>Thus GML <tt>gml:pos</tt> values can be mapped directly to the YANG
+<t>Thus GML <spanx style='verb'>gml:pos</spanx> values can be mapped directly to the YANG
 grouping, with the caveat that some loss of precision (in the
 extremes) may occur due to the YANG grouping using decimal64 values
 rather than doubles.</t>
@@ -569,13 +604,13 @@ rather than doubles.</t>
 the GML CRS available definitions allow with a minimum of Earth-based
 geodetic systems fully supported.</t>
 
-<t>GML also defines an observation value in <tt>gml:Observation</tt> which
-includes a timestamp value <tt>gml:validTime</tt> in addition to other
-components such as <tt>gml:using</tt> <tt>gml:target</tt> and <tt>gml:resultOf</tt>. Only
+<t>GML also defines an observation value in <spanx style='verb'>gml:Observation</spanx> which
+includes a timestamp value <spanx style='verb'>gml:validTime</spanx> in addition to other
+components such as <spanx style='verb'>gml:using</spanx> <spanx style='verb'>gml:target</spanx> and <spanx style='verb'>gml:resultOf</spanx>. Only
 the timestamp is mappable to and from the YANG grouping. Furthermore
-<tt>gml:validTime</tt> can either be an Instantaneous measure
-(<tt>gml:TimeInstant</tt>) or a time period (<tt>gml:TimePeriod</tt>). Only the
-instantaneous <tt>gml:TimeInstant</tt> is mappable to and from the YANG
+<spanx style='verb'>gml:validTime</spanx> can either be an Instantaneous measure
+(<spanx style='verb'>gml:TimeInstant</spanx>) or a time period (<spanx style='verb'>gml:TimePeriod</spanx>). Only the
+instantaneous <spanx style='verb'>gml:TimeInstant</spanx> is mappable to and from the YANG
 grouping.</t>
 
 </section>
@@ -591,22 +626,22 @@ corresponds to the <xref target="W3CGEO"/> values. The timestamp value is also
 specified as a string as in our YANG grouping.</t>
 
 <t>KML has some special handling for the height value useful for
-visualization software, <tt>kml:altitudeMode</tt>. These values for
-<tt>kml:altitudeMode</tt> include indicating the height is ignored
-(<tt>clampToGround</tt>), in relation to the locations ground level
-(<tt>relativeToGround</tt>), or in relation to the geodetic datum
-(<tt>absolute</tt>). The YANG grouping can directly map the ignored and
+visualization software, <spanx style='verb'>kml:altitudeMode</spanx>. These values for
+<spanx style='verb'>kml:altitudeMode</spanx> include indicating the height is ignored
+(<spanx style='verb'>clampToGround</spanx>), in relation to the locations ground level
+(<spanx style='verb'>relativeToGround</spanx>), or in relation to the geodetic datum
+(<spanx style='verb'>absolute</spanx>). The YANG grouping can directly map the ignored and
 absolute cases, but not the relative to ground case.</t>
 
-<t>In addition to the <tt>kml:altitudeMode</tt> KML also defines two seafloor
-height values using <tt>kml:seaFloorAltitudeMode</tt>. One value is to
-ignore the height value (<tt>clampToSeaFloor</tt>) and the other is relative
-(<tt>relativeToSeaFloor</tt>). As with the <tt>kml:altitudeMode</tt> value, the
+<t>In addition to the <spanx style='verb'>kml:altitudeMode</spanx> KML also defines two seafloor
+height values using <spanx style='verb'>kml:seaFloorAltitudeMode</spanx>. One value is to
+ignore the height value (<spanx style='verb'>clampToSeaFloor</spanx>) and the other is relative
+(<spanx style='verb'>relativeToSeaFloor</spanx>). As with the <spanx style='verb'>kml:altitudeMode</spanx> value, the
 YANG grouping supports the ignore case but not the relative case.</t>
 
 <t>The KML location values use a geodetic datum defined in Annex A by
 the GML Coordinate Reference System (CRS) <xref target="ISO.19136.2007"/> with
-identifier <tt>LonLat84_5773</tt>. The altitude value for KML absolute
+identifier <spanx style='verb'>LonLat84_5773</spanx>. The altitude value for KML absolute
 height mode is measured from the vertical datum specified by <xref target="WGS84"/>.</t>
 
 <t>Thus the YANG grouping and KML values can be directly mapped in both
@@ -635,7 +670,7 @@ provide a single standard value for any given geodetic system.</t>
 converted to lower case, and spaces MUST be changed to dashes "-".</t>
 
 <t>Each entry should be sufficient to define the 3 coordinate values (2
-if height is not required). So for example the <tt>wgs-84</tt> is defined as
+if height is not required). So for example the <spanx style='verb'>wgs-84</spanx> is defined as
 WGS-84 with the geoid updated by at least <xref target="EGM96"/> for height values.
 Specific entries for <xref target="EGM96"/> and <xref target="EGM08"/> are present if a more precise
 definition of the data is required.</t>
@@ -663,17 +698,14 @@ be acceptable to update the policy on <xref target="RFC5870"/> and use it instea
 
 <t>The initial values for this registry are as follows.</t>
 
-<table>
-
-<thead><tr><th>Name</th><th>Description</th></tr>
-</thead>
-<tbody><tr><td>me</td><td>Mean Earth/Polar Axis (Moon)</td></tr>
-<tr><td>mola-vik-1</td><td>MOLA Height, IAU Viking-1 PM (Mars)</td></tr>
-<tr><td>wgs-84-96</td><td>World Geodetic System 1984 <xref target="WGS84"/> w/ EGM96</td></tr>
-<tr><td>wgs-84-08</td><td>World Geodetic System 1984 <xref target="WGS84"/> w/ <xref target="EGM08"/></td></tr>
-<tr><td>wgs-84</td><td>World Geodetic System 1984 <xref target="WGS84"/> (EGM96 or better)</td></tr>
-</tbody>
-</table>
+<texttable>
+<ttcol>Name</ttcol><ttcol>Description</ttcol>
+<c>me</c><c>Mean Earth/Polar Axis (Moon)</c>
+<c>mola-vik-1</c><c>MOLA Height, IAU Viking-1 PM (Mars)</c>
+<c>wgs-84-96</c><c>World Geodetic System 1984 <xref target="WGS84"/> w/ EGM96</c>
+<c>wgs-84-08</c><c>World Geodetic System 1984 <xref target="WGS84"/> w/ <xref target="EGM08"/></c>
+<c>wgs-84</c><c>World Geodetic System 1984 <xref target="WGS84"/> (EGM96 or better)</c>
+</texttable>
 
 </section>
 
@@ -700,7 +732,7 @@ document as well.</t>
 <author initials='S.C.' surname='Kenyon' fullname='S. C. Kenyon'><organization/></author>
 <author initials='J.K.' surname='Factor' fullname='J. K. Factor'><organization/></author>
 <date year="2008"/>
-</front><refcontent>Presented at the 2008 General Assembly of the European Geosciences Union, Vienna, Arpil13-18, 2008</refcontent>
+</front>
 </reference>
 <reference anchor="EGM96" target='https://cddis.nasa.gov/926/egm96/egm96.html'>
 <front>
@@ -721,7 +753,7 @@ document as well.</t>
 <author initials='R.H.' surname='Rapp' fullname='R. H. Rapp'><organization/></author>
 <author initials='T.R.' surname='Olson' fullname='T. R. Olson'><organization/></author>
 <date year="1998"/>
-</front><refcontent>Technical Report NASA/TP-1998-206861, NASA, Greenbelt.</refcontent>
+</front>
 </reference>
 <reference anchor="ISO.6709.2008">
 <front>
@@ -868,7 +900,7 @@ document as well.</t>
 <section title="Examples">
 <t>Below is a fictitious module that uses the geo-location grouping.</t>
 
-<figure><name>Example YANG module using geo location.</name><sourcecode><![CDATA[
+<figure><artwork><![CDATA[
 <CODE BEGINS> file "uses-geo-location@2019-02-02.yang"
 module uses-geo-location {
   namespace "urn:ietf:uses-geo-location";
@@ -892,12 +924,12 @@ module uses-geo-location {
   }
 }
 <CODE ENDS>
-]]></sourcecode></figure>
+]]></artwork></figure>
 
 <t>Below is a the YANG tree for the fictitious module that uses the
 geo-location grouping.</t>
 
-<artwork><![CDATA[
+<figure><artwork><![CDATA[
 module: uses-geo-location
   +--rw locatable-items
      +--rw locatable-item* [name]
@@ -920,15 +952,16 @@ module: uses-geo-location
            |     +--rw y            decimal64
            |     +--rw z?           decimal64
            +--rw velocity
-           |  +--rw heading?   degrees
-           |  +--rw speed?     decimal64
+           |  +--rw v-north?   decimal64
+           |  +--rw v-east?    decimal64
+           |  +--rw v-up?      decimal64
            +--rw timestamp?         types:date-and-time
-]]></artwork>
+]]></artwork></figure>
 
 <t>Below is some example YANG XML data for the fictitious module that
 uses the geo-location grouping.</t>
 
-<figure><name>Example XML data of geo location use.</name><sourcecode><![CDATA[
+<figure><artwork><![CDATA[
 <ns0:config xmlns:ns0="urn:ietf:params:xml:ns:netconf:base:1.0">
   <locatable-items xmlns="urn:ietf:uses-geo-location">
     <locatable-item>
@@ -971,7 +1004,7 @@ uses the geo-location grouping.</t>
     </locatable-item>
   </locatable-items>
 </ns0:config>
-]]></sourcecode></figure>
+]]></artwork></figure>
 
 </section>
 
