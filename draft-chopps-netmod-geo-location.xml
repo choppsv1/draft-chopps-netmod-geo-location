@@ -199,10 +199,9 @@ geo-location grouping.</t>
 
 <section title="YANG Module">
 <figure><artwork><![CDATA[
-<CODE BEGINS> file "geo-location@2019-02-17.yang"
-// -*- fill-column: 69 -*-
-module geo-location {
-  namespace "urn:ietf:geo-location";
+<CODE BEGINS> file "ietf-geo-location@2019-02-17.yang"
+module ietf-geo-location {
+  namespace "urn:ietf:params:xml:ns:yang:ietf-geo-location";
   prefix geo;
   import ietf-yang-types { prefix types; }
 
@@ -420,8 +419,8 @@ module geo-location {
 	  }
 	  units "meters per second";
 	  description
-	    "v-north is the rate of change (i.e., speed) towards truth
-	     north as defined by the ~geodetic-system~.";
+	    "v-north is the rate of change (i.e., speed) towards
+	     truth north as defined by the ~geodetic-system~.";
 	}
 
 	leaf v-east {
@@ -901,9 +900,10 @@ document as well.</t>
 <t>Below is a fictitious module that uses the geo-location grouping.</t>
 
 <figure><artwork><![CDATA[
-<CODE BEGINS> file "uses-geo-location@2019-02-02.yang"
-module uses-geo-location {
-  namespace "urn:ietf:uses-geo-location";
+<CODE BEGINS> file "ietf-uses-geo-location@2019-02-02.yang"
+module ietf-uses-geo-location {
+  namespace
+    "urn:ietf:params:xml:ns:yang:ietf-uses-geo-location";
   prefix ugeo;
   import geo-location { prefix geo; }
   organization "Empty Org";
@@ -930,7 +930,7 @@ module uses-geo-location {
 geo-location grouping.</t>
 
 <figure><artwork><![CDATA[
-module: uses-geo-location
+module: ietf-uses-geo-location
   +--rw locatable-items
      +--rw locatable-item* [name]
         +--rw name            string
@@ -963,7 +963,8 @@ uses the geo-location grouping.</t>
 
 <figure><artwork><![CDATA[
 <ns0:config xmlns:ns0="urn:ietf:params:xml:ns:netconf:base:1.0">
-  <locatable-items xmlns="urn:ietf:uses-geo-location">
+  <locatable-items
+     xmlns="urn:ietf:params:xml:ns:yang:ietf-uses-geo-location">
     <locatable-item>
       <name>Gaetana's</name>
       <geo-location>

@@ -203,11 +203,10 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;/grouping geo/d;s/^
 
 #+name: geo-location-module
 #+header: :cmdline "-fyang --yang-canonical"
-#+header: :file geo-location.yang :results output code silent
+#+header: :file ietf-geo-location.yang :results output code silent
 #+begin_src yang :exports code
-  // -*- fill-column: 69 -*-
-  module geo-location {
-    namespace "urn:ietf:geo-location";
+  module ietf-geo-location {
+    namespace "urn:ietf:params:xml:ns:yang:ietf-geo-location";
     prefix geo;
     import ietf-yang-types { prefix types; }
 
@@ -425,8 +424,8 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;/grouping geo/d;s/^
             }
             units "meters per second";
             description
-              "v-north is the rate of change (i.e., speed) towards truth
-               north as defined by the ~geodetic-system~.";
+              "v-north is the rate of change (i.e., speed) towards
+               truth north as defined by the ~geodetic-system~.";
           }
 
           leaf v-east {
@@ -792,11 +791,12 @@ Below is a fictitious module that uses the geo-location grouping.
 # it to execute to create the file.
 
 #+CAPTION: Example YANG module using geo location.
-#+name: uses-geo-location
-#+header: :file uses-geo-location.yang
+#+name: ietf-uses-geo-location
+#+header: :file ietf-uses-geo-location.yang
 #+begin_src yang :results output code silent :exports code
-  module uses-geo-location {
-    namespace "urn:ietf:uses-geo-location";
+  module ietf-uses-geo-location {
+    namespace
+      "urn:ietf:params:xml:ns:yang:ietf-uses-geo-location";
     prefix ugeo;
     import geo-location { prefix geo; }
     organization "Empty Org";
@@ -822,7 +822,7 @@ Below is a the YANG tree for the fictitious module that uses the
 geo-location grouping.
 
 #+NAME: Example YANG tree diagram of geo location use.
-#+begin_src bash  :var file=uses-geo-location :results output verbatim replace :wrap example :exports results
+#+begin_src bash  :var file=ietf-uses-geo-location :results output verbatim replace :wrap example :exports results
 pyang --tree-print-groupings -f tree ${file}
 # pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
 #+end_src
@@ -830,7 +830,7 @@ pyang --tree-print-groupings -f tree ${file}
 #+CAPTION:
 #+RESULTS: Example YANG tree diagram of geo location use.
 #+begin_example
-module: uses-geo-location
+module: ietf-uses-geo-location
   +--rw locatable-items
      +--rw locatable-item* [name]
         +--rw name            string
@@ -862,7 +862,7 @@ Below is some example YANG XML data for the fictitious module that
 uses the geo-location grouping.
 
 #+NAME: validate-xml-example
-#+HEADER: :var vfile=xml-example :var module=uses-geo-location
+#+HEADER: :var vfile=xml-example :var module=ietf-uses-geo-location
 #+begin_src bash :results output verbatim replace :wrap example :exports none
   mkdir -p .validate
   # if ! yang2dsdl -t config -d .validate -v ${vfile} $module 2>&1 >/dev/null; then echo FAIL; fi
@@ -879,7 +879,8 @@ No errors found.
 #+NAME: xml-example
 #+begin_src xml :file test-xml-example.xml :results output code silent :exports code
   <ns0:config xmlns:ns0="urn:ietf:params:xml:ns:netconf:base:1.0">
-    <locatable-items xmlns="urn:ietf:uses-geo-location">
+    <locatable-items
+       xmlns="urn:ietf:params:xml:ns:yang:ietf-uses-geo-location">
       <locatable-item>
         <name>Gaetana's</name>
         <geo-location>
@@ -923,11 +924,42 @@ No errors found.
 #+end_src
 
 #+NAME: Sample XML Skeleton
-#+begin_src bash  :var file=uses-geo-location :results output verbatim replace :wrap comment :exports none
+#+begin_src bash  :var file=ietf-uses-geo-location :results output verbatim replace :wrap comment :exports none
 pyang -f sample-xml-skeleton ${file}
 #+end_src
 
 #+RESULTS: Sample XML Skeleton
+#+begin_comment
+<?xml version='1.0' encoding='UTF-8'?>
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <locatable-items xmlns="urn:ietf:params:xml:ns:yang:ietf-uses-geo-location">
+    <locatable-item>
+      <name/>
+      <geo-location>
+        <reference-frame>
+          <alternate-system/>
+          <geodetic-system>
+            <coord-accuracy/>
+            <height-accuracy/>
+          </geodetic-system>
+        </reference-frame>
+        <latitude/>
+        <longitude/>
+        <height/>
+        <x/>
+        <y/>
+        <z/>
+        <velocity>
+          <v-north/>
+          <v-east/>
+          <v-up/>
+        </velocity>
+        <timestamp/>
+      </geo-location>
+    </locatable-item>
+  </locatable-items>
+</data>
+#+end_comment
 #+begin_comment
 <?xml version='1.0' encoding='UTF-8'?>
 <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
