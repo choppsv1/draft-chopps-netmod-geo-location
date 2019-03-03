@@ -677,9 +677,8 @@ The initial values for this registry are as follows.
    spelled out in the YANG 1.1 specification [[RFC7950]] apply for this
    document as well.
 
-* References
-** Normative References
-*** EGM08
+* Normative References
+** EGM08
     :PROPERTIES:
     :REF_TITLE: An Earth Gravitational Model to Degree 2160: EGM08.
     :REF_AUTHOR: ("N. K. Pavlis" "S. A. Holmes" "S. C. Kenyon" "J. K. Factor")
@@ -687,7 +686,7 @@ The initial values for this registry are as follows.
     :REF_CONTENT: Presented at the 2008 General Assembly of the European Geosciences Union, Vienna, Arpil13-18, 2008
     :REF_TARGET: http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008/egm08_wgs84.html
     :END:
-*** EGM96
+** EGM96
     :PROPERTIES:
     :REF_TITLE: The Development of the Joint NASA GSFC and the National Imagery and Mapping Agency (NIMA) Geopotential Model EGM96.
     :REF_AUTHOR: ("F. G. Lemoine" "S. C. Kenyon" "J. K. Factor" "R. G. Trimmer" "N. K. Pavlis" "D. S. Chinn" "C. M. Cox" "S. M. Klosko" "S. B. Luthcke" "M. H. Torrence" "Y. M. Wang" "R. G. Williamson" "E. C. Pavlis" "R. H. Rapp" "T. R. Olson")
@@ -695,17 +694,17 @@ The initial values for this registry are as follows.
     :REF_DATE: 1998
     :REF_TARGET: https://cddis.nasa.gov/926/egm96/egm96.html
     :END:
-*** ISO.6709.2008
+** ISO.6709.2008
     :PROPERTIES:
     :REF_ORG: International Organization for Standardization
     :REF_TITLE: ISO 6709:2008 Standard representation of geographic point location by coordinates.
     :REF_DATE: 2008
     :END:
-*** RFC2119
-*** RFC8174
-*** RFC8126
-*** RFC8342
-*** WGS84
+** RFC2119
+** RFC8174
+** RFC8126
+** RFC8342
+** WGS84
     :PROPERTIES:
     :REF_ORG: National Imagery and Mapping Agency.
     :REF_TITLE: National Imagery and Mapping Agency Technical Report 8350.2, Third Edition.
@@ -713,14 +712,14 @@ The initial values for this registry are as follows.
     :REF_TARGET: http://earth-info.nga.mil/GandG/publications/tr8350.2/wgs84fin.pdf
     :END:
 
-** Informative References
-*** ISO.19136.2007
+* Informative References
+** ISO.19136.2007
     :PROPERTIES:
     :REF_ORG: International Organization for Standardization
     :REF_TITLE: ISO 19136:2007 Geographic information -- Geography Markup Language (GML)
     :REX_DATE: 2007
     :END:
-*** KML22
+** KML22
     :PROPERTIES:
     :REF_EDITOR: Tim Wilson
     :REF_ORG: Open Geospatial Consortium
@@ -728,7 +727,7 @@ The initial values for this registry are as follows.
     :REF_DATE: 2008-04-14
     :REF_TARGET: http://portal.opengeospatial.org/files/?artifact_id=27810
     :END:
-*** KML23
+** KML23
     :PROPERTIES:
     :REF_EDITOR: David Burggraf
     :REF_ORG: Open Geospatial Consortium
@@ -736,10 +735,10 @@ The initial values for this registry are as follows.
     :REF_DATE: 2015-08-04
     :REF_TARGET: http://docs.opengeospatial.org/is/12-007r2/12-007r2.html
     :END:
-*** RFC5870
-*** RFC7950
-*** RFC8340
-*** W3CGEO
+** RFC5870
+** RFC7950
+** RFC8340
+** W3CGEO
     :PROPERTIES:
     :REF_AUTHOR: Andrei Popescu
     :REF_TITLE: Geolocation API Specification

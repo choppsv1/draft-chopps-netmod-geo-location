@@ -54,7 +54,7 @@ as shown here.</t>
 </section>
 
 <section title="The Geo Location Object">
-<section title="Frame of Reference" anchor="org889ab86">
+<section title="Frame of Reference" anchor="sec-frame-of-reference">
 <t>The frame of reference (<tt>reference-frame</tt>) defines what the
 location values refer to and their meaning. The referred to
 object can be any astronomical body. It could be a planet such as
@@ -99,7 +99,7 @@ are specified as fractions of decimal degrees, and the <tt>height</tt>
 value is in fractions of meters. For the Cartesian choice <tt>x</tt>,
 <tt>y</tt> and <tt>z</tt> are in fractions of meters. In both choices the exact
 meanings of all of the values are defined by the <tt>geodetic-datum</tt>
-value in the <xref target="org889ab86"></xref>.</t>
+value in the <xref target="sec-frame-of-reference"></xref>.</t>
 
 </section>
 
