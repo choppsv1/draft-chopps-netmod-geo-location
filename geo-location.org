@@ -7,7 +7,7 @@
 #+EMAIL: chopps@chopps.org
 #+AFFILIATION: LabN Consulting, L.L.C.
 #+RFC_NAME: draft-ietf-netmod-geo-location
-#+RFC_VERSION: 00
+#+RFC_VERSION: 01
 #+RFC_XML_VERSION: 2
 
 #+begin_abstract
@@ -292,9 +292,7 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;/grouping geo/d;s/^
           }
           leaf astronomical-body {
             type string {
-              pattern
-                '[-0-9a-z #x22#x23#x5B#x5D' +
-                  '!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
+              pattern '[ -@\[-\^_-~]*';
             }
             default "earth";
             description
@@ -306,22 +304,25 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;/grouping geo/d;s/^
                '67p/churyumov-gerasimenko (a comet). The value should
                be comprised of all lower case ASCII characters not
                including control characters (i.e., values 32..64, and
-               91..126)";
+               91..126). Any preceding 'the' in the name should not
+               be included.";
           }
           container geodetic-system {
             description
               "The geodetic system of the location data.";
             leaf geodetic-datum {
               type string {
-                pattern
-                  '[-0-9a-z#x22#x23#x5B#x5D' +
-                    '!$%&()*+,\./:;<=>?@\\^_`{|}~]+';
+                pattern '[ -@\[-\^_-~]*';
               }
               default "wgs-84";
               description
                 "A geodetic-datum defining the meaning of latitude,
                  longitude and height. The default is 'wgs-84' which is
-                 used by the Global Positioning System (GPS)";
+                 used by the Global Positioning System (GPS). The value
+                 SHOULD be comprised of all lower case ASCII characters
+                 not including control characters (i.e., values 32..64,
+                 and 91..126). The IANA registry further restricts the
+                 value by converting all spaces (' ') to dashes ('-')";
             }
             leaf coord-accuracy {
               type decimal64 {
@@ -791,12 +792,12 @@ Below is a fictitious module that uses the geo-location grouping.
 # it to execute to create the file.
 
 #+CAPTION: Example YANG module using geo location.
-#+name: ietf-uses-geo-location
-#+header: :file ietf-uses-geo-location.yang
+#+name: example-uses-geo-location
+#+header: :file example-uses-geo-location.yang
 #+begin_src yang :results output code silent :exports code
-  module ietf-uses-geo-location {
+  module example-uses-geo-location {
     namespace
-      "urn:ietf:params:xml:ns:yang:ietf-uses-geo-location";
+      "urn:example:example-uses-geo-location";
     prefix ugeo;
     import geo-location { prefix geo; }
     organization "Empty Org";
@@ -822,7 +823,7 @@ Below is a the YANG tree for the fictitious module that uses the
 geo-location grouping.
 
 #+NAME: Example YANG tree diagram of geo location use.
-#+begin_src bash  :var file=ietf-uses-geo-location :results output verbatim replace :wrap example :exports results
+#+begin_src bash  :var file=example-uses-geo-location :results output verbatim replace :wrap example :exports results
 pyang --tree-print-groupings -f tree ${file}
 # pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
 #+end_src
@@ -830,7 +831,7 @@ pyang --tree-print-groupings -f tree ${file}
 #+CAPTION:
 #+RESULTS: Example YANG tree diagram of geo location use.
 #+begin_example
-module: ietf-uses-geo-location
+module: example-uses-geo-location
   +--rw locatable-items
      +--rw locatable-item* [name]
         +--rw name            string
@@ -862,7 +863,7 @@ Below is some example YANG XML data for the fictitious module that
 uses the geo-location grouping.
 
 #+NAME: validate-xml-example
-#+HEADER: :var vfile=xml-example :var module=ietf-uses-geo-location
+#+HEADER: :var vfile=xml-example :var module=example-uses-geo-location
 #+begin_src bash :results output verbatim replace :wrap example :exports none
   mkdir -p .validate
   # if ! yang2dsdl -t config -d .validate -v ${vfile} $module 2>&1 >/dev/null; then echo FAIL; fi
@@ -879,8 +880,7 @@ No errors found.
 #+NAME: xml-example
 #+begin_src xml :file test-xml-example.xml :results output code silent :exports code
   <ns0:config xmlns:ns0="urn:ietf:params:xml:ns:netconf:base:1.0">
-    <locatable-items
-       xmlns="urn:ietf:params:xml:ns:yang:ietf-uses-geo-location">
+    <locatable-items xmlns="urn:example:example-uses-geo-location">
       <locatable-item>
         <name>Gaetana's</name>
         <geo-location>
@@ -924,7 +924,7 @@ No errors found.
 #+end_src
 
 #+NAME: Sample XML Skeleton
-#+begin_src bash  :var file=ietf-uses-geo-location :results output verbatim replace :wrap comment :exports none
+#+begin_src bash  :var file=example-uses-geo-location :results output verbatim replace :wrap comment :exports none
 pyang -f sample-xml-skeleton ${file}
 #+end_src
 
@@ -932,7 +932,7 @@ pyang -f sample-xml-skeleton ${file}
 #+begin_comment
 <?xml version='1.0' encoding='UTF-8'?>
 <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
-  <locatable-items xmlns="urn:ietf:params:xml:ns:yang:ietf-uses-geo-location">
+  <locatable-items xmlns="urn:example:example-uses-geo-location">
     <locatable-item>
       <name/>
       <geo-location>
@@ -963,7 +963,7 @@ pyang -f sample-xml-skeleton ${file}
 #+begin_comment
 <?xml version='1.0' encoding='UTF-8'?>
 <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
-  <locatable-items xmlns="urn:ietf:uses-geo-location">
+  <locatable-items xmlns="urn:example:example-uses-geo-location">
     <locatable-item>
       <name/>
       <geo-location>
