@@ -173,7 +173,7 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;/grouping geo/d;s/^
 #+CAPTION: Geo Location YANG tree diagram.
 #+RESULTS: Geo location YANG tree diagram.
 #+begin_example
-  module: geo-location
+  module: ietf-geo-location
       +-- geo-location
          +-- reference-frame
          |  +-- alternate-system?    string {alternate-systems}?
@@ -799,7 +799,7 @@ Below is a fictitious module that uses the geo-location grouping.
     namespace
       "urn:example:example-uses-geo-location";
     prefix ugeo;
-    import geo-location { prefix geo; }
+    import ietf-geo-location { prefix geo; }
     organization "Empty Org";
     contact "Example Author <eauthor@example.com>";
     description "Example use of geo-location";
