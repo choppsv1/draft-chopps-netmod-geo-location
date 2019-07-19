@@ -7,7 +7,7 @@
 #+EMAIL: chopps@chopps.org
 #+AFFILIATION: LabN Consulting, L.L.C.
 #+RFC_NAME: draft-ietf-netmod-geo-location
-#+RFC_VERSION: 01
+#+RFC_VERSION: 02
 #+RFC_XML_VERSION: 2
 
 #+begin_abstract
@@ -357,7 +357,6 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;/grouping geo/d;s/^
           }
         }
         choice location {
-          mandatory true;
           description
             "The location data either in lat/long or Cartesian values";
           case ellipsoid {
