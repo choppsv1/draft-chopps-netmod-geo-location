@@ -4,8 +4,8 @@
 
 Network Working Group                                           C. Hopps
 Internet-Draft                                   LabN Consulting, L.L.C.
-Intended status: Standards Track                           July 19, 2019
-Expires: January 20, 2020
+Intended status: Standards Track                        November 4, 2019
+Expires: May 7, 2020
 
 
                            YANG Geo Location
@@ -33,7 +33,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 20, 2020.
+   This Internet-Draft will expire on May 7, 2020.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Hopps                   Expires January 20, 2020                [Page 1]
+Hopps                      Expires May 7, 2020                  [Page 1]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
 Table of Contents
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Hopps                   Expires January 20, 2020                [Page 2]
+Hopps                      Expires May 7, 2020                  [Page 2]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
    This specification conforms to [ISO.6709.2008].
@@ -165,9 +165,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020                [Page 3]
+Hopps                      Expires May 7, 2020                  [Page 3]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
 2.2.  Location
@@ -221,9 +221,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020                [Page 4]
+Hopps                      Expires May 7, 2020                  [Page 4]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
 2.4.  Nested Locations
@@ -277,9 +277,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020                [Page 5]
+Hopps                      Expires May 7, 2020                  [Page 5]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
      module: ietf-geo-location
@@ -333,9 +333,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020                [Page 6]
+Hopps                      Expires May 7, 2020                  [Page 6]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
         authors of the code. All rights reserved.
@@ -389,9 +389,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020                [Page 7]
+Hopps                      Expires May 7, 2020                  [Page 7]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
             somewhere in a universe.";
@@ -445,9 +445,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020                [Page 8]
+Hopps                      Expires May 7, 2020                  [Page 8]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
                   not including control characters (i.e., values 32..64,
@@ -501,9 +501,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020                [Page 9]
+Hopps                      Expires May 7, 2020                  [Page 9]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
              leaf longitude {
@@ -557,9 +557,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020               [Page 10]
+Hopps                      Expires May 7, 2020                 [Page 10]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
               this motion at the the time given by the timestamp.";
@@ -613,9 +613,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020               [Page 11]
+Hopps                      Expires May 7, 2020                 [Page 11]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
    +---------+-----------------------------------+---------------------+
@@ -669,9 +669,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020               [Page 12]
+Hopps                      Expires May 7, 2020                 [Page 12]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
 5.1.  Portability
@@ -725,9 +725,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020               [Page 13]
+Hopps                      Expires May 7, 2020                 [Page 13]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
 5.1.2.1.  Compare with YANG Model
@@ -781,9 +781,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020               [Page 14]
+Hopps                      Expires May 7, 2020                 [Page 14]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
    W3C API values can be mapped to the YANG grouping, with the caveat
@@ -837,9 +837,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020               [Page 15]
+Hopps                      Expires May 7, 2020                 [Page 15]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
    version as of this writing is KML 2.3 [KML23].  This schema includes
@@ -893,9 +893,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020               [Page 16]
+Hopps                      Expires May 7, 2020                 [Page 16]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
    as WGS-84 with the geoid updated by at least [EGM96] for height
@@ -949,9 +949,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020               [Page 17]
+Hopps                      Expires May 7, 2020                 [Page 17]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
    spelled out in the YANG 1.1 specification [RFC7950] apply for this
@@ -1005,9 +1005,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020               [Page 18]
+Hopps                      Expires May 7, 2020                 [Page 18]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
 8.2.  Informative References
@@ -1061,9 +1061,9 @@ Appendix A.  Examples
 
 
 
-Hopps                   Expires January 20, 2020               [Page 19]
+Hopps                      Expires May 7, 2020                 [Page 19]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
    module example-uses-geo-location {
@@ -1117,9 +1117,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020               [Page 20]
+Hopps                      Expires May 7, 2020                 [Page 20]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
    module: example-uses-geo-location
@@ -1173,9 +1173,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020               [Page 21]
+Hopps                      Expires May 7, 2020                 [Page 21]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
    <ns0:config xmlns:ns0="urn:ietf:params:xml:ns:netconf:base:1.0">
@@ -1229,9 +1229,9 @@ Internet-Draft              YANG Geo Location                  July 2019
 
 
 
-Hopps                   Expires January 20, 2020               [Page 22]
+Hopps                      Expires May 7, 2020                 [Page 22]
 
-Internet-Draft              YANG Geo Location                  July 2019
+Internet-Draft              YANG Geo Location              November 2019
 
 
 Appendix B.  Acknowledgements
@@ -1285,4 +1285,4 @@ Author's Address
 
 
 
-Hopps                   Expires January 20, 2020               [Page 23]
+Hopps                      Expires May 7, 2020                 [Page 23]
