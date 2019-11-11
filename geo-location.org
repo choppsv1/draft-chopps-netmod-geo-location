@@ -344,7 +344,7 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
               description
                 "The accuracy of height value. When specified it
                  overrides the geodetic-datum implied default. If
-                 Cartesian coordinates ar in use this accuracy
+                 Cartesian coordinates are in use this accuracy
                  corresponds to the Z component.";
             }
             // May wish to allow for height to be relative.
@@ -448,6 +448,14 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
         leaf timestamp {
           type types:date-and-time;
           description "Reference time when location was recorded.";
+        }
+        leaf valid-for {
+          when "../timestamp";
+          type uint64;
+          description
+            "The number of seconds beyond the timestamp for which this
+             geo-location is valid. If unspecified the geo-location has
+             no specific expiration time.";
         }
       }
     }
