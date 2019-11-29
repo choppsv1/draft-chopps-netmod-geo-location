@@ -7,7 +7,7 @@
 #+EMAIL: chopps@chopps.org
 #+AFFILIATION: LabN Consulting, L.L.C.
 #+RFC_NAME: draft-ietf-netmod-geo-location
-#+RFC_VERSION: 02
+#+RFC_VERSION: 03
 #+RFC_XML_VERSION: 2
 
 #+begin_abstract
@@ -96,11 +96,11 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
     This is the location on or relative to the astronomical object.
     It is specified using 2 or 3 coordinates values. These values are
     given either as ~latitude~, ~longitude~, and an optional
-    ~height~, or as Cartesian coordinates of ~x~, ~y~ and an optional
-    ~z~. For the standard location choice ~latitude~ and ~longitude~
-    are specified as fractions of decimal degrees, and the ~height~
-    value is in fractions of meters. For the Cartesian choice ~x~,
-    ~y~ and ~z~ are in fractions of meters. In both choices the exact
+    ~height~, or as Cartesian coordinates of ~x~, ~y~ and ~z~. For
+    the standard location choice ~latitude~ and ~longitude~ are
+    specified as fractions of decimal degrees, and the ~height~ value
+    is in fractions of meters. For the Cartesian choice ~x~, ~y~ and
+    ~z~ are in fractions of meters. In both choices the exact
     meanings of all of the values are defined by the ~geodetic-datum~
     value in the [[Frame of Reference]].
 
@@ -185,8 +185,8 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
          |     +-- height-accuracy?   decimal64
          +-- (location)?
          |  +--:(ellipsoid)
-         |  |  +-- latitude?    degrees
-         |  |  +-- longitude?   degrees
+         |  |  +-- latitude?    decimal64
+         |  |  +-- longitude?   decimal64
          |  |  +-- height?      decimal64
          |  +--:(cartesian)
          |     +-- x?           decimal64
@@ -197,6 +197,7 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
          |  +-- v-east?    decimal64
          |  +-- v-up?      decimal64
          +-- timestamp?         types:date-and-time
+         +-- valid-for?         uint64
 #+end_example
 
 
@@ -252,14 +253,6 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
       reference "RFC XXXX: YANG Geo Location";
     }
 
-    typedef degrees {
-      type decimal64 {
-        fraction-digits 16;
-      }
-      units "decimal degrees";
-      description "Coordinate value.";
-    }
-
     feature alternate-systems {
       description
         "This feature means the device supports specifying locations
@@ -305,8 +298,8 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
                '67p/churyumov-gerasimenko (a comet). The value should
                be comprised of all lower case ASCII characters not
                including control characters (i.e., values 32..64, and
-               91..126). Any preceding 'the' in the name should not
-               be included.";
+               91..126). Any preceding 'the' in the name should not be
+               included.";
           }
           container geodetic-system {
             description
@@ -330,11 +323,11 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
                 fraction-digits 6;
               }
               description
-                "The accuracy of the latitude longitude pair. When
-                 coord-accuracy is specified it overrides the
-                 geodetic-datum implied accuracy. If Cartesian
-                 coordinates are in use this accuracy corresponds to
-                 the X and Y components";
+                "The accuracy of the latitude longitude pair for
+                 ellipsoidal coordinates, or the X, Y and Z components
+                 for Cartesian coordinates. When coord-accuracy is
+                 specified it overrides the geodetic-datum implied
+                 accuracy.";
             }
             leaf height-accuracy {
               type decimal64 {
@@ -342,19 +335,11 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
               }
               units "meters";
               description
-                "The accuracy of height value. When specified it
-                 overrides the geodetic-datum implied default. If
-                 Cartesian coordinates are in use this accuracy
-                 corresponds to the Z component.";
+                "The accuracy of height value for ellipsoidal
+                 coordinates, this value is not used with Cartesian
+                 coordinates. When specified it overrides the
+                 geodetic-datum implied default.";
             }
-            // May wish to allow for height to be relative.
-            // If so need to decide if we have a boolean (to ground)
-            // or an enumeration (e.g., local ground, sea-floor,
-            // ground floor, containing object, ...) or even allow
-            // for a string for most generic but least portable
-            // comparable
-            // leaf height-relative {
-            // }
           }
         }
         choice location {
@@ -362,14 +347,20 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
             "The location data either in lat/long or Cartesian values";
           case ellipsoid {
             leaf latitude {
-              type degrees;
+              type decimal64 {
+                fraction-digits 16;
+              }
+              units "decimal degrees";
               description
                 "The latitude value on the astronomical body. The
                  definition and precision of this measurement is
                  indicated by the reference-frame value.";
             }
             leaf longitude {
-              type degrees;
+              type decimal64 {
+                fraction-digits 16;
+              }
+              units "decimal degrees";
               description
                 "The longitude value on the astronomical body. The
                  definition and precision of this measurement is
@@ -390,6 +381,7 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
               type decimal64 {
                 fraction-digits 6;
               }
+              units "meters";
               description
                 "The X value as defined by the reference-frame.";
             }
@@ -397,6 +389,7 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
               type decimal64 {
                 fraction-digits 6;
               }
+              units "meters";
               description
                 "The Y value as defined by the reference-frame.";
             }
@@ -413,7 +406,7 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
         container velocity {
           description
             "If the object is in motion the velocity vector describes
-             this motion at the the time given by the timestamp.";
+             this motion at the the time given by the timestamp";
 
           leaf v-north {
             type decimal64 {
@@ -557,10 +550,10 @@ used by many application (e.g., Google Maps API).
 | accuracy         | double       | coord-accuracy  | dec64 fr 6  |
 | altitude         | double       | height          | dec64 fr 6  |
 | altitudeAccuracy | double       | height-accuracy | dec64 fr 6  |
-| heading          | double       | heading         | dec64 fr 16 |
+| heading          | double       | v-north, v-east | dec64 fr 12 |
 | latitude         | double       | latitude        | dec64 fr 16 |
 | longitude        | double       | longitude       | dec64 fr 16 |
-| speed            | double       | speed           | dec64 fr 12 |
+| speed            | double       | v-north, v-east | dec64 fr 12 |
 | timestamp        | DOMTimeStamp | timestamp       | string      |
 
 - accuracy (double) :: Accuracy of ~latitude~ and ~longitude~ values
@@ -617,9 +610,11 @@ includes a timestamp value ~gml:validTime~ in addition to other
 components such as ~gml:using~ ~gml:target~ and ~gml:resultOf~. Only
 the timestamp is mappable to and from the YANG grouping. Furthermore
 ~gml:validTime~ can either be an Instantaneous measure
-(~gml:TimeInstant~) or a time period (~gml:TimePeriod~). Only the
+(~gml:TimeInstant~) or a time period (~gml:TimePeriod~). The
 instantaneous ~gml:TimeInstant~ is mappable to and from the YANG
-grouping.
+grouping ~timestamp~ value, and values down to the resolution of
+seconds for ~gml:TimePeriod~ can be mapped using the using the
+~valid-for~ node of the YANG grouping.
 
 *** KML
 
@@ -627,15 +622,15 @@ KML 2.2 [[KML22]] (formerly Keyhole Markup Language) was submitted by
 Google to Open Geospatial Consortium (OGC)
 [[https://www.opengeospatial.org/]] and was adopted. The latest version
 as of this writing is KML 2.3 [[KML23]]. This schema includes geographic
-location data in some of it's objects (e.g., <kml:Point or
-<kml:Camera> objects). This data is provided in string format and
+location data in some of its objects (e.g., ~kml:Point~ or
+~kml:Camera~ objects). This data is provided in string format and
 corresponds to the [[W3CGEO]] values. The timestamp value is also
 specified as a string as in our YANG grouping.
 
 KML has some special handling for the height value useful for
 visualization software, ~kml:altitudeMode~. These values for
 ~kml:altitudeMode~ include indicating the height is ignored
-(~clampToGround~), in relation to the locations ground level
+(~clampToGround~), in relation to the location's ground level
 (~relativeToGround~), or in relation to the geodetic datum
 (~absolute~). The YANG grouping can directly map the ignored and
 absolute cases, but not the relative to ground case.
@@ -849,8 +844,8 @@ module: example-uses-geo-location
            |     +--rw height-accuracy?   decimal64
            +--rw (location)?
            |  +--:(ellipsoid)
-           |  |  +--rw latitude?    degrees
-           |  |  +--rw longitude?   degrees
+           |  |  +--rw latitude?    decimal64
+           |  |  +--rw longitude?   decimal64
            |  |  +--rw height?      decimal64
            |  +--:(cartesian)
            |     +--rw x?           decimal64
@@ -861,6 +856,7 @@ module: example-uses-geo-location
            |  +--rw v-east?    decimal64
            |  +--rw v-up?      decimal64
            +--rw timestamp?         types:date-and-time
+           +--rw valid-for?         uint64
 #+end_example
 
 Below is some example YANG XML data for the fictitious module that
@@ -1008,9 +1004,8 @@ pyang -f sample-xml-skeleton ${file}
 
 * Acknowledgements
 
-We would like to thank Peter Lothberg for the motivation as well as
-help in defining a more broadly useful geographic location object.
-
-We would also like to thank Acee Lindem and Qin Wu for their work on
-a geographic location object that led to this documents creation.
-
+We would like to thank Jim Biard and Ben Koziol for their reviews and
+suggested improvements. We would also like to thank Peter Lothberg
+for the motivation as well as help in defining a broadly useful
+geographic location object, and Acee Lindem and Qin Wu for their work
+on a geographic location object that led to this documents creation.
