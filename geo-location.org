@@ -2,7 +2,7 @@
 #+STARTUP: align entitiespretty hidestars inlineimages latexpreview noindent showall
 #+OPTIONS: prop:nil title:t toc:t \n:nil ::t |:t ^:{} -:t *:t ':nil
 
-#+TITLE: YANG Geo Location
+#+TITLE: A YANG Grouping for Geographic Locations
 #+AUTHOR: Christian Hopps
 #+EMAIL: chopps@chopps.org
 #+AFFILIATION: LabN Consulting, L.L.C.
@@ -64,9 +64,9 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
     object can be any astronomical body. It could be a planet such as
     The Earth or Mars, a moon such as Enceladus, an asteroid such as
     Ceres, or even a comet such as 1P/Halley. This value is specified
-    in ~astronomical-body~ and is defined by the International
-    Astronomical Union ([[http://www.iau.org]]), The default
-    ~astronomical-body~ value is =earth=.
+    in ~astronomical-body~ and is defined by the [[http://www.iau.org][International
+    Astronomical Union]]. The default ~astronomical-body~ value is
+    =earth=.
 
     In addition to identifying the astronomical body we also need to
     define the meaning of the coordinates (e.g., latitude and
@@ -516,8 +516,6 @@ the YANG grouping using decimal64 values rather than strings.
 
 *** W3C
 
-See https://w3c.github.io/geolocation-api/#dom-geolocationposition.
-
 W3C Defines a geo-location API in [[W3CGEO]]. We show a snippet of
 code below which defines the geo-location data for this API. This is
 used by many application (e.g., Google Maps API).
@@ -616,10 +614,9 @@ seconds for ~gml:TimePeriod~ can be mapped using the using the
 *** KML
 
 KML 2.2 [[KML22]] (formerly Keyhole Markup Language) was submitted by
-Google to Open Geospatial Consortium (OGC)
-[[https://www.opengeospatial.org/]] and was adopted. The latest version
-as of this writing is KML 2.3 [[KML23]]. This schema includes geographic
-location data in some of its objects (e.g., ~kml:Point~ or
+Google to the [[https://www.opengeospatial.org/][Open Geospatial Consortium,]] and was adopted. The latest
+version as of this writing is KML 2.3 [[KML23]]. This schema includes
+geographic location data in some of its objects (e.g., ~kml:Point~ or
 ~kml:Camera~ objects). This data is provided in string format and
 corresponds to the [[W3CGEO]] values. The timestamp value is also
 specified as a string as in our YANG grouping.
