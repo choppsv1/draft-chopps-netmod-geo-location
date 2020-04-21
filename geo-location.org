@@ -2,13 +2,13 @@
 #+STARTUP: align entitiespretty hidestars inlineimages latexpreview noindent showall
 #+OPTIONS: prop:nil title:t toc:t \n:nil ::t |:t ^:{} -:t *:t ':nil
 
-#+TITLE: YANG Geo Location
+#+TITLE: A YANG Grouping for Geographic Locations
 #+AUTHOR: Christian Hopps
 #+EMAIL: chopps@chopps.org
 #+AFFILIATION: LabN Consulting, L.L.C.
 #+RFC_NAME: draft-ietf-netmod-geo-location
-#+RFC_VERSION: 03
-#+RFC_XML_VERSION: 2
+#+RFC_VERSION: 05
+#+RFC_XML_VERSION: 3
 
 #+begin_abstract
 This document defines a generic geographical location object YANG
@@ -64,9 +64,9 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
     object can be any astronomical body. It could be a planet such as
     The Earth or Mars, a moon such as Enceladus, an asteroid such as
     Ceres, or even a comet such as 1P/Halley. This value is specified
-    in ~astronomical-body~ and is defined by the International
-    Astronomical Union ([[http://www.iau.org]]), The default
-    ~astronomical-body~ value is =earth=.
+    in ~astronomical-body~ and is defined by the [[http://www.iau.org][International
+    Astronomical Union]]. The default ~astronomical-body~ value is
+    =earth=.
 
     In addition to identifying the astronomical body we also need to
     define the meaning of the coordinates (e.g., latitude and
@@ -166,11 +166,8 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
    geo-location grouping.
 
 #+NAME: Geo location YANG tree diagram.
-#+begin_src shell  :var file=geo-location-module :results output verbatim replace :wrap example :exports results
-pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
-#+end_src
+#+CALL: generate-tree(module=ietf-geo-location)
 
-#+CAPTION: Geo Location YANG tree diagram.
 #+RESULTS: Geo location YANG tree diagram.
 #+begin_example
   module: ietf-geo-location
@@ -197,15 +194,16 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
          |  +-- v-east?    decimal64
          |  +-- v-up?      decimal64
          +-- timestamp?         types:date-and-time
-         +-- valid-for?         uint64
+         +-- valid-until?       types:date-and-time
 #+end_example
-
 
 * YANG Module
 
-#+name: geo-location-module
-#+header: :cmdline "-fyang --yang-canonical"
-#+header: :file ietf-geo-location.yang :results output code file silent
+#+NAME: test-validate-module
+#+CALL: validate-module(module=ietf-geo-location)
+
+#+NAME: ietf-geo-location
+#+HEADER: :file ietf-geo-location.yang :results output file silent :cache yes
 #+begin_src yang :exports code
   module ietf-geo-location {
     namespace "urn:ietf:params:xml:ns:yang:ietf-geo-location";
@@ -442,13 +440,12 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
           type types:date-and-time;
           description "Reference time when location was recorded.";
         }
-        leaf valid-for {
-          when "../timestamp";
-          type uint64;
+        leaf valid-until {
+          type types:date-and-time;
           description
-            "The number of seconds beyond the timestamp for which this
-             geo-location is valid. If unspecified the geo-location has
-             no specific expiration time.";
+            "The timestamp for which this geo-location is valid until.
+             If unspecified the geo-location has no specific expiration
+             time.";
         }
       }
     }
@@ -518,8 +515,6 @@ caveat that some loss of precision (in the extremes) may occur due to
 the YANG grouping using decimal64 values rather than strings.
 
 *** W3C
-
-See https://w3c.github.io/geolocation-api/#dom-geolocationposition.
 
 W3C Defines a geo-location API in [[W3CGEO]]. We show a snippet of
 code below which defines the geo-location data for this API. This is
@@ -619,10 +614,9 @@ seconds for ~gml:TimePeriod~ can be mapped using the using the
 *** KML
 
 KML 2.2 [[KML22]] (formerly Keyhole Markup Language) was submitted by
-Google to Open Geospatial Consortium (OGC)
-[[https://www.opengeospatial.org/]] and was adopted. The latest version
-as of this writing is KML 2.3 [[KML23]]. This schema includes geographic
-location data in some of its objects (e.g., ~kml:Point~ or
+Google to the [[https://www.opengeospatial.org/][Open Geospatial Consortium,]] and was adopted. The latest
+version as of this writing is KML 2.3 [[KML23]]. This schema includes
+geographic location data in some of its objects (e.g., ~kml:Point~ or
 ~kml:Camera~ objects). This data is provided in string format and
 corresponds to the [[W3CGEO]] values. The timestamp value is also
 specified as a string as in our YANG grouping.
@@ -678,17 +672,6 @@ modification policy. The authors of [[RFC5870]] have the stated goal of
 making CRS registration hard to avoid proliferation of CRS values. As
 our module defines alternate systems and has a broader (beyond earth)
 scope, the registry defined below is meant to be more easily modified.
-
-TODO: Open question, should we create a new registry here or attempt
-to modify the one created by [[RFC5870]]. It's worth noting that we
-include the ability to specify any geodetic system including ones
-designed for astronomical bodies other than the earth, as well as
-ones based on alternate systems. These requirements may be too broad
-for adapting the existing [[RFC5870]] registry.
-
-TODO: Open question, is FCFS too easy, perhaps expert review would
-strike a good balance. If expert review is acceptable, would it also
-be acceptable to update the policy on [[RFC5870]] and use it instead?
 
 The allocation policy for this registry is First Come First Served,
 [[RFC8126]] as the intent is simply to avoid duplicate values.
@@ -787,12 +770,9 @@ The initial values for this registry are as follows.
 
 Below is a fictitious module that uses the geo-location grouping.
 
-# We assign the output of geo-location-module block to a variable get
-# it to execute to create the file.
-
 #+CAPTION: Example YANG module using geo location.
-#+name: example-uses-geo-location
-#+header: :file example-uses-geo-location.yang
+#+NAME: example-uses-geo-location
+#+HEADER: :file example-uses-geo-location.yang :results output file silent :cache yes
 #+begin_src yang :results output code file silent :exports code
   module example-uses-geo-location {
     namespace
@@ -822,116 +802,104 @@ Below is a the YANG tree for the fictitious module that uses the
 geo-location grouping.
 
 #+NAME: Example YANG tree diagram of geo location use.
-#+begin_src bash  :var file=example-uses-geo-location :results output verbatim replace :wrap example :exports results
-pyang --tree-print-groupings -f tree ${file}
-# pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
-#+end_src
+#+CALL: generate-tree(module=example-uses-geo-location)
 
 #+CAPTION:
 #+RESULTS: Example YANG tree diagram of geo location use.
 #+begin_example
-module: example-uses-geo-location
-  +--rw locatable-items
-     +--rw locatable-item* [name]
-        +--rw name            string
-        +--rw geo-location
-           +--rw reference-frame
-           |  +--rw alternate-system?    string {alternate-systems}?
-           |  +--rw astronomical-body?   string
-           |  +--rw geodetic-system
-           |     +--rw geodetic-datum?    string
-           |     +--rw coord-accuracy?    decimal64
-           |     +--rw height-accuracy?   decimal64
-           +--rw (location)?
-           |  +--:(ellipsoid)
-           |  |  +--rw latitude?    decimal64
-           |  |  +--rw longitude?   decimal64
-           |  |  +--rw height?      decimal64
-           |  +--:(cartesian)
-           |     +--rw x?           decimal64
-           |     +--rw y?           decimal64
-           |     +--rw z?           decimal64
-           +--rw velocity
-           |  +--rw v-north?   decimal64
-           |  +--rw v-east?    decimal64
-           |  +--rw v-up?      decimal64
-           +--rw timestamp?         types:date-and-time
-           +--rw valid-for?         uint64
+  module: example-uses-geo-location
+    +--rw locatable-items
+       +--rw locatable-item* [name]
+          +--rw name            string
+          +--rw geo-location
+             +--rw reference-frame
+             |  +--rw alternate-system?    string {alternate-systems}?
+             |  +--rw astronomical-body?   string
+             |  +--rw geodetic-system
+             |     +--rw geodetic-datum?    string
+             |     +--rw coord-accuracy?    decimal64
+             |     +--rw height-accuracy?   decimal64
+             +--rw (location)?
+             |  +--:(ellipsoid)
+             |  |  +--rw latitude?    decimal64
+             |  |  +--rw longitude?   decimal64
+             |  |  +--rw height?      decimal64
+             |  +--:(cartesian)
+             |     +--rw x?           decimal64
+             |     +--rw y?           decimal64
+             |     +--rw z?           decimal64
+             +--rw velocity
+             |  +--rw v-north?   decimal64
+             |  +--rw v-east?    decimal64
+             |  +--rw v-up?      decimal64
+             +--rw timestamp?         types:date-and-time
+             +--rw valid-until?       types:date-and-time
 #+end_example
 
 Below is some example YANG XML data for the fictitious module that
 uses the geo-location grouping.
 
-#+NAME: validate-xml-example
-#+HEADER: :var vfile=xml-example :var module=example-uses-geo-location
-#+begin_src bash :results output verbatim replace :wrap example :exports none
-  mkdir -p .validate
-  # if ! yang2dsdl -t config -d .validate -v ${vfile} $module 2>&1 >/dev/null; then echo FAIL; fi
-  if ! yang2dsdl -t config -d .validate -v ${vfile} $module 2>&1 >/dev/null; then echo FAIL; fi
-#+end_src
+#+NAME: test-xml-example
+#+CALL: validate-config(file=xml-example, module=example-uses-geo-location)
 
-#+RESULTS: validate-xml-example
-#+begin_example
-test-xml-example.xml validates
-No errors found.
-#+end_example
+#+RESULTS: test-xml-example
+#+BEGIN_COMMENT
+#+END_COMMENT
 
 #+CAPTION: Example XML data of geo location use.
 #+NAME: xml-example
 #+begin_src xml :file test-xml-example.xml :results output code file silent :exports code
-  <ns0:config xmlns:ns0="urn:ietf:params:xml:ns:netconf:base:1.0">
-    <locatable-items xmlns="urn:example:example-uses-geo-location">
-      <locatable-item>
-        <name>Gaetana's</name>
-        <geo-location>
-          <latitude>40.73297</latitude>
-          <longitude>-74.007696</longitude>
-        </geo-location>
-      </locatable-item>
-      <locatable-item>
-        <name>Pont des Arts</name>
-        <geo-location>
-          <timestamp>2012-03-31T16:00:00Z</timestamp>
-          <latitude>48.8583424</latitude>
-          <longitude>2.3375084</longitude>
-          <height>35</height>
-        </geo-location>
-      </locatable-item>
-      <locatable-item>
-        <name>Saint Louis Cathedral</name>
-        <geo-location>
-          <timestamp>2013-10-12T15:00:00-06:00</timestamp>
-          <latitude>29.9579735</latitude>
-          <longitude>-90.0637281</longitude>
-        </geo-location>
-      </locatable-item>
-      <locatable-item>
-        <name>Apollo 11 Landing Site</name>
-        <geo-location>
-          <timestamp>1969-07-21T02:56:15Z</timestamp>
-          <reference-frame>
-            <astronomical-body>moon</astronomical-body>
-            <geodetic-system>
-              <geodetic-datum>me</geodetic-datum>
-            </geodetic-system>
-          </reference-frame>
-          <latitude>0.67409</latitude>
-          <longitude>23.47298</longitude>
-        </geo-location>
-      </locatable-item>
-      <locatable-item>
-        <name>Reference Frame Only</name>
-        <geo-location>
-          <reference-frame>
-            <astronomical-body>moon</astronomical-body>
-            <geodetic-system>
-              <geodetic-datum>me</geodetic-datum>
-            </geodetic-system>
-          </reference-frame>
-        </geo-location>
-      </locatable-item>
-    </locatable-items>
-  </ns0:config>
+  <locatable-items xmlns="urn:example:example-uses-geo-location">
+    <locatable-item>
+      <name>Gaetana's</name>
+      <geo-location>
+        <latitude>40.73297</latitude>
+        <longitude>-74.007696</longitude>
+      </geo-location>
+    </locatable-item>
+    <locatable-item>
+      <name>Pont des Arts</name>
+      <geo-location>
+        <timestamp>2012-03-31T16:00:00Z</timestamp>
+        <latitude>48.8583424</latitude>
+        <longitude>2.3375084</longitude>
+        <height>35</height>
+      </geo-location>
+    </locatable-item>
+    <locatable-item>
+      <name>Saint Louis Cathedral</name>
+      <geo-location>
+        <timestamp>2013-10-12T15:00:00-06:00</timestamp>
+        <latitude>29.9579735</latitude>
+        <longitude>-90.0637281</longitude>
+      </geo-location>
+    </locatable-item>
+    <locatable-item>
+      <name>Apollo 11 Landing Site</name>
+      <geo-location>
+        <timestamp>1969-07-21T02:56:15Z</timestamp>
+        <reference-frame>
+          <astronomical-body>moon</astronomical-body>
+          <geodetic-system>
+            <geodetic-datum>me</geodetic-datum>
+          </geodetic-system>
+        </reference-frame>
+        <latitude>0.67409</latitude>
+        <longitude>23.47298</longitude>
+      </geo-location>
+    </locatable-item>
+    <locatable-item>
+      <name>Reference Frame Only</name>
+      <geo-location>
+        <reference-frame>
+          <astronomical-body>moon</astronomical-body>
+          <geodetic-system>
+            <geodetic-datum>me</geodetic-datum>
+          </geodetic-system>
+        </reference-frame>
+      </geo-location>
+    </locatable-item>
+  </locatable-items>
 #+end_src
 
 #+NAME: Sample XML Skeleton
@@ -966,36 +934,7 @@ pyang -f sample-xml-skeleton ${file}
           <v-up/>
         </velocity>
         <timestamp/>
-      </geo-location>
-    </locatable-item>
-  </locatable-items>
-</data>
-#+end_comment
-#+begin_comment
-<?xml version='1.0' encoding='UTF-8'?>
-<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
-  <locatable-items xmlns="urn:example:example-uses-geo-location">
-    <locatable-item>
-      <name/>
-      <geo-location>
-        <reference-frame>
-          <alternate-system/>
-          <geodetic-system>
-            <coord-accuracy/>
-            <height-accuracy/>
-          </geodetic-system>
-        </reference-frame>
-        <latitude/>
-        <longitude/>
-        <height/>
-        <x/>
-        <y/>
-        <z/>
-        <velocity>
-          <heading/>
-          <speed/>
-        </velocity>
-        <timestamp/>
+        <valid-until/>
       </geo-location>
     </locatable-item>
   </locatable-items>
@@ -1009,3 +948,41 @@ suggested improvements. We would also like to thank Peter Lothberg
 for the motivation as well as help in defining a broadly useful
 geographic location object, and Acee Lindem and Qin Wu for their work
 on a geographic location object that led to this documents creation.
+
+
+#+NAME: dep-babel
+#+begin_src emacs-lisp :results none :exports none
+    (org-babel-do-load-languages 'org-babel-load-languages '((shell . t)))
+    (setq fill-column 69)
+    (setq org-confirm-babel-evaluate nil)
+#+end_src
+
+#+NAME: generate-tree
+#+HEADER: :var dep1=dep-babel
+#+begin_src shell :results output verbatim replace :wrap example :exports none
+  [ -d /yang ] || DOCKER="docker run --net=host -v $(pwd):/work labn/org-rfc"
+  $DOCKER pyang --tree-print-groupings --tree-line-length=69 -f tree ${module} 2> err.out | sed -e '/^$/d;s/^/  /'
+#+end_src
+
+#+NAME: validate-module
+#+HEADER: :var dep1=dep-babel
+#+begin_src bash :results output verbatim replace :wrap comment :exports none
+  [ -d /yang ] || DOCKER="docker run --net=host -v $(pwd):/work labn/org-rfc"
+  if ! $DOCKER pyang --lax-quote-checks -Werror --ietf $module 2>&1; then echo FAIL; fi
+#+end_src
+
+#+NAME: validate-config
+#+HEADER: :var dep1=dep-babel
+#+begin_src bash :results output verbatim replace :wrap comment :exports none
+  [ -d /yang ] || DOCKER="docker run --net=host -v $(pwd):/work labn/org-rfc"
+  LINT="$DOCKER yanglint -p /yang-drafts -p /yang --strict -t config"
+  $LINT $extra $module ${file} 2>&1 || echo FAIL
+#+end_src
+
+#+NAME: validate-data
+#+HEADER: :var dep1=dep-babel
+#+begin_src bash :results output verbatim replace :wrap comment :exports none
+  [ -d /yang ] || DOCKER="docker run --net=host -v $(pwd):/work labn/org-rfc"
+  LINT="$DOCKER yanglint -p /yang-drafts -p /yang --strict -t data"
+  $LINT $extra $module ${file} 2>&1 || echo FAIL
+#+end_src
