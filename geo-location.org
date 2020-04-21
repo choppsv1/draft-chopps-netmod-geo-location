@@ -205,7 +205,7 @@ pyang --tree-print-groupings -f tree ${file} | sed -e '/^$/d;s/^/  /'
 
 #+name: geo-location-module
 #+header: :cmdline "-fyang --yang-canonical"
-#+header: :file ietf-geo-location.yang :results output code silent
+#+header: :file ietf-geo-location.yang :results output code file silent
 #+begin_src yang :exports code
   module ietf-geo-location {
     namespace "urn:ietf:params:xml:ns:yang:ietf-geo-location";
@@ -793,7 +793,7 @@ Below is a fictitious module that uses the geo-location grouping.
 #+CAPTION: Example YANG module using geo location.
 #+name: example-uses-geo-location
 #+header: :file example-uses-geo-location.yang
-#+begin_src yang :results output code silent :exports code
+#+begin_src yang :results output code file silent :exports code
   module example-uses-geo-location {
     namespace
       "urn:example:example-uses-geo-location";
@@ -878,7 +878,7 @@ No errors found.
 
 #+CAPTION: Example XML data of geo location use.
 #+NAME: xml-example
-#+begin_src xml :file test-xml-example.xml :results output code silent :exports code
+#+begin_src xml :file test-xml-example.xml :results output code file silent :exports code
   <ns0:config xmlns:ns0="urn:ietf:params:xml:ns:netconf:base:1.0">
     <locatable-items xmlns="urn:example:example-uses-geo-location">
       <locatable-item>
