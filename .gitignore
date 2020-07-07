@@ -4,6 +4,7 @@ err.out
 *.tex
 *.pdf
 *~
+.validate
 .projectile
 auto/
 build/

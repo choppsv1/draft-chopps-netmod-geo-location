@@ -193,11 +193,13 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
          |  +-- v-north?   decimal64
          |  +-- v-east?    decimal64
          |  +-- v-up?      decimal64
-         +-- timestamp?         types:date-and-time
-         +-- valid-until?       types:date-and-time
+         +-- timestamp?         yang:date-and-time
+         +-- valid-until?       yang:date-and-time
 #+end_example
 
 * YANG Module
+
+This model imports Common YANG Data Types [[RFC6991]].
 
 #+NAME: test-validate-module
 #+CALL: validate-module(module=ietf-geo-location)
@@ -206,17 +208,21 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
 #+HEADER: :file ietf-geo-location.yang :results output file silent :cache yes
 #+begin_src yang :exports code
   module ietf-geo-location {
+    yang-version 1.1;
     namespace "urn:ietf:params:xml:ns:yang:ietf-geo-location";
     prefix geo;
-    import ietf-yang-types { prefix types; }
+    import ietf-yang-types {
+      prefix yang;
+      reference "RFC 6991: Common YANG Data Types.";
+    }
 
     organization
       "IETF NETMOD Working Group (NETMOD)";
     contact
       "Christian Hopps <chopps@chopps.org>";
 
-    // RFC Ed.: replace XXXX with actual RFC number and
-    // remove this note.
+    // RFC Ed.: replace XXXX with actual RFC number or IANA reference
+    // and remove this note.
 
     description
       "This module defines a grouping of a container object for
@@ -237,8 +243,8 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
        (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
        for full legal notices.
 
-       // RFC Ed.: replace XXXX with actual RFC number and
-       // remove this note.
+       // RFC Ed.: replace XXXX with actual RFC number or IANA reference
+       // and remove this note.
 
        The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
        NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
@@ -248,7 +254,7 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
 
     revision 2019-02-17 {
       description "Initial Revision";
-      reference "RFC XXXX: YANG Geo Location";
+      reference "RFC XXXX: A YANG Grouping for Geographic Locations";
     }
 
     feature alternate-systems {
@@ -263,7 +269,7 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
 
       container geo-location {
         description
-          "A location on an astronomical body (e.g., The Earth)
+          "A location on an astronomical body (e.g., the Earth)
            somewhere in a universe.";
 
         container reference-frame {
@@ -298,6 +304,7 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
                including control characters (i.e., values 32..64, and
                91..126). Any preceding 'the' in the name should not be
                included.";
+            reference "https://www.iau.org/";
           }
           container geodetic-system {
             description
@@ -315,6 +322,9 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
                  not including control characters (i.e., values 32..64,
                  and 91..126). The IANA registry further restricts the
                  value by converting all spaces (' ') to dashes ('-')";
+              reference
+                "IANA XXXX YANG Geographic Location Parameters,
+                 Geodetic System Values";
             }
             leaf coord-accuracy {
               type decimal64 {
@@ -404,7 +414,11 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
         container velocity {
           description
             "If the object is in motion the velocity vector describes
-             this motion at the the time given by the timestamp";
+             this motion at the the time given by the timestamp. For a
+             formula to convert these values to speed and heading see
+             this modules defining document RFC XXXX.";
+          reference
+            "RFC XXXX: A YANG Grouping for Geographic Locations";
 
           leaf v-north {
             type decimal64 {
@@ -437,11 +451,11 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
           }
         }
         leaf timestamp {
-          type types:date-and-time;
+          type yang:date-and-time;
           description "Reference time when location was recorded.";
         }
         leaf valid-until {
-          type types:date-and-time;
+          type yang:date-and-time;
           description
             "The timestamp for which this geo-location is valid until.
              If unspecified the geo-location has no specific expiration
@@ -608,8 +622,8 @@ the timestamp is mappable to and from the YANG grouping. Furthermore
 (~gml:TimeInstant~) or a time period (~gml:TimePeriod~). The
 instantaneous ~gml:TimeInstant~ is mappable to and from the YANG
 grouping ~timestamp~ value, and values down to the resolution of
-seconds for ~gml:TimePeriod~ can be mapped using the using the
-~valid-for~ node of the YANG grouping.
+seconds for ~gml:TimePeriod~ can be mapped using the ~valid-until~
+node of the YANG grouping.
 
 *** KML
 
@@ -650,7 +664,10 @@ into an absolute height which can then be expressed using the YANG
 grouping.
 
 * IANA Considerations
-** Geodetic System Value Registry
+** Geodetic System Values Registry
+
+IANA is asked to create a new registry "Geodetic System Values"
+grouped under a new category named "YANG Geographic Location Parameters".
 
 This registry allocates names for standard geodetic systems. Often
 these values are referred to using multiple names (e.g., full names
@@ -689,14 +706,70 @@ The initial values for this registry are as follows.
    | wgs-84-08  | World Geodetic System 1984 [[WGS84]] w/ [[EGM08]]          |
    | wgs-84     | World Geodetic System 1984 [[WGS84]] (EGM96 or better) |
 
+** Updates to the IETF XML Registry
+
+This document registers a URI in the "IETF XML Registry" [[RFC3688]].
+Following the format in [[RFC3688]], the following registration has been
+made:
+
+- URI :: urn:ietf:params:xml:ns:yang:ietf-geo-location
+- Registrant Contact :: The IESG.
+- XML :: N/A; the requested URI is an XML namespace.
+
+** Updates to the YANG Module Names Registry
+
+This document registers one YANG module in the "YANG Module Names"
+registry [[RFC6020]]. Following the format in [[RFC6020]], the following
+registration has been made:
+
+- name :: ietf-geo-location
+- namespace :: urn:ietf:params:xml:ns:yang:ietf-geo-location
+- prefix :: geo
+- reference :: RFC XXXX (RFC Ed.: replace XXX with actual RFC number and remove this note.)
+
 * Security Considerations
 
-   This document defines a common geo location grouping using the
-   YANG data modeling language. The grouping itself has no security
-   or privacy impact on the Internet, but the usage of the grouping
-   in concrete YANG modules might have. The security considerations
-   spelled out in the YANG 1.1 specification [[RFC7950]] apply for this
-   document as well.
+The YANG module specified in this document defines a schema for data
+that is designed to be accessed via network management protocols such
+as NETCONF [[RFC6241]] or RESTCONF [[RFC8040]].  The lowest NETCONF layer
+is the secure transport layer, and the mandatory-to-implement secure
+transport is Secure Shell (SSH) [[RFC6242]].  The lowest RESTCONF layer
+is HTTPS, and the mandatory-to-implement secure transport is TLS
+[[RFC8446]].
+
+The NETCONF access control model [[RFC8341]] provides the means to
+restrict access for particular NETCONF or RESTCONF users to a
+preconfigured subset of all available NETCONF or RESTCONF protocol
+operations and content.
+
+Since the modules defined in this document only define groupings,
+these considerations are primarily for the designers of other modules
+that use these groupings.
+
+All of the data nodes defined in this YANG module are
+writable/creatable/deletable (i.e., "config true", which is the
+default). These data nodes may be considered sensitive or vulnerable
+in some network environments. Write operations (e.g., edit-config) to
+these data nodes without proper protection can have a negative effect
+on network operations. These are the subtrees and data nodes and
+their sensitivity/vulnerability:
+
+None of the writable/creatable/deletable data nodes in the YANG
+module defined in this document are by themselves considered more
+sensitive or vulnerable then standard configuration.
+
+Some of the readable data nodes in this YANG module may be considered
+sensitive or vulnerable in some network environments.  It is thus
+important to control read access (e.g., via get, get-config, or
+notification) to these data nodes.  These are the subtrees and data
+nodes and their sensitivity/vulnerability:
+
+Since the grouping defined in this module identifies locations,
+authors using this grouping SHOULD consider any privacy issues
+that may arise when the data is readable.
+
+This document does not define any RPC actions and hence this section
+does not consider the security of RPCs.
 
 * Normative References
 ** EGM08
@@ -722,6 +795,7 @@ The initial values for this registry are as follows.
     :REF_DATE: 2008
     :END:
 ** RFC2119
+** RFC6991
 ** RFC8174
 ** RFC8126
 ** RFC8342
@@ -756,9 +830,16 @@ The initial values for this registry are as follows.
     :REF_DATE: 2015-08-04
     :REF_TARGET: http://docs.opengeospatial.org/is/12-007r2/12-007r2.html
     :END:
+** RFC3688
 ** RFC5870
+** RFC6020
+** RFC6241
+** RFC6242
 ** RFC7950
+** RFC8040
 ** RFC8340
+** RFC8341
+** RFC8446
 ** W3CGEO
     :PROPERTIES:
     :REF_AUTHOR: Andrei Popescu
@@ -832,8 +913,8 @@ geo-location grouping.
              |  +--rw v-north?   decimal64
              |  +--rw v-east?    decimal64
              |  +--rw v-up?      decimal64
-             +--rw timestamp?         types:date-and-time
-             +--rw valid-until?       types:date-and-time
+             +--rw timestamp?         yang:date-and-time
+             +--rw valid-until?       yang:date-and-time
 #+end_example
 
 Below is some example YANG XML data for the fictitious module that
@@ -941,7 +1022,7 @@ pyang -f sample-xml-skeleton ${file}
 </data>
 #+end_comment
 
-* Acknowledgements
+* Acknowledgments
 
 We would like to thank Jim Biard and Ben Koziol for their reviews and
 suggested improvements. We would also like to thank Peter Lothberg
