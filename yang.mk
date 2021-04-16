@@ -1,7 +1,8 @@
 BASE := $(shell sed -e '/^\#+RFC_NAME:/!d;s/\#+RFC_NAME: *\(.*\)/\1/' $(ORG))
 VERSION := $(shell sed -e '/^\#+RFC_VERSION:/!d;s/\#+RFC_VERSION: *\([0-9]*\)/\1/' $(ORG))
-NEXT_VERSION := $(shell printf "%02d" "$$(($(VERSION) + 1))")
-PREV_VERSION := $(shell printf "%02d" "$$(($(VERSION) - 1))")
+VERSION_NOZERO := $(shell echo "$(VERSION)" | sed -e 's/^0*//')
+NEXT_VERSION := $(shell printf "%02d" "$$(($(VERSION_NOZERO) + 1))")
+PREV_VERSION := $(shell printf "%02d" "$$(($(VERSION_NOZERO) - 1))")
 DTYPE := $(word 2,$(subst -, ,$(BASE)))
 PBRANCH := publish-$(DTYPE)-$(VERSION)
 PBASE := publish/$(BASE)-$(VERSION)
@@ -13,7 +14,7 @@ SHELL := /bin/bash
 ifeq ($(CIRCLECI),)
 export DOCKRUN ?= docker run --user $(shell id -u) --network=host -v $$(pwd):/work labn/org-rfc
 endif
-EMACSCMD := $(DOCKRUN) emacs -Q --batch --debug-init --eval '(setq org-confirm-babel-evaluate nil)' -l ./ox-rfc.el
+EMACSCMD := $(DOCKRUN) emacs -Q --batch --debug-init --eval '(setq-default indent-tabs-mode nil)' --eval '(setq org-confirm-babel-evaluate nil)' -l ./ox-rfc.el
 
 all: $(LBASE).xml $(LBASE).txt $(LBASE).html # $(LBASE).pdf
 
