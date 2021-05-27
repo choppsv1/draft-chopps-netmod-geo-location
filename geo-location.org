@@ -11,10 +11,10 @@
 #+RFC_XML_VERSION: 3
 
 #+begin_abstract
-This document defines a generic geographical location object YANG
-grouping. The geographical location grouping is intended to be used
-in YANG models for specifying a location on or in reference to
-Earth or any other astronomical object.
+This document defines a generic geographical location YANG grouping.
+The geographical location grouping is intended to be used in YANG
+models for specifying a location on or in reference to Earth or any
+other astronomical object.
 #+end_abstract
 
 * Introduction
@@ -77,7 +77,7 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
     define an IANA registry for specifying standard values for the
     ~geodetic-datum~.
 
-    In addition to the ~geodetic-datum~ value, we allow refining the
+    In addition to the ~geodetic-datum~ value, we allow overriding the
     coordinate and height accuracy using ~coord-accuracy~ and
     ~height-accuracy~ respectively. When specified, these values
     override the defaults implied by the ~geodetic-datum~ value.
@@ -98,7 +98,7 @@ OGC 00-014r1, Guidelines for Successful OGC Interface Specifications.
     given either as ~latitude~, ~longitude~, and an optional
     ~height~, or as Cartesian coordinates of ~x~, ~y~ and ~z~. For
     the standard location choice ~latitude~ and ~longitude~ are
-    specified as fractions of decimal degrees, and the ~height~ value
+    specified as decimal degrees, and the ~height~ value
     is in fractions of meters. For the Cartesian choice ~x~, ~y~ and
     ~z~ are in fractions of meters. In both choices the exact
     meanings of all the values are defined by the ~geodetic-datum~
@@ -304,10 +304,10 @@ version 1.1 [[RFC7950]]
                system if specified. Examples include 'sun' (our star),
                'earth' (our planet), 'moon' (our moon), 'enceladus' (a
                moon of Saturn), 'ceres' (an asteroid),
-               '67p/churyumov-gerasimenko (a comet). The value should
-               be comprised of all lower case ASCII characters not
-               including control characters (i.e., values 32..64, and
-               91..126). Any preceding 'the' in the name should not be
+               '67p/churyumov-gerasimenko (a comet). The ASCII value
+               SHOULD have upper case converted to lower case and not
+               include control characters (i.e., values 32..64, and
+               91..126). Any preceding 'the' in the name SHOULD NOT be
                included.";
             reference "https://www.iau.org/";
           }
@@ -318,15 +318,16 @@ version 1.1 [[RFC7950]]
               type string {
                 pattern '[ -@\[-\^_-~]*';
               }
-              default "wgs-84";
               description
                 "A geodetic-datum defining the meaning of latitude,
-                 longitude and height. The default is 'wgs-84' which is
-                 used by the Global Positioning System (GPS). The value
-                 SHOULD be comprised of all lower case ASCII characters
-                 not including control characters (i.e., values 32..64,
-                 and 91..126). The IANA registry further restricts the
-                 value by converting all spaces (' ') to dashes ('-')";
+                 longitude and height. The default when the
+                 astronomical body is 'earth' is 'wgs-84' which is
+                 used by the Global Positioning System (GPS). The
+                 ASCII value SHOULD have upper case converted to lower
+                 case and not include control characters (i.e., values
+                 32..64, and 91..126). The IANA registry further
+                 restricts the value by converting all spaces (' ') to
+                 dashes ('-')";
               reference
                 "IANA XXXX YANG Geographic Location Parameters,
                  Geodetic System Values";
@@ -350,8 +351,8 @@ version 1.1 [[RFC7950]]
               description
                 "The accuracy of height value for ellipsoidal
                  coordinates, this value is not used with Cartesian
-                 coordinates. When specified, it overrides the
-                 geodetic-datum implied default.";
+                 coordinates. When height-accuracy is specified, it
+                 overrides the geodetic-datum implied default.";
             }
           }
         }
@@ -488,8 +489,9 @@ following table along with an explanation of non-applicable tests.
 | A.1.2.5 | representation of vertical position      | height value conforms   |
 | A.1.2.6 | text string representation               | N/A - No string format  |
 
-For test =A.1.2.1= the YANG geo location object either includes a CRS
-(~reference-frame~) or has a default defined ([[WGS84]]).
+For test =A.1.2.1= the YANG geo location object either includes a
+Coordinate Reference System (CRS) (~reference-frame~) or has a
+default defined ([[WGS84]]).
 
 For =A.1.2.3= we do not define our own CRS, and doing so is not
 required for conformance.
@@ -513,7 +515,7 @@ systems and realities.
 #   GIS. Springer, Boston, MA
 
 In order to verify portability while developing this module the
-following standards and standard APIs and were considered.
+following standards and standard APIs were considered.
 
 *** IETF URI Value
 
@@ -523,7 +525,7 @@ includes the ability to specify the ~geodetic-value~ (it calls this
 it allows 2 to 3 coordinates defined by the ~crs~ value. For accuracy,
 it has a single ~u~ parameter for specifying uncertainty. The ~u~
 value is in fractions of meters and applies to all the location
-values. As the URI is a string, all values are specifies as strings
+values. As the URI is a string, all values are specified as strings
 and so are capable of as much precision as required.
 
 URI values can be mapped to and from the YANG grouping, with the
@@ -549,7 +551,7 @@ used by many applications (e.g., Google Maps API).
     readonly attribute double? altitude;
     readonly attribute double accuracy;
     readonly attribute double? altitudeAccuracy;
-
+    readonly attribute double? heading;
     readonly attribute double? speed;
   };
 #+end_src
@@ -596,7 +598,7 @@ map the broader set of values supported by the YANG grouping.
 ISO adopted the Geography Markup Language (GML) defined by OGC 07-036
 as [[ISO.19136.2007]]. GML defines, among many other things, a position
 type =gml:pos= which is a sequence of ~double~ values. This sequence
-of values represent coordinates in a given CRS. The CRS is either
+of values represents coordinates in a given CRS. The CRS is either
 inherited from containing elements or directly specified as
 attributes ~srsName~ and optionally ~srsDimension~ on the ~gml:pos~.
 
@@ -604,8 +606,7 @@ GML defines an Abstract CRS type which Concrete CRS types derive
 from. This allows for many types of CRS definitions. We are concerned
 with the Geodetic CRS type which can have either ellipsoidal or
 Cartesian coordinates. We believe that other non-Earth based CRS as
-well as virtual CRS should also be representable by the GML CRS types
-as well.
+well as virtual CRS should also be representable by the GML CRS types.
 
 Thus, GML ~gml:pos~ values can be mapped directly to the YANG
 grouping, with the caveat that some loss of precision (in the
@@ -673,17 +674,17 @@ a new protocol category group "YANG Geographic Location Parameters".
 
 This registry allocates names for standard geodetic systems. Often
 these values are referred to using multiple names (e.g., full names
-or multiple acronyms values). The intent of this registry is to
+or multiple acronyms). The intent of this registry is to
 provide a single standard value for any given geodetic system.
 
 The values SHOULD use an acronym when available, they MUST be
 converted to lower case, and spaces MUST be changed to dashes "-".
 
-Each entry should be sufficient to define the 3 coordinate values (2
-if height is not required). So for example the =wgs-84= is defined as
-WGS-84 with the geoid updated by at least [[EGM96]] for height values.
-Specific entries for [[EGM96]] and [[EGM08]] are present if a more precise
-definition of the data is required.
+Each entry should be sufficient to define the 2 coordinate values,
+and to define height if height is required. So, for example, the
+=wgs-84= is defined as WGS-84 with the geoid updated by at least
+[[EGM96]] for height values. Specific entries for [[EGM96]] and [[EGM08]] are
+present if a more precise definition of the data is required.
 
 It should be noted that [[RFC5870]] also creates a registry for Geodetic
 Systems (it calls CRS); however, this registry has a very strict
@@ -702,8 +703,7 @@ The initial values for this registry are as follows.
    #+name: Initial Geodetic-Datum Values
    | Name       | Description                                        |
    |------------+----------------------------------------------------|
-   | me         | Mean Earth/Polar Axis (Moon)                       |
-   | mola-vik-1 | MOLA Height, IAU Viking-1 PM (Mars)                |
+   | me         | Mean Earth/Polar Axis (Moon) [[ME]]                    |
    | wgs-84-96  | World Geodetic System 1984 [[WGS84]] w/ EGM96          |
    | wgs-84-08  | World Geodetic System 1984 [[WGS84]] w/ [[EGM08]]          |
    | wgs-84     | World Geodetic System 1984 [[WGS84]] (EGM96 or better) |
@@ -750,11 +750,7 @@ that use these groupings.
 
 All the data nodes defined in this YANG module are
 writable/creatable/deletable (i.e., "config true", which is the
-default). These data nodes may be considered sensitive or vulnerable
-in some network environments. Write operations (e.g., edit-config) to
-these data nodes without proper protection can have a negative effect
-on network operations. These are the subtrees and data nodes and
-their sensitivity/vulnerability:
+default).
 
 None of the writable/creatable/deletable data nodes in the YANG
 module defined in this document are by themselves considered more
@@ -763,16 +759,12 @@ sensitive or vulnerable than standard configuration.
 Some of the readable data nodes in this YANG module may be considered
 sensitive or vulnerable in some network environments.  It is thus
 important to control read access (e.g., via get, get-config, or
-notification) to these data nodes.  These are the subtrees and data
-nodes and their sensitivity/vulnerability:
+notification) to these data nodes.
 
 Since the grouping defined in this module identifies locations,
 authors using this grouping SHOULD consider any privacy issues
 that may arise when the data is readable (e.g., customer device
 locations, etc).
-
-This document does not define any RPC actions and hence this section
-does not consider the security of RPCs.
 
 * Normative References
 ** EGM08
@@ -781,7 +773,6 @@ does not consider the security of RPCs.
     :REF_AUTHOR: ("N. K. Pavlis" "S. A. Holmes" "S. C. Kenyon" "J. K. Factor")
     :REF_DATE: 2008
     :REF_CONTENT: Presented at the 2008 General Assembly of the European Geosciences Union, Vienna, Arpil13-18, 2008
-    :REF_TARGET: http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008/egm08_wgs84.html
     :END:
 ** EGM96
     :PROPERTIES:
@@ -789,13 +780,18 @@ does not consider the security of RPCs.
     :REF_AUTHOR: ("F. G. Lemoine" "S. C. Kenyon" "J. K. Factor" "R. G. Trimmer" "N. K. Pavlis" "D. S. Chinn" "C. M. Cox" "S. M. Klosko" "S. B. Luthcke" "M. H. Torrence" "Y. M. Wang" "R. G. Williamson" "E. C. Pavlis" "R. H. Rapp" "T. R. Olson")
     :REF_CONTENT: Technical Report NASA/TP-1998-206861, NASA, Greenbelt.
     :REF_DATE: 1998
-    :REF_TARGET: https://cddis.nasa.gov/926/egm96/egm96.html
     :END:
 ** ISO.6709.2008
     :PROPERTIES:
     :REF_ORG: International Organization for Standardization
     :REF_TITLE: ISO 6709:2008 Standard representation of geographic point location by coordinates.
     :REF_DATE: 2008
+    :END:
+** ME
+    :PROPERTIES:
+    :REF_ORG: National Aeronautics and Space Administration, Goddard Space Flight Center.
+    :REF_TITLE: A Standardized Lunar Coordinate System for the Lunar Reconnaissance Orbiter, Version 4.
+    :REF_DATE: 2008-05-14
     :END:
 ** RFC2119
 ** RFC6991
@@ -807,8 +803,8 @@ does not consider the security of RPCs.
     :REF_ORG: National Imagery and Mapping Agency.
     :REF_TITLE: National Imagery and Mapping Agency Technical Report 8350.2, Third Edition.
     :REF_DATE: 2000-01-03
-    :REF_TARGET: http://earth-info.nga.mil/GandG/publications/tr8350.2/wgs84fin.pdf
     :END:
+
 
 * Informative References
 ** ISO.19136.2007
@@ -871,7 +867,7 @@ Below is a fictitious module that uses the geo-location grouping.
       description "container of locatable items";
       list locatable-item {
         key name;
-        description "A of locatable item";
+        description "A locatable item";
         leaf name {
           type string;
           description "name of locatable item";
@@ -897,7 +893,8 @@ geo-location grouping.
           +--rw name            string
           +--rw geo-location
              +--rw reference-frame
-             |  +--rw alternate-system?    string {alternate-systems}?
+             |  +--rw alternate-system?    string
+             |  |       {alternate-systems}?
              |  +--rw astronomical-body?   string
              |  +--rw geodetic-system
              |     +--rw geodetic-datum?    string
@@ -1031,7 +1028,9 @@ We would like to thank Jim Biard and Ben Koziol for their reviews and
 suggested improvements. We would also like to thank Peter Lothberg
 for the motivation as well as help in defining a broadly useful
 geographic location object, and Acee Lindem and Qin Wu for their work
-on a geographic location object that led to this documents' creation.
+on a geographic location object that led to this documents'
+creation. We would also like to thank the document shepherd Kent
+Watsen.
 
 
 #+NAME: dep-babel
@@ -1045,7 +1044,7 @@ on a geographic location object that led to this documents' creation.
 #+HEADER: :var dep1=dep-babel
 #+begin_src shell :results output verbatim replace :wrap example :exports none
   [ -d /yang ] || DOCKER="docker run --net=host -v $(pwd):/work labn/org-rfc"
-  $DOCKER pyang --tree-print-groupings --tree-line-length=69 -f tree ${module} 2> err.out | sed -e '/^$/d;s/^/  /'
+  $DOCKER pyang --tree-print-groupings --tree-line-length=66 -f tree ${module} 2> err.out | sed -e '/^$/d;s/^/  /'
 #+end_src
 
 #+NAME: validate-module
