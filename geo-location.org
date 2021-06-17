@@ -696,17 +696,23 @@ scope, the registry defined below is meant to be more easily modified.
 The allocation policy for this registry is First Come, First Served,
 [[RFC8126]] as the intent is simply to avoid duplicate values.
 
-The initial values for this registry are as follows.
+The Reference value can either be a document or a contact person as
+defined in [[RFC8126]]. The Change Control (i.e., Owner) is also defined
+by [[RFC8126]].
+
+The initial values for this registry are as follows. They include the
+non-Earth based geodetic-datum value for the moon based on [[ME]].
 
 # XXX check out: ISO TS 19127
 
    #+name: Initial Geodetic-Datum Values
-   | Name       | Description                                        |
-   |------------+----------------------------------------------------|
-   | me         | Mean Earth/Polar Axis (Moon) [[ME]]                    |
-   | wgs-84-96  | World Geodetic System 1984 [[WGS84]] w/ EGM96          |
-   | wgs-84-08  | World Geodetic System 1984 [[WGS84]] w/ [[EGM08]]          |
-   | wgs-84     | World Geodetic System 1984 [[WGS84]] (EGM96 or better) |
+   | Name      | Description                  | Reference | Change  |
+   |           |                              | /Contact  | Control |
+   |-----------+------------------------------+-----------+---------|
+   | me        | Mean Earth/Polar Axis (Moon) | this      | IESG    |
+   | wgs-84-96 | World Geodetic System 1984   | this      | IESG    |
+   | wgs-84-08 | World Geodetic System 1984   | this      | IESG    |
+   | wgs-84    | World Geodetic System 1984   | this      | IESG    |
 
 ** Updates to the IETF XML Registry
 
