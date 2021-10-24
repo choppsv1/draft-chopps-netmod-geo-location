@@ -327,7 +327,12 @@ version 1.1 [[RFC7950]]
                  case and not include control characters (i.e., values
                  32..64, and 91..126). The IANA registry further
                  restricts the value by converting all spaces (' ') to
-                 dashes ('-')";
+                 dashes ('-').
+                 The specification for the geodetic-datum indicates
+                 how accurately it models the astronomical body in
+                 question, both for the 'horizontal'
+                 latitude/longitude coordinates and for height
+                 coordinates.";
               reference
                 "IANA XXXX YANG Geographic Location Parameters,
                  Geodetic System Values";
@@ -340,8 +345,13 @@ version 1.1 [[RFC7950]]
                 "The accuracy of the latitude longitude pair for
                  ellipsoidal coordinates, or the X, Y and Z components
                  for Cartesian coordinates. When coord-accuracy is
-                 specified, it overrides the geodetic-datum implied
-                 accuracy.";
+                 specified, it indicates how precisely the coordinates
+                 in the associated list of locations have been
+                 determined with respect to the coordinate system
+                 defined by the geodetic-datum. For example, there
+                 might be uncertainty due to measurement error if an
+                 experimental measurement was made to determine each
+                 location.";
             }
             leaf height-accuracy {
               type decimal64 {
@@ -352,7 +362,13 @@ version 1.1 [[RFC7950]]
                 "The accuracy of height value for ellipsoidal
                  coordinates, this value is not used with Cartesian
                  coordinates. When height-accuracy is specified, it
-                 overrides the geodetic-datum implied default.";
+                 indicates how precisely the heights in the
+                 associated list of locations have been determined
+                 with respect to the coordinate system defined by the
+                 geodetic-datum. For example, there might be
+                 uncertainty due to measurement error if an
+                 experimental measurement was made to determine each
+                 location.";
             }
           }
         }
